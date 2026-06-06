@@ -1,0 +1,2392 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Obsidian Frost - Asset Gallery</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;family=JetBrains+Mono:wght@400;500&amp;family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "void": "rgb(var(--color-void) / <alpha-value>)",
+                        "frost": "var(--color-frost)",
+                        "frost-hover": "var(--color-frost-hover)",
+                        "glass-border": "var(--color-glass-border)",
+                        "primary": "rgb(var(--color-primary) / <alpha-value>)",
+                        "secondary": "rgb(var(--color-secondary) / <alpha-value>)",
+                        "text-main": "var(--color-text-main)",
+                        "text-muted": "var(--color-text-muted)",
+                        "white": "rgb(var(--color-white-rgb) / <alpha-value>)",
+                        "black": "rgb(var(--color-black-rgb) / <alpha-value>)",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Inter Tight", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                    backdropBlur: {
+                        'xs': '2px',
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        /* ── U2: Theme color variables ── */
+        :root {
+            --color-void: 5 5 5;
+            --color-primary: 55 128 246;
+            --color-secondary: 245 158 11;
+            --color-card: #151515;
+            --color-card2: #0b0b0b;
+            --color-frost: rgba(20, 20, 20, 0.6);
+            --color-frost-hover: rgba(255, 255, 255, 0.08);
+            --color-glass-border: rgba(255, 255, 255, 0.12);
+            --color-text-main: #FFFFFF;
+            --color-text-muted: #A1A1AA;
+            --color-white-rgb: 255 255 255;
+            --color-black-rgb: 0 0 0;
+        }
+
+        html[data-theme="highcontrast"] {
+            --color-void: 0 0 0;
+            --color-primary: 0 208 255;
+            --color-secondary: 255 215 0;
+            --color-card: #0d0d0d;
+            --color-card2: #000000;
+            --color-frost: rgba(0, 0, 0, 0.9);
+            --color-frost-hover: rgba(255, 255, 255, 0.15);
+            --color-glass-border: rgba(255, 255, 255, 0.3);
+            --color-text-main: #FFFFFF;
+            --color-text-muted: #CCCCCC;
+            --color-white-rgb: 255 255 255;
+            --color-black-rgb: 0 0 0;
+        }
+
+        /* New Themes */
+        html[data-theme="silver-charcoal"] {
+            --color-void: 225 225 230;
+            --color-primary: 30 30 35;
+            --color-secondary: 100 100 110;
+            --color-card: #f0f0f5;
+            --color-card2: #e5e5eb;
+            --color-frost: rgba(255, 255, 255, 0.6);
+            --color-frost-hover: rgba(0, 0, 0, 0.05);
+            --color-glass-border: rgba(0, 0, 0, 0.15);
+            --color-text-main: #1c1c21;
+            --color-text-muted: #5a5a65;
+            --color-white-rgb: 30 30 35;
+            /* Map text-white to Charcoal on light bg */
+            --color-black-rgb: 240 240 245;
+        }
+
+        html[data-theme="cmyk"] {
+            --color-void: 20 20 20;
+            --color-primary: 0 255 255;
+            --color-secondary: 255 0 255;
+            --color-card: #151515;
+            --color-card2: #0a0a0a;
+            --color-frost: rgba(255, 255, 0, 0.2);
+            --color-frost-hover: rgba(0, 255, 255, 0.3);
+            --color-glass-border: rgba(255, 0, 255, 0.4);
+            --color-text-main: #f5f5f5;
+            --color-text-muted: #aaaaaa;
+            --color-white-rgb: 255 255 255;
+            --color-black-rgb: 0 0 0;
+        }
+
+        html[data-theme="github-dark"] {
+            --color-void: 13 17 23;
+            --color-primary: 88 166 255;
+            --color-secondary: 46 160 67;
+            --color-card: #161b22;
+            --color-card2: #0d1117;
+            --color-frost: rgba(22, 27, 34, 0.8);
+            --color-frost-hover: rgba(139, 148, 158, 0.15);
+            --color-glass-border: rgba(48, 54, 61, 1);
+            --color-text-main: #c9d1d9;
+            --color-text-muted: #8b949e;
+            --color-white-rgb: 201 209 217;
+            --color-black-rgb: 13 17 23;
+        }
+
+        html[data-theme="glass-dark"] {
+            --color-void: 15 15 25;
+            --color-primary: 153 102 255;
+            --color-secondary: 0 204 255;
+            --color-card: rgba(20, 20, 35, 0.2);
+            /* 50% opacity reduction */
+            --color-card2: rgba(15, 15, 25, 0.3);
+            --color-frost: rgba(25, 25, 40, 0.3);
+            --color-frost-hover: rgba(255, 255, 255, 0.1);
+            --color-glass-border: rgba(255, 255, 255, 0.15);
+            --color-text-main: #FFFFFF;
+            --color-text-muted: #B0B0C0;
+            --color-white-rgb: 255 255 255;
+            --color-black-rgb: 0 0 0;
+        }
+
+        html[data-theme="glass-light"] {
+            --color-void: 235 235 245;
+            --color-primary: 100 50 200;
+            --color-secondary: 0 100 200;
+            --color-card: rgba(255, 255, 255, 0.3);
+            /* 50% opacity reduction */
+            --color-card2: rgba(240, 240, 250, 0.4);
+            --color-frost: rgba(255, 255, 255, 0.4);
+            --color-frost-hover: rgba(200, 200, 255, 0.2);
+            --color-glass-border: rgba(255, 255, 255, 0.5);
+            --color-text-main: #1a1a24;
+            --color-text-muted: #505060;
+            --color-white-rgb: 30 30 40;
+            /* Map text-white to Dark */
+            --color-black-rgb: 245 245 250;
+        }
+
+        html[data-theme="flat-dark"] {
+            --color-void: 33 33 33;
+            --color-primary: 244 67 54;
+            --color-secondary: 255 152 0;
+            --color-card: #2e2e2e;
+            --color-card2: #242424;
+            --color-frost: #2e2e2e;
+            --color-frost-hover: #3a3a3a;
+            --color-glass-border: transparent;
+            --color-text-main: #ffffff;
+            --color-text-muted: #aaaaaa;
+            --color-white-rgb: 255 255 255;
+            --color-black-rgb: 0 0 0;
+        }
+
+        html[data-theme="flat-light"] {
+            --color-void: 245 245 245;
+            --color-primary: 232 50 35;
+            --color-secondary: 255 140 0;
+            --color-card: #ffffff;
+            --color-card2: #f9f9f9;
+            --color-frost: #ffffff;
+            --color-frost-hover: #f0f0f0;
+            --color-glass-border: transparent;
+            --color-text-main: #111111;
+            --color-text-muted: #555555;
+            --color-white-rgb: 15 15 15;
+            /* Map text-white to Deep Black */
+            --color-black-rgb: 255 255 255;
+        }
+
+        html[data-theme="macos-sequoia"] {
+            --color-void: 28 28 30;
+            --color-primary: 10 132 255;
+            --color-secondary: 48 209 88;
+            --color-card: #2c2c2e;
+            --color-card2: #1c1c1e;
+            --color-frost: rgba(44, 44, 46, 0.7);
+            --color-frost-hover: rgba(255, 255, 255, 0.1);
+            --color-glass-border: rgba(255, 255, 255, 0.15);
+            --color-text-main: #ffffff;
+            --color-text-muted: #ebebf5;
+            --color-white-rgb: 255 255 255;
+            --color-black-rgb: 0 0 0;
+        }
+
+        /* Override hardcoded card bg colors per theme */
+        html[data-theme] .bg-\[\#151515\],
+        html[data-theme] .bg-\[\#111\],
+        html[data-theme] .bg-\[\#0B0B0B\],
+        html[data-theme] .bg-\[\#0b0b0b\] {
+            background-color: var(--color-card) !important;
+        }
+
+        /* Force Input clarity globally */
+        html[data-theme] input,
+        html[data-theme] select {
+            background-color: var(--color-card2) !important;
+            color: var(--color-text-main) !important;
+            border-color: var(--color-glass-border) !important;
+        }
+
+        html[data-theme] input::placeholder {
+            color: var(--color-text-muted) !important;
+        }
+
+        /* Ensure Lightbox uses proper contrast even when UI is inverted */
+        html[data-theme="silver-charcoal"] #lightbox,
+        html[data-theme="flat-light"] #lightbox,
+        html[data-theme="glass-light"] #lightbox {
+            --color-white-rgb: 255 255 255;
+            --color-text-main: #ffffff;
+            --color-text-muted: #a1a1aa;
+        }
+
+        /* Apply intense blur for glass themes globally */
+        html[data-theme^="glass"] .backdrop-blur-md,
+        html[data-theme^="glass"] .backdrop-blur-xl,
+        html[data-theme^="glass"] .backdrop-blur-sm,
+        html[data-theme^="glass"] .backdrop-blur,
+        html[data-theme^="glass"] aside,
+        html[data-theme^="glass"] #main-toolbar,
+        html[data-theme^="glass"] #main-search-bar,
+        html[data-theme^="glass"] #theme-menu,
+        html[data-theme^="glass"] #focus-tags-bar {
+            backdrop-filter: blur(32px) !important;
+            -webkit-backdrop-filter: blur(32px) !important;
+            background-color: transparent !important;
+            border-color: var(--color-glass-border) !important;
+        }
+
+        /* Scrollbar per theme */
+        html[data-theme] ::-webkit-scrollbar-track {
+            background: rgb(var(--color-void));
+        }
+
+        html[data-theme] ::-webkit-scrollbar-thumb {
+            background: rgb(var(--color-primary) / 0.3);
+        }
+
+        html[data-theme] ::-webkit-scrollbar-thumb:hover {
+            background: rgb(var(--color-primary) / 0.5);
+        }
+
+        /* Theme picker menu */
+        #theme-menu {
+            min-width: 200px;
+        }
+
+        .theme-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #A1A1AA;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .theme-option:hover {
+            background: rgba(255, 255, 255, 0.07);
+            color: #fff;
+        }
+
+        .theme-option.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .theme-swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+        }
+
+        /* Custom Scrollbar for the technical feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #404040;
+        }
+
+        /* Mobile handling */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                height: 100%;
+                z-index: 50;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+
+        /* Lightbox */
+        #lightbox {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        #lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #lightbox .lightbox-image {
+            transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        #lightbox.active .lightbox-image {
+            transform: scale(1);
+        }
+
+        #lightbox .lb-nav-btn {
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        #lightbox:hover .lb-nav-btn {
+            opacity: 1;
+        }
+
+        /* Masonry Grid — column count is set dynamically by JS via column-count */
+        .masonry-grid {
+            column-gap: 1.5rem;
+        }
+
+        .masonry-grid .gallery-card {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+            content-visibility: auto;
+            contain-intrinsic-size: auto 300px;
+        }
+
+        /* ── Size S: Compact — shrink text + buttons ── */
+        #gallery-grid[data-size="s"] .gallery-card,
+        #gallery-grid[data-size="xs"] .gallery-card {
+            margin-bottom: 0.375rem;
+        }
+
+        #gallery-grid[data-size="s"] .gallery-card h3 {
+            font-size: 0.75rem;
+            line-height: 1rem;
+        }
+
+        /* Category slug label */
+        #gallery-grid[data-size="s"] .gallery-card>div:last-child>div>span:first-child {
+            font-size: 7px;
+        }
+
+        /* Footer padding */
+        #gallery-grid[data-size="s"] .gallery-card>div:last-child {
+            padding: 0.375rem 0.5rem;
+        }
+
+        /* Action buttons */
+        #gallery-grid[data-size="s"] .gallery-card>div:last-child .flex.items-center.gap-2 a,
+        #gallery-grid[data-size="s"] .gallery-card>div:last-child .flex.items-center.gap-2 button {
+            width: 1.375rem;
+            height: 1.375rem;
+        }
+
+        #gallery-grid[data-size="s"] .gallery-card>div:last-child .flex.items-center.gap-2 .material-symbols-outlined {
+            font-size: 13px;
+        }
+
+        /* Fav button */
+        #gallery-grid[data-size="s"] .gallery-card .fav-btn {
+            width: 1.375rem;
+            height: 1.375rem;
+        }
+
+        #gallery-grid[data-size="s"] .gallery-card .fav-btn .material-symbols-outlined {
+            font-size: 14px;
+        }
+
+        /* ── Size XS: Ultra-compact — thumbnails only, action overlay on hover ── */
+        #gallery-grid[data-size="xs"] {
+            column-gap: 6px;
+        }
+
+        #gallery-grid[data-size="xs"] .gallery-card {
+            border: none;
+            border-radius: 3px;
+            margin-bottom: 6px;
+            overflow: hidden;
+        }
+
+        /* Hide the info footer by default */
+        #gallery-grid[data-size="xs"] .gallery-card>div:last-child {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.25rem 0.3rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.4) 65%, transparent 100%);
+            backdrop-filter: none;
+            border-top: none;
+            opacity: 0;
+            transition: opacity 0.18s ease;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 3px;
+        }
+
+        /* Show on hover */
+        #gallery-grid[data-size="xs"] .gallery-card:hover>div:last-child {
+            opacity: 1;
+        }
+
+        /* In XS mode: hide only the text labels — keep the action buttons visible */
+        #gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>span:first-child,
+        #gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>h3 {
+            display: none;
+        }
+
+        /* Compact action buttons in XS hover bar */
+        #gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>div {
+            margin-top: 0;
+            gap: 3px;
+            display: flex;
+        }
+
+        #gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>div a,
+        #gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>div button {
+            width: 1.1rem;
+            height: 1.1rem;
+            border: none;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0;
+        }
+
+        #gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>div .material-symbols-outlined {
+            font-size: 11px;
+        }
+
+        /* Compact icons */
+        #gallery-grid[data-size="xs"] .gallery-card .fav-btn {
+            width: 1.1rem;
+            height: 1.1rem;
+            top: 0.2rem;
+            right: 0.2rem;
+        }
+
+        #gallery-grid[data-size="xs"] .gallery-card .fav-btn .material-symbols-outlined {
+            font-size: 12px;
+        }
+
+        /* Shrink the tier dot */
+        #gallery-grid[data-size="xs"] .gallery-card>div>div:first-child {
+            top: 0.2rem;
+            left: 0.2rem;
+        }
+
+        #gallery-grid[data-size="xs"] .gallery-card>div>div:first-child>div {
+            width: 0.4rem;
+            height: 0.4rem;
+        }
+
+        /* Blur Placeholder */
+        .img-placeholder {
+            background: linear-gradient(135deg, #151515 0%, #1a1a1a 50%, #151515 100%);
+            background-size: 200% 200%;
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .img-loaded {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Sidebar animated transitions */
+        .category-children {
+            overflow: hidden;
+            animation: expandIn 0.2s ease-out;
+        }
+
+        @keyframes expandIn {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+
+            to {
+                opacity: 1;
+                max-height: 500px;
+            }
+        }
+
+        /* Floating action bar */
+        #action-bar {
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s;
+            pointer-events: none;
+        }
+
+        #action-bar.visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ════════════════════════════════════════════════════════
+           PHASE 3 — VISUAL POLISH
+           3.1 Micro-animations  |  3.2 Glassmorphism
+           3.3 Theme Refinements |  3.4 Premium Gallery Feel
+        ════════════════════════════════════════════════════════ */
+
+        /* ── 3.3 CSS variable additions ── */
+        :root {
+            --transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-spring: 350ms cubic-bezier(0.22, 1, 0.36, 1);
+            --color-card-hover: rgba(255, 255, 255, 0.04);
+            --glow-primary: 0 0 20px rgb(var(--color-primary) / 0.25);
+            --glow-primary-sm: 0 0 10px rgb(var(--color-primary) / 0.18);
+        }
+
+        /* ── 3.1 Gallery card hover — lift + glow ── */
+        .gallery-card {
+            transition:
+                transform var(--transition-spring),
+                box-shadow var(--transition-spring),
+                border-color var(--transition-fast);
+            contain: layout style;
+            content-visibility: auto;
+            contain-intrinsic-size: auto 320px;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), var(--glow-primary-sm);
+            border-color: rgb(var(--color-primary) / 0.22);
+            will-change: transform;
+        }
+
+        /* Card image scale on hover */
+        .gallery-card .card-thumb {
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            overflow: hidden;
+        }
+
+        .gallery-card:hover .card-thumb img,
+        .gallery-card:hover .card-thumb video {
+            transform: scale(1.04);
+        }
+
+        /* ── 3.4 Card selection ring ── */
+        .gallery-card.selected {
+            border-color: rgb(var(--color-primary) / 0.7) !important;
+            box-shadow: 0 0 0 2px rgb(var(--color-primary) / 0.35), 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        /* ── 3.4 Keyboard focus ring — pulsing ── */
+        .gallery-card.keyboard-focused {
+            border-color: rgb(var(--color-primary) / 0.8) !important;
+            box-shadow: 0 0 0 2px rgb(var(--color-primary) / 0.4),
+                        0 0 18px rgb(var(--color-primary) / 0.2);
+            animation: focusPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes focusPulse {
+            0%, 100% { box-shadow: 0 0 0 2px rgb(var(--color-primary) / 0.4), 0 0 18px rgb(var(--color-primary) / 0.2); }
+            50%       { box-shadow: 0 0 0 3px rgb(var(--color-primary) / 0.6), 0 0 28px rgb(var(--color-primary) / 0.35); }
+        }
+
+        /* ── 3.4 Favorite glow ── */
+        .gallery-card .fav-btn.active .material-symbols-outlined {
+            color: #f87171;
+            text-shadow: 0 0 8px rgba(248, 113, 113, 0.6);
+            animation: heartBeat 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes heartBeat {
+            0%   { transform: scale(1); }
+            40%  { transform: scale(1.35); }
+            100% { transform: scale(1); }
+        }
+
+        /* ── 3.1 Dashboard tab panel fade-slide transition ── */
+        .dash-panel {
+            animation: panelIn 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        @keyframes panelIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── 3.1 Filter chip pop-in ── */
+        .filter-chip-active {
+            animation: chipPop 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        @keyframes chipPop {
+            0%   { transform: scale(0.88); opacity: 0; }
+            70%  { transform: scale(1.06); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* ── 3.1 Staggered scraper tree node fade-in ── */
+        .scraper-node {
+            animation: nodeSlide 0.18s ease both;
+        }
+
+        @keyframes nodeSlide {
+            from { opacity: 0; transform: translateX(-6px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ── 3.1 Skeleton loading pulse ── */
+        .skeleton {
+            background: linear-gradient(90deg,
+                rgba(255,255,255,0.04) 25%,
+                rgba(255,255,255,0.08) 50%,
+                rgba(255,255,255,0.04) 75%);
+            background-size: 200% 100%;
+            animation: skeletonShimmer 1.6s ease-in-out infinite;
+            border-radius: 6px;
+        }
+
+        @keyframes skeletonShimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ── 3.1 Stat counter animation ── */
+        .stat-value {
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-value.updating {
+            opacity: 0.5;
+        }
+
+        /* ── 3.1 Lightbox image spring reveal ── */
+        #lightbox .lightbox-image {
+            transform: scale(0.96);
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                        opacity 0.25s ease;
+        }
+
+        #lightbox.active .lightbox-image {
+            transform: scale(1);
+        }
+
+        /* ── 3.2 Sidebar glassmorphism ── */
+        #sidebar {
+            background: rgb(var(--color-void) / 0.55);
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            border-right-color: var(--color-glass-border);
+        }
+
+        /* ── 3.2 Sidebar nav active border slide ── */
+        .category-item {
+            position: relative;
+            transition:
+                background var(--transition-fast),
+                color var(--transition-fast),
+                border-color var(--transition-fast);
+        }
+
+        .category-item.active {
+            color: white !important;
+            background: var(--color-frost-hover);
+            border-left-color: rgb(var(--color-primary)) !important;
+        }
+
+        .category-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: rgb(var(--color-primary));
+            border-radius: 0 1px 1px 0;
+            box-shadow: 0 0 8px rgb(var(--color-primary) / 0.5);
+        }
+
+        /* ── 3.2 Toolbar glass card ── */
+        #main-toolbar,
+        #main-search-bar {
+            backdrop-filter: blur(14px) saturate(1.2);
+            -webkit-backdrop-filter: blur(14px) saturate(1.2);
+        }
+
+        /* ── 3.2 Dashboard tab bar glass ── */
+        #dashboard-view > div:first-child {
+            backdrop-filter: blur(16px) saturate(1.3);
+            -webkit-backdrop-filter: blur(16px) saturate(1.3);
+        }
+
+        /* ── 3.2 Lightbox dark backdrop refine ── */
+        #lightbox {
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* ── 3.2 Glass modal base ── */
+        .glass-modal {
+            background: rgba(15, 15, 20, 0.85);
+            backdrop-filter: blur(24px) saturate(1.5);
+            -webkit-backdrop-filter: blur(24px) saturate(1.5);
+            border: 1px solid var(--color-glass-border);
+            border-radius: 16px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.6), var(--glow-primary-sm);
+        }
+
+        /* ── 3.2 Custom scrollbar refinement ── */
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgb(var(--color-primary) / 0.25);
+            border-radius: 99px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgb(var(--color-primary) / 0.5);
+        }
+
+        /* ── 3.4 Empty state illustration ── */
+        #gallery-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            gap: 1rem;
+            animation: fadeIn 0.4s ease;
+        }
+
+        #gallery-empty .empty-icon {
+            font-size: 64px;
+            opacity: 0.12;
+            color: rgb(var(--color-primary));
+            animation: floatIdle 4s ease-in-out infinite;
+        }
+
+        @keyframes floatIdle {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-8px); }
+        }
+
+        #gallery-empty h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: white;
+            opacity: 0.6;
+        }
+
+        #gallery-empty p {
+            font-size: 0.8125rem;
+            color: var(--color-text-muted);
+            text-align: center;
+            max-width: 280px;
+            line-height: 1.5;
+        }
+
+        /* ── 3.3 Premium theme: Obsidian ── */
+        html[data-theme="obsidian"] {
+            --color-void: 3 3 4;
+            --color-primary: 99 179 237;
+            --color-secondary: 154 205 50;
+            --color-card: #0e0e10;
+            --color-card2: #080809;
+            --color-frost: rgba(10, 10, 12, 0.7);
+            --color-frost-hover: rgba(99, 179, 237, 0.07);
+            --color-glass-border: rgba(99, 179, 237, 0.12);
+            --color-text-main: #e8eaf0;
+            --color-text-muted: #6b7280;
+            --color-white-rgb: 232 234 240;
+            --color-black-rgb: 3 3 4;
+        }
+
+        html[data-theme="obsidian"] .gallery-card:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.7), 0 0 16px rgba(99,179,237,0.15);
+        }
+
+        /* ── 3.3 Premium theme: Aurora ── */
+        html[data-theme="aurora"] {
+            --color-void: 8 6 18;
+            --color-primary: 167 139 250;
+            --color-secondary: 52 211 153;
+            --color-card: #110f22;
+            --color-card2: #0c0a18;
+            --color-frost: rgba(16, 13, 32, 0.65);
+            --color-frost-hover: rgba(167, 139, 250, 0.08);
+            --color-glass-border: rgba(167, 139, 250, 0.15);
+            --color-text-main: #f0eeff;
+            --color-text-muted: #8b7fc9;
+            --color-white-rgb: 240 238 255;
+            --color-black-rgb: 8 6 18;
+        }
+
+        html[data-theme="aurora"] #sidebar,
+        html[data-theme="aurora"] #main-toolbar {
+            background: linear-gradient(180deg,
+                rgba(16, 13, 32, 0.7) 0%,
+                rgba(10, 8, 24, 0.7) 100%);
+            backdrop-filter: blur(20px);
+        }
+
+        html[data-theme="aurora"] .gallery-card:hover {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5),
+                        0 0 20px rgba(167,139,250,0.2),
+                        0 0 40px rgba(52,211,153,0.08);
+        }
+
+        /* ── 3.4 Smooth pagination scroll ── */
+        #scroll-container {
+            scroll-behavior: smooth;
+        }
+
+        /* ── 3.1 Button micro press ── */
+        button:active:not(:disabled) {
+            transform: scale(0.97);
+            transition: transform 80ms ease;
+        }
+
+        /* ── 3.1 Link/nav item hover underline for non-card elements ── */
+        .nav-hover-line {
+            position: relative;
+        }
+
+        .nav-hover-line::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: rgb(var(--color-primary));
+            transition: width var(--transition-base);
+        }
+
+        .nav-hover-line:hover::after { width: 100%; }
+    </style>
+</head>
+
+<body class="bg-void text-text-main font-body antialiased overflow-hidden h-screen flex">
+
+    <!-- Fixed Sidebar -->
+    <aside id="sidebar"
+        class="sidebar w-[260px] h-full flex flex-col border-r border-glass-border bg-void/50 backdrop-blur-md shrink-0 z-20">
+        <!-- Header -->
+        <div class="h-16 flex items-center px-5 border-b border-glass-border shrink-0">
+            <span class="material-symbols-outlined text-primary mr-3 text-2xl">diamond</span>
+            <h1 class="font-display font-semibold text-lg tracking-tight text-white">Obsidian Frost</h1>
+        </div>
+
+        <!-- Toggle (Mobile close) -->
+        <button id="sidebar-close" class="md:hidden absolute top-4 right-4 text-white">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+
+        <!-- Stats (simplified from original app) -->
+        <div class="p-5 pb-2 flex flex-col gap-2 shrink-0">
+            <div class="flex bg-[#151515] p-1 rounded-md border border-glass-border">
+                <button id="pill-all"
+                    class="flex-1 py-1 text-[10px] font-bold uppercase tracking-wider rounded bg-primary/20 text-primary transition-colors">All</button>
+                <button id="pill-free"
+                    class="flex-1 py-1 text-[10px] font-bold uppercase tracking-wider rounded text-text-muted hover:text-white transition-colors">Free</button>
+                <button id="pill-paid"
+                    class="flex-1 py-1 text-[10px] font-bold uppercase tracking-wider rounded text-text-muted hover:text-white transition-colors">Paid</button>
+            </div>
+        </div>
+
+        <!-- Scrollable Navigation -->
+        <nav class="flex-1 overflow-y-auto px-3 py-2 space-y-1 custom-scrollbar">
+            <div class="px-3 py-2 text-[10px] font-mono uppercase tracking-wider text-[#52525B] font-bold">Library</div>
+
+            <a href="#"
+                class="category-item active flex items-center gap-3 px-3 py-2 rounded hover:bg-frost-hover text-sm font-medium text-text-muted hover:text-white transition-colors group border-l-2 border-transparent hover:border-white/20"
+                data-slug="">
+                <span
+                    class="material-symbols-outlined text-[20px] group-hover:text-white transition-colors">grid_view</span>
+                All Assets
+                <span id="stat-total-items"
+                    class="ml-auto text-[10px] bg-[#151515] px-1.5 rounded text-text-muted">...</span>
+            </a>
+
+            {% if admin_mode %}
+            <a href="#" id="dashboard-link"
+                class="flex items-center gap-3 px-3 py-2 rounded hover:bg-frost-hover text-sm font-medium text-text-muted hover:text-white transition-colors group border-l-2 border-transparent hover:border-white/20">
+                <span
+                    class="material-symbols-outlined text-[20px] group-hover:text-white transition-colors">dashboard</span>
+                Dashboard
+            </a>
+            {% endif %}
+
+            <!-- Quick Views — collapsible -->
+            <div>
+                <button id="quick-views-toggle"
+                    class="w-full flex items-center justify-between px-3 py-2 rounded hover:bg-frost-hover text-sm font-medium text-text-muted hover:text-white transition-colors group border-l-2 border-transparent hover:border-white/20">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-[20px]">bookmarks</span>
+                        Quick Views
+                    </div>
+                    <span id="quick-views-chevron"
+                        class="material-symbols-outlined text-[14px] transition-transform duration-200">chevron_right</span>
+                </button>
+                <div id="quick-views-panel" class="hidden pl-2 space-y-0.5 mt-0.5">
+                    <a href="#" id="favorites-link"
+                        class="flex items-center gap-3 px-3 py-1.5 rounded hover:bg-frost-hover text-xs font-medium text-text-muted hover:text-white transition-colors group border-l-2 border-transparent hover:border-[#F59E0B]/30">
+                        <span
+                            class="material-symbols-outlined text-[16px] text-[#F59E0B]/60 group-hover:text-[#F59E0B] transition-colors">star</span>
+                        Favorites
+                        <span id="stat-favorites-count"
+                            class="ml-auto text-[9px] bg-[#151515] px-1.5 rounded text-text-muted">0</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="pt-4 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-[#52525B] font-bold">
+                Categories</div>
+
+            <!-- Category List Container -->
+            <div id="category-list" class="space-y-1">
+                <!-- Populated by JS -->
+                <div class="px-3 py-2 text-sm text-text-muted animate-pulse">Loading categories...</div>
+            </div>
+
+            <div
+                class="pt-4 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-[#52525B] font-bold flex justify-between items-center">
+                <span>Colors</span>
+                <button id="color-reset" class="hidden text-[10px] text-text-muted hover:text-white transition-colors"
+                    title="Reset Color">
+                    <span class="material-symbols-outlined text-[14px]">close</span>
+                </button>
+            </div>
+            <div id="color-palette" class="px-3 grid grid-cols-12 gap-1 mb-4">
+                <div class="col-span-12 text-xs text-text-muted italic">Loading colors...</div>
+            </div>
+
+            <!-- Collections Section -->
+            <div
+                class="pt-4 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-[#52525B] font-bold flex items-center justify-between">
+                Collections
+                <div class="flex items-center gap-1">
+                    <button onclick="importCollection()"
+                        class="flex items-center justify-center w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-text-muted hover:text-white transition-all"
+                        title="Import Collection">
+                        <span class="material-symbols-outlined text-[14px]">upload_file</span>
+                    </button>
+                    <button id="new-collection-btn"
+                        class="flex items-center justify-center w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-text-muted hover:text-white transition-all"
+                        title="New Collection">
+                        <span class="material-symbols-outlined text-[14px]">add</span>
+                    </button>
+                </div>
+            </div>
+            <div id="collections-list" class="space-y-0.5 mb-4">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Smart Collections (Saved Searches) -->
+            <div
+                class="pt-4 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-[#52525B] font-bold flex items-center justify-between">
+                Saved Searches
+                <button onclick="saveCurrentSearch()"
+                    class="flex items-center justify-center w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-text-muted hover:text-white transition-all"
+                    title="Save Current Search">
+                    <span class="material-symbols-outlined text-[14px]">bookmark_add</span>
+                </button>
+            </div>
+            <div id="smart-collections-list" class="space-y-0.5 mb-4">
+                <!-- Populated by JS -->
+            </div>
+
+            <!-- Tag Cloud -->
+            <div
+                class="pt-4 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-[#52525B] font-bold flex items-center justify-between">
+                Popular Tags
+                <button id="manage-tags-btn"
+                    class="flex items-center justify-center w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-text-muted hover:text-white transition-all"
+                    title="Manage Tags">
+                    <span class="material-symbols-outlined text-[14px]">settings</span>
+                </button>
+            </div>
+            <!-- T9: Tag density slider -->
+            <div class="flex items-center gap-2 px-3 mb-1">
+                <span class="text-[9px] text-text-muted">Top</span>
+                <input id="tag-density" type="range" min="10" max="100" step="10" value="30"
+                    class="flex-1 h-1 accent-primary cursor-pointer">
+                <span id="tag-density-val" class="text-[9px] text-text-muted w-6">30</span>
+            </div>
+            <div id="tag-cloud" class="flex flex-wrap gap-1.5 px-3 pb-4">
+                <!-- Populated by JS -->
+            </div>
+        </nav>
+
+        <!-- Sidebar Footer -->
+        <!-- <div class="p-4 border-t border-glass-border shrink-0">
+            <button class="w-full flex items-center justify-center gap-2 bg-[#151515] hover:bg-frost-hover border border-glass-border rounded h-9 text-xs font-bold uppercase tracking-wider text-text-muted hover:text-white transition-colors font-display">
+                <span class="material-symbols-outlined text-[16px]">settings</span>
+                Settings
+            </button>
+        </div> -->
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col h-full overflow-hidden bg-void relative">
+
+        <!-- Mobile Header -->
+        <div class="md:hidden h-14 flex items-center justify-between px-4 border-b border-glass-border bg-void z-10">
+            <button id="sidebar-toggle" class="text-white">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <span class="font-display font-semibold text-white">Obsidian Frost</span>
+            <div class="w-6"></div> <!-- spacer -->
+        </div>
+
+        <!-- Toolbar / Breadcrumbs -->
+        <div id="main-toolbar"
+            class="hidden md:flex h-16 items-center justify-between px-8 border-b border-glass-border shrink-0 bg-void/80 backdrop-blur z-10 sticky top-0">
+            <div class="flex items-center gap-2 text-sm text-text-muted font-mono">
+                <span class="hover:text-white cursor-pointer transition-colors">Library</span>
+                <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                <span id="current-category-name" class="text-white font-medium">All Assets</span>
+                <span id="results-count-badge"
+                    class="bg-[#151515] text-[#52525B] px-1.5 py-0.5 rounded text-[10px] ml-2 border border-glass-border">0
+                    ITEMS</span>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 pr-4 mr-1 border-r border-glass-border">
+                    <label class="text-[10px] font-mono uppercase tracking-wider text-text-muted font-bold">Sort</label>
+                    <select id="sort-select"
+                        class="bg-[#151515] border border-glass-border text-xs text-text-muted rounded px-2 py-1 focus:ring-1 focus:ring-primary focus:border-primary cursor-pointer appearance-none pr-6"
+                        style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;12&quot; height=&quot;12&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;%23A1A1AA&quot;><path d=&quot;M7 10l5 5 5-5z&quot;/></svg>'); background-repeat: no-repeat; background-position: right 6px center;">
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="title_asc">Title A-Z</option>
+                        <option value="title_desc">Title Z-A</option>
+                        <option value="has_gdrive">Has GDrive</option>
+                    </select>
+                </div>
+                <div class="flex items-center gap-3 pr-4 mr-1 border-r border-glass-border">
+                    <label class="text-[10px] font-mono uppercase tracking-wider text-text-muted font-bold">Grid</label>
+                    <div class="flex gap-1">
+                        <button
+                            class="grid-preset px-2 py-1 text-[10px] border border-glass-border rounded hover:bg-white/10 transition-colors"
+                            data-scale="0.6" title="Small">S</button>
+                        <button
+                            class="grid-preset px-2 py-1 text-[10px] border border-glass-border rounded hover:bg-white/10 transition-colors bg-primary/20 border-primary/40 text-primary"
+                            data-scale="1.0" title="Medium">M</button>
+                        <button
+                            class="grid-preset px-2 py-1 text-[10px] border border-glass-border rounded hover:bg-white/10 transition-colors"
+                            data-scale="1.4" title="Large">L</button>
+                        <button
+                            class="grid-preset px-2 py-1 text-[10px] border border-glass-border rounded hover:bg-white/10 transition-colors"
+                            data-scale="2.2" title="Extra Large">XL</button>
+                    </div>
+                    <input id="grid-scale" class="hidden" max="2.0" min="0.5" step="0.1" type="range" value="1.0" />
+                </div>
+                <!-- Focus Mode Toggle (U13) -->
+                <button id="focus-mode-btn" title="Focus mode — hide sidebar (F2)"
+                    class="flex items-center justify-center w-8 h-8 rounded bg-white/5 border border-glass-border text-text-muted hover:text-white hover:bg-white/10 transition-all">
+                    <span class="material-symbols-outlined text-[18px]">fullscreen</span>
+                </button>
+                <!-- Theme Picker (U2) -->
+                <button id="theme-btn" title="Change color theme"
+                    class="flex items-center justify-center w-8 h-8 rounded bg-white/5 border border-glass-border text-text-muted hover:text-white hover:bg-white/10 transition-all">
+                    <span class="material-symbols-outlined text-[18px]">palette</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div id="main-search-bar"
+            class="flex justify-center py-4 bg-void/40 border-b border-glass-border backdrop-blur-sm z-10 shrink-0">
+            <div class="relative w-full max-w-2xl px-8">
+                <div class="absolute inset-y-0 left-11 flex items-center pointer-events-none text-text-muted">
+                    <span class="material-symbols-outlined text-[20px]">search</span>
+                </div>
+                <input id="search-input"
+                    class="w-full bg-[#151515]/80 border border-glass-border text-base rounded-lg px-4 pl-12 pr-10 py-3 focus:ring-1 focus:ring-primary focus:border-primary placeholder:text-[#52525B] text-white transition-all font-body backdrop-blur-md"
+                    placeholder="Search high-quality assets..." type="text" autocomplete="off" />
+                <button id="search-clear"
+                    class="absolute inset-y-0 right-10 flex items-center text-text-muted hover:text-white hidden">
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+                <button id="semantic-toggle"
+                    class="absolute inset-y-0 right-20 flex items-center text-text-muted hover:text-primary transition-colors"
+                    title="Toggle Semantic Search (S)"
+                    onclick="state.semanticSearch = !state.semanticSearch; this.classList.toggle('text-primary', state.semanticSearch); this.classList.toggle('text-text-muted', !state.semanticSearch); showToast(state.semanticSearch ? 'Semantic search ON' : 'Semantic search OFF')">
+                    <span class="material-symbols-outlined text-[18px]">psychology</span>
+                </button>
+                <!-- Autocomplete Dropdown -->
+                <div id="search-suggestions"
+                    class="hidden absolute top-full left-8 right-8 mt-1 bg-[#151515] border border-glass-border rounded-lg shadow-2xl overflow-hidden z-50 max-h-80 overflow-y-auto custom-scrollbar">
+                </div>
+                <!-- S2: Exclude filter hint -->
+                <div class="absolute top-full left-8 right-8 mt-1 pointer-events-none">
+                    <p id="search-exclude-hint" class="hidden text-[10px] text-text-muted px-2 pt-1">
+                        <span class="font-mono text-amber-400">Tip:</span> Use <span
+                            class="font-mono text-primary">-word</span> to exclude terms &nbsp;·&nbsp; <span
+                            class="font-mono text-primary">tag:name</span> to filter by tag
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Filters Panel -->
+        <div id="advanced-filters-bar" class="border-b border-glass-border bg-void/40 backdrop-blur-sm">
+            <div id="filters-toggle-row" class="px-8 py-2 flex items-center justify-between">
+                <button id="filters-toggle"
+                    class="flex items-center gap-2 text-xs text-text-muted hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[16px]">tune</span>
+                    Advanced Filters
+                    <span id="active-filters-badge"
+                        class="hidden bg-primary text-white text-[10px] px-1.5 rounded-full font-bold ml-2">0</span>
+                </button>
+                <!-- S5: Multi-tag AND/OR toggle -->
+                <button id="tag-mode-toggle" title="Tag filter mode: AND requires all tags, OR requires any tag"
+                    class="hidden items-center gap-1 text-[10px] font-mono font-bold px-2 py-0.5 rounded border border-glass-border bg-white/5 text-text-muted hover:text-white transition-colors">
+                    <span id="tag-mode-label">AND</span>
+                </button>
+                <div class="flex items-center gap-3">
+                    <button id="global-clear-filters"
+                        class="hidden flex items-center gap-1 text-xs bg-white/5 border border-glass-border px-2.5 py-1 rounded-full text-text-muted hover:text-white hover:bg-white/10 transition-all"
+                        title="Clear all active filters">
+                        <span class="material-symbols-outlined text-[13px]">close</span>
+                        Clear All
+                    </button>
+                    <button id="filters-clear" class="hidden text-xs text-text-muted hover:text-white">Reset
+                        Filters</button>
+                </div>
+            </div>
+
+            <div id="filters-panel" class="hidden px-8 py-4 border-t border-glass-border/50">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- GDrive Link Filter -->
+                    <div>
+                        <label class="text-[10px] font-mono uppercase text-text-muted mb-2 block">Has GDrive
+                            Link</label>
+                        <select id="filter-gdrive"
+                            class="w-full bg-[#151515] border border-glass-border text-xs px-2 py-1.5 rounded text-white">
+                            <option value="">All</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+
+                    <!-- Image Filter -->
+                    <div>
+                        <label class="text-[10px] font-mono uppercase text-text-muted mb-2 block">Has Image</label>
+                        <select id="filter-image"
+                            class="w-full bg-[#151515] border border-glass-border text-xs px-2 py-1.5 rounded text-white">
+                            <option value="">All</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </div>
+
+                    <!-- Tier Filter (Quick Access) -->
+                    <div>
+                        <label class="text-[10px] font-mono uppercase text-text-muted mb-2 block">Tier</label>
+                        <select id="filter-tier"
+                            class="w-full bg-[#151515] border border-glass-border text-xs px-2 py-1.5 rounded text-white">
+                            <option value="">All</option>
+                            <option value="Free">Free</option>
+                            <option value="Paid">Paid</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrollable Grid Container -->
+        <div id="scroll-container" class="flex-1 overflow-y-auto p-8 custom-scrollbar relative">
+            <!-- Active tag filter indicator -->
+            <div id="active-tag-filter" class="hidden flex items-center gap-2 mb-4">
+                <span class="text-xs text-text-muted">Tag:</span>
+                <span id="active-tag-name"
+                    class="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full font-semibold"></span>
+                <button id="clear-tag-filter" class="text-text-muted hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[14px]">close</span>
+                </button>
+            </div>
+
+            <!-- Asset Grid (Masonry) -->
+            <div id="gallery-grid" class="masonry-grid pb-8 transition-all w-full">
+                <!-- Cards will be injected here -->
+            </div>
+
+            <!-- Infinite Scroll Sentinel -->
+            <div id="scroll-sentinel" class="flex items-center justify-center py-8">
+                <div id="scroll-loader" class="hidden flex items-center gap-2 text-text-muted text-sm">
+                    <svg class="animate-spin h-4 w-4 text-primary" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+                            fill="none" />
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Loading more...
+                </div>
+                <div id="scroll-end" class="hidden text-xs text-[#52525B] font-mono">End of results</div>
+            </div>
+
+            <!-- Empty State (Hidden by default) — Phase 3.4 Premium -->
+            <div id="empty-state" class="hidden" style="display:none">
+                <div id="gallery-empty">
+                    <span class="material-symbols-outlined empty-icon">inventory_2</span>
+                    <h3>Nothing found</h3>
+                    <p>No assets match your current filters. Try clearing your search or adjusting the category.</p>
+                    <button id="empty-clear-all"
+                        class="mt-2 flex items-center gap-2 px-4 py-2 bg-primary/10 border border-primary/20 text-primary text-sm font-semibold rounded-xl hover:bg-primary/20 transition-all">
+                        <span class="material-symbols-outlined text-[16px]">filter_alt_off</span>
+                        Clear All Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard View — Tabbed Admin Hub -->
+        <div id="dashboard-view" class="hidden flex-1 overflow-hidden flex flex-col">
+
+            <!-- Tab Bar -->
+            <div class="flex-shrink-0 border-b border-glass-border bg-void/60 backdrop-blur-sm px-6 pt-4">
+                <div class="flex items-center justify-between mb-0">
+                    <h2 class="text-base font-display font-semibold text-white tracking-tight flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-xl">admin_panel_settings</span>
+                        Admin Dashboard
+                    </h2>
+                    <div class="text-[10px] text-text-muted font-mono">ADMIN_MODE</div>
+                </div>
+                <div class="flex gap-0 mt-3" role="tablist">
+                    <button id="dash-tab-overview" role="tab" data-tab="overview"
+                        class="dash-tab active-dash-tab px-4 py-2.5 text-sm font-medium border-b-2 border-primary text-white transition-all relative -mb-px flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[16px]">dashboard</span>Overview
+                    </button>
+                    <button id="dash-tab-scraper" role="tab" data-tab="scraper"
+                        class="dash-tab px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-text-muted hover:text-white transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[16px]">cloud_download</span>Scraper
+                    </button>
+                    <button id="dash-tab-quality" role="tab" data-tab="quality"
+                        class="dash-tab px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-text-muted hover:text-white transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[16px]">health_metrics</span>Data Quality
+                    </button>
+                    <button id="dash-tab-downloads" role="tab" data-tab="downloads"
+                        class="dash-tab px-4 py-2.5 text-sm font-medium border-b-2 border-transparent text-text-muted hover:text-white transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[16px]">download</span>Downloads
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar">
+
+            <!-- OVERVIEW TAB -->
+            <div id="dash-panel-overview" class="dash-panel p-6 space-y-6">
+
+            <!-- Stats Grid -->
+            <div id="dash-stats" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <!-- Injected by JS -->
+            </div>
+
+            <!-- Task Runner -->
+            <h3 class="text-xl font-display font-semibold text-white mb-4">Background Tasks</h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <!-- Scraper Card -->
+                <div class="bg-[#151515] border border-glass-border rounded-xl p-5 relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary text-xl">cloud_download</span>
+                            <h4 class="font-semibold text-white text-sm">Scraper</h4>
+                        </div>
+                        <div id="scraper-status" class="flex items-center gap-1.5">
+                            <div class="w-2 h-2 rounded-full bg-gray-500"></div>
+                            <span class="text-[10px] text-text-muted">Idle</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-text-muted mb-3">Scrape categories from 3dskyfree.com</p>
+                    <div class="flex gap-2 mb-2">
+                        <button id="start-scraper" onclick="openScraperModal()"
+                            class="flex-1 bg-primary/20 border border-primary/30 text-primary px-3 py-1.5 rounded text-xs hover:bg-primary/30 transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">play_arrow</span>
+                            Start
+                        </button>
+                        <button id="stop-scraper" onclick="stopTaskByType('scrape')"
+                            class="hidden flex-1 bg-red-500/20 border border-red-500/30 text-red-400 px-3 py-1.5 rounded text-xs hover:bg-red-500/30 transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">stop</span>
+                            Stop
+                        </button>
+                    </div>
+                    <div class="text-[10px] text-text-muted">
+                        <div>Last run: <span id="scraper-last-run">Never</span></div>
+                    </div>
+                </div>
+
+                <!-- Enrichment Pipeline Card -->
+                <div
+                    class="bg-[#151515] border border-glass-border rounded-xl p-5 relative overflow-hidden col-span-full md:col-span-2 lg:col-span-3">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-cyan-400 text-xl">bolt</span>
+                            <h4 class="font-semibold text-white text-sm">Enrichment Pipeline</h4>
+                        </div>
+                        <div id="pipeline-status" class="flex items-center gap-1.5">
+                            <div class="w-2 h-2 rounded-full bg-gray-500"></div>
+                            <span class="text-[10px] text-text-muted">Idle</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-text-muted mb-3">AI Tags + Colors + Embeddings — processes partial items
+                        first, then new</p>
+                    <div class="flex gap-2 mb-2">
+                        <button id="start-pipeline" onclick="startPipelineWithPrompt()"
+                            class="flex-1 bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 px-3 py-1.5 rounded text-xs hover:bg-cyan-500/30 transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">play_arrow</span>
+                            Start
+                        </button>
+                        <button id="start-pipeline-resume" onclick="startPipeline(['--resume'])"
+                            class="flex-1 bg-blue-500/20 border border-blue-500/30 text-blue-400 px-3 py-1.5 rounded text-xs hover:bg-blue-500/30 transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">skip_next</span>
+                            Resume
+                        </button>
+                        <button id="start-pipeline-force" onclick="startPipeline(['--force'])"
+                            class="flex-1 bg-amber-500/20 border border-amber-500/30 text-amber-400 px-3 py-1.5 rounded text-xs hover:bg-amber-500/30 transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">refresh</span>
+                            Force All
+                        </button>
+                        <button id="stop-pipeline" onclick="stopTaskByType('pipeline')"
+                            class="hidden flex-1 bg-red-500/20 border border-red-500/30 text-red-400 px-3 py-1.5 rounded text-xs hover:bg-red-500/30 transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">stop</span>
+                            Stop
+                        </button>
+                    </div>
+                    <div class="text-[10px] text-text-muted">
+                        <div>Last run: <span id="pipeline-last-run">Never</span></div>
+                    </div>
+                </div>
+
+                <!-- Link Recapture Card -->
+                <div class="bg-[#151515] border border-glass-border rounded-xl p-5 relative overflow-hidden">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-purple-400 text-xl">manage_search</span>
+                            <h4 class="font-semibold text-white text-sm">Link Recapture</h4>
+                        </div>
+                        <div id="recapture-status" class="flex items-center gap-1.5">
+                            <div class="w-2 h-2 rounded-full bg-gray-500"></div>
+                            <span class="text-[10px] text-text-muted">Idle</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-text-muted mb-3">Check item pages for missing GDrive links</p>
+                    <div class="flex gap-2 mb-2">
+                        <button id="start-recapture" onclick="startRecaptureWithPrompt()"
+                            class="flex-1 bg-purple-500/20 border border-purple-500/30 text-purple-400 px-3 py-1.5 rounded text-xs hover:bg-purple-500/30 transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">play_arrow</span>
+                            Start
+                        </button>
+                        <button id="start-recapture-resume" onclick="startRecapture(['--resume'])"
+                            class="flex-1 bg-blue-500/20 border border-blue-500/30 text-blue-400 px-3 py-1.5 rounded text-xs hover:bg-blue-500/30 transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">skip_next</span>
+                            Resume
+                        </button>
+                        <button id="stop-recapture" onclick="stopTaskByType('recapture')"
+                            class="hidden flex-1 bg-red-500/20 border border-red-500/30 text-red-400 px-3 py-1.5 rounded text-xs hover:bg-red-500/30 transition-colors flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">stop</span>
+                            Stop
+                        </button>
+                    </div>
+                    <div class="text-[10px] text-text-muted">
+                        <div>Last run: <span id="recapture-last-run">Never</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Active Tasks Table -->
+            <h3 class="text-xl font-display font-semibold text-white mb-4">Active Processes</h3>
+            <div class="bg-[#151515] border border-glass-border rounded-xl overflow-hidden mb-8">
+                <table class="w-full text-left text-sm text-text-muted">
+                    <thead class="bg-white/5 text-xs uppercase font-bold text-white">
+                        <tr>
+                            <th class="px-4 py-3">Task</th>
+                            <th class="px-4 py-3">Status</th>
+                            <th class="px-4 py-3">Progress</th>
+                            <th class="px-4 py-3 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="task-list-body">
+                        <!-- Injected -->
+                        <tr>
+                            <td colspan="4" class="px-4 py-8 text-center italic">No active tasks</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Terminal Output -->
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-display font-semibold text-white">Live Logs</h3>
+                <div class="flex items-center gap-3">
+                    <!-- Task Selector Tabs -->
+                    <div id="log-task-tabs" class="flex gap-2 overflow-x-auto max-w-xl">
+                        <!-- Tabs populated by JS -->
+                    </div>
+                    <!-- Clear Completed Button -->
+                    <button id="clear-completed-btn" onclick="clearCompletedTasks()"
+                        class="px-3 py-1.5 bg-red-500/10 border border-red-500/30 text-red-400 rounded text-xs hover:bg-red-500/20 transition-colors flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[14px]">delete_sweep</span>
+                        Clear Completed
+                    </button>
+                </div>
+            </div>
+            <div id="task-terminal"
+                class="bg-[#0a0a0a] border border-glass-border rounded-xl p-4 font-mono text-xs text-green-400 h-96 overflow-y-auto custom-scrollbar whitespace-pre-wrap">
+                <div class="opacity-50 mb-2">System Ready...</div>
+            </div>
+
+            <!-- Analytics -->
+            <h3 class="text-xl font-display font-semibold text-white mb-4 mt-8">Analytics</h3>
+            <div id="analytics-section" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-[#151515] border border-glass-border rounded-xl p-5">
+                    <h4 class="text-sm font-semibold text-white mb-3">Top Tags</h4>
+                    <div id="analytics-tags" class="space-y-2">
+                        <div class="text-xs text-text-muted">Loading...</div>
+                    </div>
+                </div>
+                <div class="bg-[#151515] border border-glass-border rounded-xl p-5">
+                    <h4 class="text-sm font-semibold text-white mb-3">Category Distribution</h4>
+                    <div id="analytics-categories" class="space-y-2">
+                        <div class="text-xs text-text-muted">Loading...</div>
+                    </div>
+                </div>
+                <div class="bg-[#151515] border border-glass-border rounded-xl p-5">
+                    <h4 class="text-sm font-semibold text-white mb-3">Coverage</h4>
+                    <div id="analytics-coverage" class="space-y-3">
+                        <div class="text-xs text-text-muted">Loading...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DB Health Monitor (D3/D12) -->
+            <div class="mt-6 bg-white/3 border border-glass-border rounded-xl p-4">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-display font-semibold text-white">Database Health</h3>
+                    <button id="db-vacuum-btn"
+                        class="flex items-center gap-1.5 text-xs bg-white/5 border border-glass-border px-2.5 py-1 rounded text-text-muted hover:text-white hover:bg-white/10 transition-all"
+                        title="Vacuum and optimize database">
+                        <span class="material-symbols-outlined text-[14px]">cleaning_services</span>
+                        Vacuum DB
+                    </button>
+                </div>
+                <div id="db-health-grid" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="bg-white/5 rounded-lg p-3">
+                        <div class="text-[10px] text-text-muted uppercase tracking-wider mb-1">DB Size</div>
+                        <div id="dbh-size" class="text-lg font-mono text-white">—</div>
+                    </div>
+                    <div class="bg-white/5 rounded-lg p-3">
+                        <div class="text-[10px] text-text-muted uppercase tracking-wider mb-1">FTS Sync</div>
+                        <div id="dbh-fts" class="text-lg font-mono">—</div>
+                    </div>
+                    <div class="bg-white/5 rounded-lg p-3">
+                        <div class="text-[10px] text-text-muted uppercase tracking-wider mb-1">Embeddings</div>
+                        <div id="dbh-embed" class="text-lg font-mono text-white">—</div>
+                    </div>
+                    <div class="bg-white/5 rounded-lg p-3">
+                        <div class="text-[10px] text-text-muted uppercase tracking-wider mb-1">Orphan Emb.</div>
+                        <div id="dbh-orphan" class="text-lg font-mono text-white">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enrichment Coverage Heat-map (D2) -->
+            <div class="mt-4 bg-white/3 border border-glass-border rounded-xl p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-display font-semibold text-white">Enrichment Coverage</h3>
+                    <div class="flex items-center gap-3 text-[10px] text-text-muted">
+                        <span class="flex items-center gap-1"><span
+                                class="w-2 h-2 rounded-sm bg-primary inline-block"></span>Tags</span>
+                        <span class="flex items-center gap-1"><span
+                                class="w-2 h-2 rounded-sm bg-emerald-500 inline-block"></span>GDrive</span>
+                        <span class="flex items-center gap-1"><span
+                                class="w-2 h-2 rounded-sm bg-purple-400 inline-block"></span>Embeddings</span>
+                    </div>
+                </div>
+                <div id="coverage-heatmap" class="space-y-1.5">
+                    <div class="text-xs text-text-muted italic">Loading...</div>
+                </div>
+            </div><!-- heatmap card -->
+
+            <!-- Quick Actions (bottom of overview) -->
+            <div class="bg-[#151515] border border-glass-border rounded-xl p-5">
+                <h4 class="text-sm font-semibold text-white mb-3">Quick Actions</h4>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <button onclick="startPipelineWithPrompt()"
+                        class="flex items-center gap-2 px-3 py-2.5 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 rounded-lg text-xs font-semibold hover:bg-cyan-500/20 transition-all">
+                        <span class="material-symbols-outlined text-[16px]">bolt</span>Run Pipeline
+                    </button>
+                    <button onclick="startRecaptureWithPrompt()"
+                        class="flex items-center gap-2 px-3 py-2.5 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-lg text-xs font-semibold hover:bg-purple-500/20 transition-all">
+                        <span class="material-symbols-outlined text-[16px]">manage_search</span>Recapture Links
+                    </button>
+                    <button id="qa-vacuum-btn"
+                        class="flex items-center gap-2 px-3 py-2.5 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-lg text-xs font-semibold hover:bg-amber-500/20 transition-all">
+                        <span class="material-symbols-outlined text-[16px]">cleaning_services</span>Vacuum DB
+                    </button>
+                    <a href="/api/analytics/export-stats" download
+                        class="flex items-center gap-2 px-3 py-2.5 bg-white/5 border border-glass-border text-text-muted rounded-lg text-xs font-semibold hover:bg-white/10 hover:text-white transition-all">
+                        <span class="material-symbols-outlined text-[16px]">download</span>Export Stats
+                    </a>
+                </div>
+            </div>
+
+            </div><!-- end dash-panel-overview -->
+
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- SCRAPER TAB                                     -->
+            <!-- ════════════════════════════════════════════════ -->
+            <div id="dash-panel-scraper" class="dash-panel hidden p-6 space-y-4">
+
+                <!-- Bulk Action Bar -->
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-display font-semibold text-text-muted uppercase tracking-widest">Category Tree</h3>
+                    <div class="flex gap-2">
+                        <button id="scraper-bulk-unscraped"
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 border border-primary/20 text-primary text-xs font-semibold rounded-lg hover:bg-primary/20 transition-all">
+                            <span class="material-symbols-outlined text-[14px]">play_circle</span>Scrape All Unscraped
+                        </button>
+                        <button id="scraper-bulk-resume"
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold rounded-lg hover:bg-blue-500/20 transition-all">
+                            <span class="material-symbols-outlined text-[14px]">replay</span>Resume All Partial
+                        </button>
+                        <button id="scraper-tree-refresh"
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-white/5 border border-glass-border text-text-muted text-xs rounded-lg hover:bg-white/10 hover:text-white transition-all">
+                            <span class="material-symbols-outlined text-[14px]">refresh</span>Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="flex items-center gap-4 text-[10px] text-text-muted">
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>Complete</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-400 inline-block"></span>Partial</span>
+                    <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gray-600 inline-block"></span>Unscraped</span>
+                </div>
+
+                <!-- Tree Container -->
+                <div id="scraper-tree-container" class="bg-[#0d0d0d] border border-glass-border rounded-xl overflow-hidden">
+                    <div class="p-8 text-center text-text-muted text-sm">
+                        <span class="material-symbols-outlined text-4xl mb-2 block opacity-30">account_tree</span>
+                        Loading category tree...
+                    </div>
+                </div>
+            </div><!-- end scraper tab -->
+
+
+            <!-- ════════════════════════════════════════════════ -->
+            <!-- DATA QUALITY TAB                               -->
+            <!-- ════════════════════════════════════════════════ -->
+            <div id="dash-panel-quality" class="dash-panel hidden p-6 space-y-6">
+
+                <!-- Tag Health -->
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-display font-semibold text-text-muted uppercase tracking-widest">Tag Health</h3>
+                        <button id="quality-refresh-btn"
+                            class="flex items-center gap-1 text-xs bg-white/5 border border-glass-border px-2.5 py-1 rounded text-text-muted hover:text-white hover:bg-white/10 transition-all">
+                            <span class="material-symbols-outlined text-[13px]">refresh</span>Refresh
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div class="bg-[#151515] border border-glass-border rounded-xl p-5">
+                            <div class="flex items-center justify-between mb-1">
+                                <div class="text-xs text-text-muted uppercase tracking-wider">Orphan Tags</div>
+                                <span id="quality-orphan-count" class="text-2xl font-mono font-bold text-amber-400">—</span>
+                            </div>
+                            <p class="text-[11px] text-text-muted mb-3">Tags with no items attached</p>
+                            <button id="quality-delete-orphans-btn"
+                                class="w-full flex items-center justify-center gap-1.5 px-3 py-2 bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold rounded-lg hover:bg-red-500/20 transition-all">
+                                <span class="material-symbols-outlined text-[14px]">delete</span>Delete All Orphans
+                            </button>
+                        </div>
+                        <div class="bg-[#151515] border border-glass-border rounded-xl p-5">
+                            <div class="text-xs text-text-muted uppercase tracking-wider mb-1">Total Tags</div>
+                            <div id="quality-total-tags" class="text-2xl font-mono font-bold text-white mb-1">—</div>
+                            <div class="text-[11px] text-text-muted">Unique tags in database</div>
+                        </div>
+                        <div class="bg-[#151515] border border-glass-border rounded-xl p-5">
+                            <div class="text-xs text-text-muted uppercase tracking-wider mb-1">Case Duplicates</div>
+                            <div id="quality-dupe-count" class="text-2xl font-mono font-bold text-white mb-1">—</div>
+                            <div class="text-[11px] text-text-muted">Same word, different casing</div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-[#151515] border border-glass-border rounded-xl p-5">
+                            <h4 class="text-sm font-semibold text-white mb-3">Most Used Tags</h4>
+                            <div id="quality-top-tags" class="space-y-1.5"><div class="text-xs text-text-muted">Loading...</div></div>
+                        </div>
+                        <div class="bg-[#151515] border border-glass-border rounded-xl p-5">
+                            <h4 class="text-sm font-semibold text-white mb-3">Least Used Tags</h4>
+                            <div id="quality-bottom-tags" class="space-y-1.5"><div class="text-xs text-text-muted">Loading...</div></div>
+                        </div>
+                    </div>
+                    <details class="bg-[#151515] border border-glass-border rounded-xl overflow-hidden mt-4">
+                        <summary class="px-5 py-3 text-sm font-semibold text-text-muted cursor-pointer hover:text-white transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px]">label_off</span>View Orphan Tag List
+                        </summary>
+                        <div id="quality-orphan-list" class="p-5 pt-3 flex flex-wrap gap-2 max-h-48 overflow-y-auto">
+                            <div class="text-xs text-text-muted italic">Loading...</div>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- Case Duplicates Section -->
+                <div id="quality-dupes-section" class="hidden">
+                    <h3 class="text-sm font-display font-semibold text-text-muted uppercase tracking-widest mb-3">Case Duplicate Tags</h3>
+                    <div id="quality-dupes-list" class="bg-[#151515] border border-glass-border rounded-xl p-5 space-y-2 max-h-64 overflow-y-auto"></div>
+                </div>
+
+                <!-- Missing Data Scorecard -->
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-display font-semibold text-text-muted uppercase tracking-widest">Missing Data — by Category</h3>
+                        <div class="flex items-center gap-3 text-[10px] text-text-muted">
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-blue-400/70 inline-block"></span>No Image</span>
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-emerald-400/70 inline-block"></span>No GDrive</span>
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-pink-400/70 inline-block"></span>No Tags</span>
+                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-purple-400/70 inline-block"></span>No Embed</span>
+                        </div>
+                    </div>
+                    <div class="bg-[#0d0d0d] border border-glass-border rounded-xl overflow-hidden">
+                        <div class="grid grid-cols-[1fr_60px_80px_80px_80px_80px] gap-0 text-[10px] font-mono text-text-muted uppercase tracking-wider px-4 py-2 border-b border-glass-border bg-white/3">
+                            <span>Category</span>
+                            <span class="text-right">Total</span>
+                            <span class="text-right">No Image</span>
+                            <span class="text-right">No GDrive</span>
+                            <span class="text-right">No Tags</span>
+                            <span class="text-right">No Embed</span>
+                        </div>
+                        <div id="quality-missing-data" class="divide-y divide-glass-border/30 max-h-96 overflow-y-auto custom-scrollbar">
+                            <div class="p-8 text-center text-text-muted text-xs italic">Loading...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bulk Fix Actions -->
+                <div>
+                    <h3 class="text-sm font-display font-semibold text-text-muted uppercase tracking-widest mb-3">Bulk Fix Actions</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <button onclick="startPipeline(['--colors-only'])"
+                            class="flex items-center gap-3 px-4 py-3 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-xl text-sm font-semibold hover:bg-amber-500/20 transition-all">
+                            <span class="material-symbols-outlined text-[20px]">palette</span>
+                            <div class="text-left"><div class="text-xs font-semibold">Re-extract Colors</div><div class="text-[10px] text-amber-400/60 font-normal">Items missing color data</div></div>
+                        </button>
+                        <button onclick="startPipeline(['--embeddings-only'])"
+                            class="flex items-center gap-3 px-4 py-3 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-xl text-sm font-semibold hover:bg-purple-500/20 transition-all">
+                            <span class="material-symbols-outlined text-[20px]">hub</span>
+                            <div class="text-left"><div class="text-xs font-semibold">Generate Embeddings</div><div class="text-[10px] text-purple-400/60 font-normal">Unprocessed items only</div></div>
+                        </button>
+                        <button id="quality-fts-sync-btn"
+                            class="flex items-center gap-3 px-4 py-3 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 rounded-xl text-sm font-semibold hover:bg-cyan-500/20 transition-all">
+                            <span class="material-symbols-outlined text-[20px]">sync</span>
+                            <div class="text-left"><div class="text-xs font-semibold">Sync FTS Index</div><div class="text-[10px] text-cyan-400/60 font-normal">Queues resync on restart</div></div>
+                        </button>
+                    </div>
+                </div>
+
+            </div><!-- end quality tab -->
+
+            <!-- DOWNLOADS TAB -->
+            <div id="dash-panel-downloads" class="dash-panel hidden p-6 space-y-6">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-lg font-display font-semibold text-white">Background Downloads Queue</h3>
+                    <div class="text-xs text-text-muted">Shows active downloads and past job history (max 50)</div>
+                </div>
+                <div class="bg-[#151515] border border-glass-border rounded-xl overflow-hidden shadow-xl">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-white/3 border-b border-glass-border/30 text-text-muted text-[10px] font-bold uppercase tracking-wider font-mono">
+                                <th class="px-4 py-3">Asset Title</th>
+                                <th class="px-4 py-3 w-16">Job ID</th>
+                                <th class="px-4 py-3 w-28">Status</th>
+                                <th class="px-4 py-3 w-40">Progress</th>
+                                <th class="px-4 py-3 w-28">Speed</th>
+                                <th class="px-4 py-3 w-32">Queued At</th>
+                                <th class="px-4 py-3 w-24 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="downloads-list-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <details class="bg-[#151515] border border-glass-border rounded-xl shadow-xl overflow-hidden" open>
+                    <summary class="px-5 py-3 text-sm font-semibold text-white cursor-pointer hover:bg-white/5 transition-colors flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[16px] text-primary">settings</span>
+                        Download Settings
+                    </summary>
+                    <div class="p-6 pt-3 space-y-6">
+                    
+                    <div class="space-y-4">
+                        <!-- Download Directory -->
+                        <div class="flex flex-col gap-1.5">
+                            <label for="setting-download-dir" class="text-xs font-semibold text-text-muted uppercase tracking-wider font-mono">Model Downloads Directory</label>
+                            <div class="flex gap-2">
+                                <input id="setting-download-dir" type="text" placeholder="data/downloads" 
+                                    class="flex-1 h-10 px-3 bg-black/40 border border-glass-border rounded text-sm text-white focus:outline-none focus:border-primary transition-all">
+                                <button id="choose-download-dir-btn"
+                                    class="h-10 px-3 bg-white/5 hover:bg-white/10 border border-glass-border text-text-muted hover:text-white rounded text-xs font-semibold transition-all flex items-center gap-1.5"
+                                    title="Choose a folder on the machine running this server">
+                                    <span class="material-symbols-outlined text-[15px]">folder_open</span>
+                                    Choose
+                                </button>
+                            </div>
+                            <span class="text-[10px] text-text-muted">Target directory on the server PC. From another PC, enter a server path or UNC share manually.</span>
+                        </div>
+
+                        <!-- Disk Quota Limit -->
+                        <div class="flex flex-col gap-1.5">
+                            <label for="setting-disk-quota" class="text-xs font-semibold text-text-muted uppercase tracking-wider font-mono">Maximum Cache Quota (GB)</label>
+                            <input id="setting-disk-quota" type="number" min="1" max="1000" step="1" placeholder="e.g. 50" 
+                                class="w-32 h-10 px-3 bg-black/40 border border-glass-border rounded text-sm text-white focus:outline-none focus:border-primary transition-all">
+                            <span class="text-[10px] text-text-muted">When the total size of downloaded files exceeds this limit, the oldest files will be auto-evicted (LRU cache).</span>
+                        </div>
+
+                        <!-- Collision Mode -->
+                        <div class="flex flex-col gap-1.5">
+                            <label for="setting-collision-mode" class="text-xs font-semibold text-text-muted uppercase tracking-wider font-mono">Collision Resolution Policy</label>
+                            <select id="setting-collision-mode" 
+                                class="w-full h-10 px-3 bg-black/40 border border-glass-border rounded text-sm text-white focus:outline-none focus:border-primary transition-all">
+                                <option value="auto_rename">Auto-Rename (Append counter)</option>
+                                <option value="overwrite">Overwrite (Pre-download size match skip)</option>
+                                <option value="skip">Skip (Keep existing file)</option>
+                            </select>
+                            <span class="text-[10px] text-text-muted">How to handle naming conflicts when a file with the same name already exists in the downloads directory.</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <!-- Concurrency Limit -->
+                            <div class="flex flex-col gap-1.5">
+                                <label for="setting-concurrency" class="text-xs font-semibold text-text-muted uppercase tracking-wider font-mono">Max Active Downloads</label>
+                                <input id="setting-concurrency" type="number" min="1" max="10" step="1" placeholder="e.g. 2" 
+                                    class="w-full h-10 px-3 bg-black/40 border border-glass-border rounded text-sm text-white focus:outline-none focus:border-primary transition-all">
+                                <span class="text-[10px] text-text-muted">Maximum number of parallel active download streams.</span>
+                            </div>
+
+                            <!-- Retry Count -->
+                            <div class="flex flex-col gap-1.5">
+                                <label for="setting-retry-count" class="text-xs font-semibold text-text-muted uppercase tracking-wider font-mono">Max Network Retries</label>
+                                <input id="setting-retry-count" type="number" min="0" max="10" step="1" placeholder="e.g. 3" 
+                                    class="w-full h-10 px-3 bg-black/40 border border-glass-border rounded text-sm text-white focus:outline-none focus:border-primary transition-all">
+                                <span class="text-[10px] text-text-muted">Number of retries with exponential backoff on connection errors.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-glass-border flex justify-between gap-3">
+                        <button id="open-downloads-folder-settings"
+                            class="px-4 h-9 bg-white/5 hover:bg-white/10 border border-glass-border text-text-muted hover:text-white rounded text-xs font-bold uppercase tracking-wider transition-all font-display flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[15px]">folder_open</span>
+                            Open Folder
+                        </button>
+                        <button id="save-settings-btn" class="px-5 h-9 bg-primary/20 hover:bg-primary/30 border border-primary/40 text-primary hover:text-white rounded text-xs font-bold uppercase tracking-wider transition-all font-display">
+                            Save Settings
+                        </button>
+                    </div>
+                    </div>
+                </details>
+            </div>
+
+            </div><!-- end tab content area -->
+        </div><!-- end dashboard-view -->
+
+        <!-- Sticky Footer (simplified - just item count) -->
+        <div
+            class="absolute bottom-0 left-0 right-0 h-10 bg-void/90 backdrop-blur-xl border-t border-glass-border flex items-center justify-between px-8 z-30">
+            <span id="pagination-info" class="text-xs text-[#52525B] font-mono">Loading...</span>
+            <span id="pagination" class="text-xs text-[#52525B] font-mono"></span>
+        </div>
+
+        <!-- Scroll to Top Button -->
+        <button id="scroll-to-top"
+            class="hidden fixed bottom-16 right-6 z-40 w-10 h-10 rounded-full bg-primary/20 border border-primary/30 text-primary hover:bg-primary/30 transition-all flex items-center justify-center shadow-lg"
+            title="Scroll to top (G)">
+            <span class="material-symbols-outlined text-[20px]">arrow_upward</span>
+        </button>
+
+    </main>
+
+    <!-- Floating Action Bar (Multi-Select) -->
+    <div id="action-bar" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-40">
+        <div
+            class="flex items-center gap-3 px-5 py-3 bg-[#151515]/95 backdrop-blur-xl border border-glass-border rounded-xl shadow-2xl">
+            <span id="action-count" class="text-sm font-display font-semibold text-white">0 selected</span>
+            <div class="w-px h-5 bg-glass-border"></div>
+            <button id="action-copy"
+                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary/20 border border-primary/30 text-primary hover:bg-primary/30 transition-all text-xs font-semibold">
+                <span class="material-symbols-outlined text-[16px]">content_copy</span>
+                Copy Links
+            </button>
+            <button id="action-fav"
+                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#F59E0B]/10 border border-[#F59E0B]/20 text-[#F59E0B] hover:bg-[#F59E0B]/20 transition-all text-xs font-semibold">
+                <span class="material-symbols-outlined text-[16px]">star</span>
+                Favorite All
+            </button>
+            <button id="action-collection"
+                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-secondary/20 border border-secondary/30 text-secondary hover:bg-secondary/30 transition-all text-xs font-semibold">
+                <span class="material-symbols-outlined text-[16px]">folder_open</span>
+                Add to Collection
+            </button>
+            <button id="action-tag"
+                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-violet-500/10 border border-violet-500/20 text-violet-400 hover:bg-violet-500/20 transition-all text-xs font-semibold">
+                <span class="material-symbols-outlined text-[16px]">sell</span>
+                Tag Selected
+            </button>
+            <button id="action-clear"
+                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 border border-glass-border text-text-muted hover:text-white hover:bg-white/10 transition-all text-xs font-semibold">
+                <span class="material-symbols-outlined text-[16px]">close</span>
+                Clear
+            </button>
+        </div>
+    </div>
+
+    <!-- Right-Click Context Menu -->
+    <div id="context-menu" class="fixed z-[60] hidden">
+        <div class="bg-[#151515] border border-glass-border rounded-lg shadow-2xl overflow-hidden min-w-[180px] py-1">
+            <button id="ctx-favorite"
+                class="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-text-muted hover:text-white hover:bg-white/5 transition-colors text-left">
+                <span class="material-symbols-outlined text-[16px]">star</span>
+                Toggle Favorite
+            </button>
+            <div class="h-px bg-glass-border mx-2 my-0.5"></div>
+            <div id="ctx-collections" class="max-h-[200px] overflow-y-auto custom-scrollbar">
+                <!-- Collection items added by JS -->
+            </div>
+            <button id="ctx-new-collection"
+                class="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-primary hover:bg-primary/10 transition-colors text-left">
+                <span class="material-symbols-outlined text-[16px]">add_circle</span>
+                New Collection...
+            </button>
+        </div>
+    </div>
+
+    <!-- New Collection Modal -->
+    <div id="collection-modal" role="dialog" aria-modal="true"
+        class="fixed inset-0 z-[65] hidden items-center justify-center">
+        <div id="modal-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div class="relative bg-[#151515] border border-glass-border rounded-xl shadow-2xl p-6 w-80">
+            <h3 class="text-sm font-display font-semibold text-white mb-4">New Collection</h3>
+            <input id="collection-name-input"
+                class="w-full bg-void border border-glass-border rounded-lg px-3 py-2 text-sm text-white placeholder-text-muted focus:border-primary focus:outline-none transition-colors mb-4"
+                placeholder="Collection name..." maxlength="50" />
+            <div class="flex justify-end gap-2">
+                <button id="modal-cancel"
+                    class="px-3 py-1.5 rounded-lg bg-white/5 border border-glass-border text-text-muted hover:text-white text-xs font-semibold transition-colors">Cancel</button>
+                <button id="modal-create"
+                    class="px-3 py-1.5 rounded-lg bg-primary/20 border border-primary/30 text-primary hover:bg-primary/30 text-xs font-semibold transition-colors">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Collection Picker Modal (for bulk add) -->
+    <div id="picker-modal" class="fixed inset-0 z-[65] hidden items-center justify-center">
+        <div id="picker-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div
+            class="relative bg-[#151515] border border-glass-border rounded-xl shadow-2xl p-6 w-96 max-h-[70vh] flex flex-col">
+            <h3 class="text-sm font-display font-semibold text-white mb-4">Add <span id="picker-count">0</span> items to
+                collection</h3>
+            <div id="picker-list" class="flex-1 overflow-y-auto custom-scrollbar space-y-1 mb-4">
+                <!-- Collections will be rendered here -->
+            </div>
+            <div class="flex justify-end gap-2 pt-4 border-t border-glass-border">
+                <button id="picker-cancel"
+                    class="px-3 py-1.5 rounded-lg bg-white/5 border border-glass-border text-text-muted hover:text-white text-xs font-semibold transition-colors">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scraper Category Selection Modal -->
+    <div id="scraper-modal" class="fixed inset-0 z-[65] hidden items-center justify-center">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeScraperModal()"></div>
+        <div
+            class="relative bg-[#151515] border border-glass-border rounded-xl shadow-2xl p-6 w-[600px] max-h-[80vh] overflow-hidden flex flex-col">
+            <h3 class="text-lg font-display font-semibold text-white mb-4">Scraper: Select Categories</h3>
+
+            <!-- Resume Option -->
+            <label
+                class="flex items-center gap-2 mb-4 text-sm text-text-muted cursor-pointer hover:text-white transition-colors">
+                <input id="scraper-resume" type="checkbox"
+                    class="w-4 h-4 rounded border-glass-border bg-void checked:bg-primary checked:border-primary">
+                <span>Resume from last checkpoint (continue interrupted scrapes)</span>
+            </label>
+
+            <!-- Search Filter -->
+            <input id="scraper-search" type="text" placeholder="Search categories..."
+                class="w-full bg-void border border-glass-border rounded-lg px-3 py-2 text-sm text-white placeholder-text-muted focus:border-primary focus:outline-none transition-colors mb-3">
+
+            <!-- Status Filters -->
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-[10px] text-text-muted uppercase font-bold tracking-wider">Filter:</span>
+                <button onclick="filterByStatus('all')" id="filter-all"
+                    class="status-filter-btn active px-2 py-1 rounded text-[10px] font-semibold bg-white/10 text-white border border-glass-border">
+                    All
+                </button>
+                <button onclick="filterByStatus('new')" id="filter-new"
+                    class="status-filter-btn px-2 py-1 rounded text-[10px] font-semibold bg-gray-600/10 text-gray-400 border border-gray-600/30 hover:bg-gray-600/20">
+                    New
+                </button>
+                <button onclick="filterByStatus('progress')" id="filter-progress"
+                    class="status-filter-btn px-2 py-1 rounded text-[10px] font-semibold bg-amber-400/10 text-amber-400 border border-amber-400/30 hover:bg-amber-400/20">
+                    In Progress
+                </button>
+                <button onclick="filterByStatus('completed')" id="filter-completed"
+                    class="status-filter-btn px-2 py-1 rounded text-[10px] font-semibold bg-green-400/10 text-green-400 border border-green-400/30 hover:bg-green-400/20">
+                    Completed
+                </button>
+            </div>
+
+            <!-- Category Lists -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar mb-4 space-y-4">
+                <!-- Free Categories -->
+                <div>
+                    <div class="flex items-center justify-between mb-2 sticky top-0 bg-[#151515] py-1">
+                        <h4 class="text-xs font-bold uppercase text-green-400 tracking-wider">Free Categories <span
+                                id="free-count" class="text-text-muted">(0)</span></h4>
+                        <button onclick="selectAllCategories('free')"
+                            class="text-[10px] text-primary hover:text-primary/80">Select All</button>
+                    </div>
+                    <div id="free-categories" class="grid grid-cols-2 gap-2">
+                        <!-- Free categories populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Paid Categories -->
+                <div>
+                    <div class="flex items-center justify-between mb-2 sticky top-0 bg-[#151515] py-1">
+                        <h4 class="text-xs font-bold uppercase text-amber-400 tracking-wider">Paid Categories <span
+                                id="paid-count" class="text-text-muted">(0)</span></h4>
+                        <button onclick="selectAllCategories('paid')"
+                            class="text-[10px] text-primary hover:text-primary/80">Select All</button>
+                    </div>
+                    <div id="paid-categories" class="grid grid-cols-2 gap-2">
+                        <!-- Paid categories populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between pt-4 border-t border-glass-border">
+                <div class="text-xs text-text-muted">
+                    <span id="selected-count">0 selected</span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="closeScraperModal()"
+                        class="px-4 py-2 rounded-lg bg-white/5 border border-glass-border text-text-muted hover:text-white text-xs font-semibold transition-colors">
+                        Cancel
+                    </button>
+                    <button onclick="startSelectedScrape()"
+                        class="px-4 py-2 rounded-lg bg-primary/20 border border-primary/30 text-primary hover:bg-primary/30 text-xs font-semibold transition-colors">
+                        Start Scrape
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" role="dialog" aria-modal="true" class="fixed inset-0 z-50 flex items-center justify-center">
+        <!-- Backdrop -->
+        <div id="lb-backdrop" class="absolute inset-0 bg-black/85 backdrop-blur-md"></div>
+
+        <!-- Close -->
+        <button id="lb-close"
+            class="absolute top-5 right-5 z-10 flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all">
+            <span class="material-symbols-outlined text-[22px]">close</span>
+        </button>
+
+        <!-- Nav Prev -->
+        <button id="lb-prev"
+            class="lb-nav-btn absolute left-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all">
+            <span class="material-symbols-outlined text-[26px]">chevron_left</span>
+        </button>
+
+        <!-- Nav Next -->
+        <button id="lb-next"
+            class="lb-nav-btn absolute right-4 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all">
+            <span class="material-symbols-outlined text-[26px]">chevron_right</span>
+        </button>
+
+        <!-- Content -->
+        <div class="relative z-5 flex flex-col md:flex-row max-w-[95vw] max-h-[92vh] gap-0 bg-[#0a0a0a] border border-glass-border rounded-xl overflow-hidden shadow-2xl lightbox-image"
+            style="transform: scale(0.95)">
+            <!-- Image -->
+            <div id="lb-image-wrap"
+                class="flex items-center justify-center bg-black min-w-[300px] md:min-w-[480px] max-w-[60vw] max-h-[92vh] overflow-hidden cursor-zoom-in relative">
+                <img id="lb-image" class="max-w-full max-h-[92vh] object-contain transition-transform duration-200"
+                    src="" alt="" />
+            </div>
+
+            <!-- Info Panel -->
+            <div id="lb-info"
+                class="w-full md:w-[360px] flex flex-col bg-[#0a0a0a] border-l border-glass-border overflow-y-auto max-h-[92vh]">
+
+                <!-- Header: Breadcrumb + Title + Counter -->
+                <div class="p-4 border-b border-glass-border shrink-0">
+                    <div class="flex items-center justify-between mb-1">
+                        <div class="flex items-center gap-1.5">
+                            <div id="lb-tier-dot" class="w-2 h-2 rounded-full"></div>
+                            <button id="lb-category-btn"
+                                class="text-[10px] font-mono uppercase tracking-wider text-text-muted hover:text-primary transition-colors"
+                                title="Jump to category"></button>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span id="lb-counter" class="text-[10px] font-mono text-[#52525B]"></span>
+                            <button id="lb-share"
+                                class="flex items-center justify-center w-7 h-7 rounded bg-white/5 hover:bg-white/10 text-text-muted hover:text-white transition-colors"
+                                title="Copy link to this item">
+                                <span class="material-symbols-outlined text-[14px]">share</span>
+                            </button>
+                        </div>
+                    </div>
+                    <h2 id="lb-title" class="text-base font-display font-semibold text-white leading-tight"></h2>
+                </div>
+
+                <!-- Metadata -->
+                <div class="px-4 py-3 border-b border-glass-border space-y-2 shrink-0">
+                    <div class="flex items-center gap-2 text-xs">
+                        <span class="material-symbols-outlined text-[14px] text-text-muted">calendar_today</span>
+                        <span class="text-text-muted">Collected:</span>
+                        <span id="lb-date" class="text-white font-medium"></span>
+                        <span id="lb-id" class="text-text-muted font-mono ml-auto">#<span id="lb-id-val"></span></span>
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="px-4 py-3 border-b border-glass-border shrink-0">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span
+                            class="text-[10px] font-mono uppercase tracking-wider text-text-muted font-bold">Tags</span>
+                    </div>
+                    <div id="lb-tags" class="flex flex-wrap gap-1.5 mb-2"></div>
+                    <!-- Add Tag Input -->
+                    <div class="flex gap-2 mt-2">
+                        <input id="lb-tag-input"
+                            class="flex-1 bg-[#0a0a0a] border border-glass-border rounded px-2 py-1 text-xs text-white placeholder:text-text-muted"
+                            placeholder="Add tag..." maxlength="50" />
+                        <button id="lb-tag-add"
+                            class="px-2 py-1 bg-primary/20 border border-primary/40 text-primary rounded text-xs hover:bg-primary/30 transition-colors">
+                            Add
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Color Palette -->
+                <div class="px-4 py-3 border-b border-glass-border shrink-0">
+                    <div class="text-[10px] font-mono uppercase tracking-wider text-text-muted font-bold mb-2">Colors
+                    </div>
+                    <div class="flex flex-wrap gap-2" id="color-swatches"></div>
+                </div>
+
+                <!-- Actions -->
+                <div class="px-4 py-3 border-b border-glass-border shrink-0">
+                    <div class="grid grid-cols-2 gap-2">
+                        <a id="lb-gdrive" href="#" target="_blank" rel="noopener"
+                            class="flex items-center justify-center gap-1.5 h-9 rounded-lg bg-primary/20 border border-primary/30 text-primary hover:bg-primary/30 transition-all text-xs font-semibold">
+                            <span class="material-symbols-outlined text-[16px]">drive_file_move</span>
+                            GDrive
+                        </a>
+                        <a id="lb-mirror" href="#" target="_blank" rel="noopener"
+                            class="flex items-center justify-center gap-1.5 h-9 rounded-lg bg-white/5 border border-glass-border text-text-muted hover:text-white hover:bg-white/10 transition-all text-xs font-semibold">
+                            <span class="material-symbols-outlined text-[16px]">download</span>
+                            Mirror
+                        </a>
+                        <a id="lb-source" href="#" target="_blank" rel="noopener"
+                            class="flex items-center justify-center gap-1.5 h-9 rounded-lg bg-white/5 border border-glass-border text-text-muted hover:text-white hover:bg-white/10 transition-all text-xs font-semibold">
+                            <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+                            Source
+                        </a>
+                        <button id="lb-add-collection"
+                            class="flex items-center justify-center gap-1.5 h-9 rounded-lg bg-secondary/10 border border-secondary/30 text-secondary hover:bg-secondary/20 transition-all text-xs font-semibold relative">
+                            <span class="material-symbols-outlined text-[16px]">folder_open</span>
+                            Collect
+                        </button>
+                    </div>
+                    <!-- Lightbox collection picker dropdown -->
+                    <div id="lb-collection-dropdown"
+                        class="hidden absolute z-50 mt-1 w-64 bg-[#151515] border border-glass-border rounded-lg shadow-2xl max-h-56 overflow-y-auto">
+                    </div>
+                </div>
+
+                <!-- Similar Panel -->
+                <div class="px-4 py-3 border-b border-glass-border shrink-0">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-[10px] font-mono uppercase tracking-wider text-text-muted font-bold">More Like
+                            This</span>
+                        <div class="flex items-center gap-1">
+                            <button id="lb-find-similar"
+                                class="text-[10px] text-primary hover:text-primary/80 transition-colors">Load</button>
+                            <span class="text-text-muted text-[10px]">·</span>
+                            <button id="lb-visual-search"
+                                class="text-[10px] text-emerald-400 hover:text-emerald-300 transition-colors">Visual</button>
+                        </div>
+                    </div>
+                    <div id="lb-similar-grid" class="grid grid-cols-4 gap-1.5 min-h-[60px]">
+                        <div class="col-span-4 text-xs text-text-muted italic">Click Load to find similar items</div>
+                    </div>
+                    <a id="lb-view-all-similar" href="#"
+                        class="hidden mt-2 text-[11px] text-primary hover:text-primary/80 transition-colors">View all in
+                        gallery →</a>
+                </div>
+
+                <!-- Keyboard hint -->
+                <div class="px-4 py-2 shrink-0">
+                    <div class="text-[9px] font-mono text-[#3a3a3a] flex flex-wrap gap-x-2">
+                        <span>J/K prev·next</span><span>F fav</span><span>T tag</span><span>Esc close</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Tag Management Modal -->
+    <div id="tag-manager-modal" class="fixed inset-0 z-[65] hidden items-center justify-center">
+        <div id="tag-manager-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+        <div
+            class="relative bg-[#151515] border border-glass-border rounded-xl shadow-2xl p-6 w-[700px] max-h-[80vh] flex flex-col">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-display font-semibold text-white">Tag Management</h3>
+                <button id="tag-manager-close" class="text-text-muted hover:text-white transition-colors">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
+            </div>
+
+            <!-- Search and Stats -->
+            <div class="mb-4">
+                <input id="tag-search" type="text" placeholder="Search tags..."
+                    class="w-full bg-void border border-glass-border rounded-lg px-3 py-2 text-sm text-white placeholder-text-muted focus:border-primary focus:outline-none transition-colors mb-2">
+                <div class="flex items-center gap-4 text-xs text-text-muted">
+                    <span id="tag-total-count">0 tags</span>
+                    <span id="tag-selected-count" class="hidden text-primary">0 selected</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2 mb-4 pb-4 border-b border-glass-border">
+                <button id="tag-select-all"
+                    class="px-3 py-1.5 rounded-lg bg-white/5 border border-glass-border text-text-muted hover:text-white hover:bg-white/10 transition-all text-xs font-semibold">
+                    Select All
+                </button>
+                <button id="tag-deselect-all"
+                    class="hidden px-3 py-1.5 rounded-lg bg-white/5 border border-glass-border text-text-muted hover:text-white hover:bg-white/10 transition-all text-xs font-semibold">
+                    Deselect All
+                </button>
+                <div class="w-px h-5 bg-glass-border"></div>
+                <button id="tag-merge-btn"
+                    class="hidden px-3 py-1.5 rounded-lg bg-secondary/20 border border-secondary/30 text-secondary hover:bg-secondary/30 transition-all text-xs font-semibold">
+                    <span class="material-symbols-outlined text-[14px]">merge</span>
+                    Merge Selected
+                </button>
+                <button id="tag-delete-btn"
+                    class="hidden px-3 py-1.5 rounded-lg bg-red-500/20 border border-red-500/30 text-red-400 hover:bg-red-500/30 transition-all text-xs font-semibold">
+                    <span class="material-symbols-outlined text-[14px]">delete</span>
+                    Delete Selected
+                </button>
+            </div>
+
+            <!-- Merge Dialog (T1) -->
+            <div id="merge-dialog" class="hidden p-3 bg-[#1a1a1a] border border-secondary/30 rounded-lg mb-4">
+                <p class="text-xs text-text-muted mb-2">Merge <span id="merge-count">0</span> selected tags into
+                    canonical name:</p>
+                <div class="flex gap-2">
+                    <input id="merge-target-input"
+                        class="flex-1 bg-void border border-glass-border rounded px-2 py-1 text-xs text-white placeholder:text-text-muted focus:border-secondary focus:outline-none"
+                        placeholder="canonical tag name..." autocomplete="off" />
+                    <button id="merge-confirm-btn"
+                        class="px-3 py-1 bg-secondary/20 border border-secondary/30 text-secondary rounded text-xs hover:bg-secondary/30 transition-colors">
+                        Merge
+                    </button>
+                    <button id="merge-cancel-btn"
+                        class="px-2 py-1 text-text-muted hover:text-white text-xs transition-colors">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Orphan Tags Section (T6) -->
+            <div id="orphan-section" class="hidden mb-3">
+                <div class="flex items-center justify-between px-1 mb-1.5">
+                    <span class="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold">Orphan Tags
+                        (&#x2264;2 items)</span>
+                    <button id="orphan-toggle"
+                        class="text-[10px] text-text-muted hover:text-white transition-colors">Show</button>
+                </div>
+                <div id="orphan-list"
+                    class="hidden flex flex-wrap gap-1.5 p-2 bg-amber-500/5 border border-amber-500/20 rounded-lg">
+                </div>
+            </div>
+
+            <!-- Tag List -->
+            <div id="tag-list" class="flex-1 overflow-y-auto custom-scrollbar space-y-1">
+                <!-- Tags will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Menu (U2) — body-level to escape toolbar stacking context -->
+    <div id="theme-menu"
+        class="hidden fixed z-[9999] bg-[#151515] border border-glass-border rounded-xl shadow-2xl overflow-hidden min-w-[200px] flex flex-col max-h-[70vh]">
+        <div
+            class="px-3 py-2 text-[10px] font-mono uppercase tracking-wider text-[#52525B] font-bold bg-white/5 border-b border-glass-border">
+            Color Themes</div>
+        <div class="overflow-y-auto custom-scrollbar p-1.5 flex-1">
+            <button class="theme-option w-full text-left active" data-theme="">
+                <span class="theme-swatch" style="background:#3780f6"></span> Obsidian Frost
+            </button>
+            <button class="theme-option w-full text-left" data-theme="highcontrast">
+                <span class="theme-swatch" style="background:#00d0ff"></span> High Contrast
+            </button>
+            <div class="h-px bg-glass-border mx-2 my-1.5"></div>
+            <button class="theme-option w-full text-left" data-theme="silver-charcoal">
+                <span class="theme-swatch" style="background:#1e1e23; border-color:#dcdce1;"></span> Silver Charcoal
+            </button>
+            <button class="theme-option w-full text-left" data-theme="cmyk">
+                <span class="theme-swatch" style="background:#00ffff; border-color:#ff00ff"></span> CMYK
+            </button>
+            <button class="theme-option w-full text-left" data-theme="github-dark">
+                <span class="theme-swatch" style="background:#58a6ff"></span> GitHub Style
+            </button>
+            <button class="theme-option w-full text-left" data-theme="glass-dark">
+                <span class="theme-swatch"
+                    style="background:linear-gradient(135deg,rgba(0,0,0,0) 0%,rgba(255,255,255,0.4) 100%);"></span>
+                Glass Dark
+            </button>
+            <button class="theme-option w-full text-left" data-theme="glass-light">
+                <span class="theme-swatch"
+                    style="background:linear-gradient(135deg,rgba(255,255,255,1) 0%,rgba(100,100,200,0.5) 100%);"></span>
+                Glass Light
+            </button>
+            <button class="theme-option w-full text-left" data-theme="flat-dark">
+                <span class="theme-swatch" style="background:#f44336; border-radius: 2px;"></span> Flat Dark
+            </button>
+            <button class="theme-option w-full text-left" data-theme="flat-light">
+                <span class="theme-swatch" style="background:#e83223; border-radius: 2px;"></span> Flat Light
+            </button>
+            <button class="theme-option w-full text-left" data-theme="macos-sequoia">
+                <span class="theme-swatch" style="background:#0a84ff"></span> macOS Sequoia
+            </button>
+        </div>
+    </div>
+
+    <!-- Focus Mode HUD (U13) — floating controls, only visible in focus mode -->
+    <div id="focus-hud" class="hidden">
+        <!-- Top-left: current category breadcrumb (click to reset all filters) -->
+        <div id="focus-cat"
+            class="focus-hud-top fixed top-3 left-3 z-[9990] flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#151515]/90 backdrop-blur-md border border-glass-border text-xs text-text-muted font-mono cursor-pointer hover:text-white hover:border-white/20 transition-all"
+            title="Reset all filters">
+            <span class="material-symbols-outlined text-[14px]">folder_open</span>
+            <span id="focus-cat-name">All Assets</span>
+        </div>
+        <!-- Top-center: floating search bar -->
+        <div class="focus-hud-top fixed top-3 left-1/2 -translate-x-1/2 z-[9990] w-full max-w-md px-4">
+            <div class="relative">
+                <span
+                    class="material-symbols-outlined text-[18px] text-text-muted absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">search</span>
+                <input id="focus-search-input" type="text" autocomplete="off"
+                    class="w-full bg-[#151515]/90 backdrop-blur-md border border-glass-border rounded-full pl-10 pr-4 py-2 text-sm text-white placeholder:text-[#52525B] focus:ring-1 focus:ring-primary focus:border-primary transition-all"
+                    placeholder="Search assets..." />
+            </div>
+        </div>
+        <!-- Top-right: sort + grid presets + slider -->
+        <div
+            class="focus-hud-top fixed top-3 right-4 z-[9990] flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#151515]/90 backdrop-blur-md border border-glass-border">
+            <!-- Sort -->
+            <select id="focus-sort-select"
+                class="bg-transparent border-0 text-[10px] text-text-muted cursor-pointer appearance-none pr-1 focus:outline-none focus:text-white"
+                title="Sort order">
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="title_asc">A→Z</option>
+                <option value="title_desc">Z→A</option>
+                <option value="has_gdrive">GDrive</option>
+            </select>
+            <div class="w-px h-3 bg-glass-border"></div>
+            <!-- Grid presets -->
+            <div class="flex gap-0.5">
+                <button
+                    class="focus-grid-preset grid-preset px-2 py-1 text-[10px] border border-glass-border rounded hover:bg-white/10 transition-colors"
+                    data-scale="0.6" title="Small">S</button>
+                <button
+                    class="focus-grid-preset grid-preset px-2 py-1 text-[10px] border border-glass-border rounded hover:bg-white/10 transition-colors"
+                    data-scale="1.0" title="Medium">M</button>
+                <button
+                    class="focus-grid-preset grid-preset px-2 py-1 text-[10px] border border-glass-border rounded hover:bg-white/10 transition-colors"
+                    data-scale="1.4" title="Large">L</button>
+                <button
+                    class="focus-grid-preset grid-preset px-2 py-1 text-[10px] border border-glass-border rounded hover:bg-white/10 transition-colors"
+                    data-scale="2.2" title="Extra Large">XL</button>
+            </div>
+            <input id="focus-grid-scale" type="range" min="0.5" max="2.5" step="0.1" value="1.0" class="hidden" />
+        </div>
+    </div>
+
+    <!-- Focus Mode Tags Bar (U13) — floating tag strip at bottom, only visible in focus mode -->
+    <!-- Focus Mode Tags Bar (U13) — floating tag strip at bottom, only visible in focus mode -->
+    <div id="focus-tags-bar"
+        class="hidden fixed left-0 right-0 bottom-0 z-[9990] px-3 py-1.5 flex items-center gap-1.5 overflow-x-auto bg-void/90 backdrop-blur-md border-t border-glass-border"
+        style="scrollbar-width: none;">
+        <!-- Tags rendered by JS -->
+    </div>
+
+    <!-- Focus Mode Exit Button (U13) — floating pill, only visible in focus mode -->
+    <button id="focus-exit-btn"
+        class="hidden fixed right-4 z-[9998] flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#151515]/90 backdrop-blur-md border border-glass-border text-text-muted hover:text-white hover:border-white/20 transition-all shadow-lg text-xs font-mono"
+        style="bottom: 44px;" title="Exit focus mode (F2)">
+        <span class="material-symbols-outlined text-[14px]">fullscreen_exit</span>
+        F2
+    </button>
+
+    <!-- Phase 7: ES Module split — src split into static/modules/*.js -->
+    <script type="module" src="/static/modules/init.js?v=4"></script>
+</body>
+
+</html>

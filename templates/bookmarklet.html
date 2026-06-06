@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3DSkyFree Link Capture — Bookmarklet</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f0f23; color: #e0e0e0; padding: 40px; line-height: 1.7; }
+        h1 { color: #00d4ff; margin-bottom: 10px; }
+        h2 { color: #ffa726; margin: 30px 0 10px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .bookmarklet-link {
+            display: inline-block; padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; font-size: 18px; font-weight: bold; border-radius: 10px;
+            text-decoration: none; margin: 20px 0; cursor: grab;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        .bookmarklet-link:hover { transform: scale(1.05); transition: 0.2s; }
+        .step { background: #1a1a3e; border-radius: 8px; padding: 15px 20px; margin: 10px 0; border-left: 3px solid #667eea; }
+        .step b { color: #00d4ff; }
+        code { background: #2a2a4e; padding: 2px 6px; border-radius: 3px; color: #ffd54f; }
+        .success { color: #66bb6a; }
+        .warn { color: #ffa726; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🔗 3DSkyFree Link Capture</h1>
+    <p>Capture Google Drive download links from paid item pages into your local database.</p>
+
+    <h2>Step 1: Drag this to your bookmarks bar</h2>
+    <p>
+        <a class="bookmarklet-link" href="javascript:void(function(){var a=window.location.href.replace(/\/$/,''),b=document.querySelectorAll('a[href]'),g='',m='';b.forEach(function(l){var h=l.href;if(h.includes('redirect-to')){var u=new URL(h),p=u.searchParams.get('url');if(p){p=decodeURIComponent(p);if(p.includes('drive.google.com'))g=p;else if(p.includes('download.3dskyfree.com'))m=p}}else if(h.includes('drive.google.com')&&!g)g=h;else if(h.includes('download.3dskyfree.com')&&!m)m=h});if(!g&&!m){alert('❌ No download links found!\n\nMake sure you solved the CAPTCHA first.');return}fetch('http://localhost:5000/api/capture-link',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({post_url:a,gdrive_link:g,mirror_link:m})}).then(function(r){return r.json()}).then(function(d){if(d.success)alert('✅ Saved!\n\n'+d.title+'\n\nGDrive: '+(d.gdrive_link||'none')+'\nMirror: '+(d.mirror_link||'none'));else alert('❌ Error: '+d.error)}).catch(function(e){alert('❌ Failed to connect to gallery server.\nMake sure gallery_app.py is running on port 5000.')})})();">
+            📥 Capture 3DSky Link
+        </a>
+    </p>
+    <p class="warn">⚠️ Drag the button above to your bookmarks bar (don't click it here)</p>
+
+    <h2>Step 2: Use it</h2>
+    <div class="step"><b>1.</b> Go to a paid item page on 3dskyfree.com</div>
+    <div class="step"><b>2.</b> Solve the CAPTCHA (tick "I'm not a robot")</div>
+    <div class="step"><b>3.</b> Wait for the download buttons to appear</div>
+    <div class="step"><b>4.</b> Click <b>"📥 Capture 3DSky Link"</b> in your bookmarks bar</div>
+    <div class="step"><b>5.</b> You'll see a ✅ confirmation — the link is saved to your DB!</div>
+
+    <h2>Requirements</h2>
+    <div class="step">
+        <b>Gallery server must be running</b> on port 5000<br>
+        <b>Items must be scraped first</b>
+    </div>
+</div>
+</body>
+</html>

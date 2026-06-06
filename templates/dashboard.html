@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Scrape Dashboard — Obsidian Frost</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "void": "#050505",
+                        "frost": "rgba(20, 20, 20, 0.6)",
+                        "glass-border": "rgba(255, 255, 255, 0.12)",
+                        "primary": "#3780f6",
+                        "text-main": "#FFFFFF",
+                        "text-muted": "#A1A1AA",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Inter Tight", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #404040;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        .pulse-dot {
+            animation: pulse-dot 1.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-void text-text-main font-body antialiased min-h-screen">
+
+    <!-- Header -->
+    <header
+        class="h-16 flex items-center justify-between px-8 border-b border-glass-border bg-void/80 backdrop-blur sticky top-0 z-10">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-primary text-2xl">diamond</span>
+            <h1 class="font-display font-semibold text-lg tracking-tight text-white">Scrape Dashboard</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <div id="refresh-indicator" class="flex items-center gap-2 text-xs text-text-muted">
+                <div class="w-2 h-2 rounded-full bg-[#4ADE80] pulse-dot"></div>
+                <span id="refresh-status">Live</span>
+            </div>
+            <a href="/"
+                class="flex items-center gap-2 px-3 py-1.5 rounded border border-glass-border text-xs text-text-muted hover:text-white hover:bg-white/5 transition-colors">
+                <span class="material-symbols-outlined text-[16px]">grid_view</span>
+                Gallery
+            </a>
+        </div>
+    </header>
+
+    <!-- Stats Summary -->
+    <div class="px-8 py-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-frost border border-glass-border rounded-lg p-4">
+                <div class="text-[10px] font-mono uppercase tracking-wider text-text-muted mb-1">Total Items</div>
+                <div id="stat-total" class="text-2xl font-display font-semibold text-white">—</div>
+            </div>
+            <div class="bg-frost border border-glass-border rounded-lg p-4">
+                <div class="text-[10px] font-mono uppercase tracking-wider text-text-muted mb-1">Categories Scraped
+                </div>
+                <div id="stat-cats" class="text-2xl font-display font-semibold text-white">—</div>
+            </div>
+            <div class="bg-frost border border-glass-border rounded-lg p-4">
+                <div class="text-[10px] font-mono uppercase tracking-wider text-text-muted mb-1">Completed</div>
+                <div id="stat-completed" class="text-2xl font-display font-semibold text-[#4ADE80]">—</div>
+            </div>
+            <div class="bg-frost border border-glass-border rounded-lg p-4">
+                <div class="text-[10px] font-mono uppercase tracking-wider text-text-muted mb-1">In Progress</div>
+                <div id="stat-active" class="text-2xl font-display font-semibold text-[#F59E0B]">—</div>
+            </div>
+        </div>
+
+        <!-- Coverage Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <!-- Free Tier -->
+            <div class="bg-frost border border-glass-border rounded-lg p-4 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors"></div>
+                <div class="relative z-10">
+                    <div
+                        class="text-[10px] font-mono uppercase tracking-wider text-text-muted mb-1 flex justify-between">
+                        <span>Free Tier</span>
+                        <span id="cov-free-pct" class="text-primary font-bold">0%</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 mt-1">
+                        <div id="cov-free-scraped" class="text-2xl font-display font-semibold text-white">—</div>
+                        <div class="text-xs text-text-muted font-mono">/ <span id="cov-free-total">—</span></div>
+                    </div>
+                    <div class="w-full h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+                        <div id="cov-free-bar" class="h-full bg-primary transition-all duration-1000" style="width: 0%">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paid Tier -->
+            <div class="bg-frost border border-glass-border rounded-lg p-4 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-[#F59E0B]/5 group-hover:bg-[#F59E0B]/10 transition-colors"></div>
+                <div class="relative z-10">
+                    <div
+                        class="text-[10px] font-mono uppercase tracking-wider text-text-muted mb-1 flex justify-between">
+                        <span>Paid Tier</span>
+                        <span id="cov-paid-pct" class="text-[#F59E0B] font-bold">0%</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 mt-1">
+                        <div id="cov-paid-scraped" class="text-2xl font-display font-semibold text-white">—</div>
+                        <div class="text-xs text-text-muted font-mono">/ <span id="cov-paid-total">—</span></div>
+                    </div>
+                    <div class="w-full h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+                        <div id="cov-paid-bar" class="h-full bg-[#F59E0B] transition-all duration-1000"
+                            style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Global -->
+            <div class="bg-frost border border-glass-border rounded-lg p-4 relative overflow-hidden group">
+                <div class="absolute inset-0 bg-[#4ADE80]/5 group-hover:bg-[#4ADE80]/10 transition-colors"></div>
+                <div class="relative z-10">
+                    <div
+                        class="text-[10px] font-mono uppercase tracking-wider text-text-muted mb-1 flex justify-between">
+                        <span>Global Coverage</span>
+                        <span id="cov-global-pct" class="text-[#4ADE80] font-bold">0%</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 mt-1">
+                        <div id="cov-global-scraped" class="text-2xl font-display font-semibold text-white">—</div>
+                        <div class="text-xs text-text-muted font-mono">/ <span id="cov-global-total">—</span></div>
+                    </div>
+                    <div class="w-full h-1 bg-white/5 rounded-full mt-3 overflow-hidden">
+                        <div id="cov-global-bar" class="h-full bg-[#4ADE80] transition-all duration-1000"
+                            style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Table -->
+        <div class="bg-frost border border-glass-border rounded-lg overflow-hidden">
+            <div class="flex items-center justify-between px-5 py-3 border-b border-glass-border">
+                <h2 class="text-sm font-display font-semibold text-white">Categories</h2>
+                <span id="last-updated" class="text-[10px] font-mono text-text-muted"></span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr
+                            class="border-b border-glass-border text-[10px] font-mono uppercase tracking-wider text-text-muted">
+                            <th class="px-5 py-3 font-medium">Category</th>
+                            <th class="px-5 py-3 font-medium text-center">Pages</th>
+                            <th class="px-5 py-3 font-medium text-center">Items</th>
+                            <th class="px-5 py-3 font-medium text-center">Status</th>
+                            <th class="px-5 py-3 font-medium">Progress</th>
+                            <th class="px-5 py-3 font-medium text-right">Updated</th>
+                        </tr>
+                    </thead>
+                    <tbody id="category-table-body">
+                        <tr>
+                            <td colspan="6" class="px-5 py-8 text-center text-text-muted text-sm">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let lastDataHash = "";
+        let refreshInterval = 5000; // start fast
+        let idleCount = 0;
+
+        async function fetchStatus() {
+            try {
+                const resp = await fetch("/api/scrape-status");
+                const data = await resp.json();
+                const hash = JSON.stringify(data);
+
+                if (hash !== lastDataHash) {
+                    lastDataHash = hash;
+                    idleCount = 0;
+                    refreshInterval = 5000; // active: 5s
+                    renderDashboard(data);
+                } else {
+                    idleCount++;
+                    if (idleCount > 6) refreshInterval = Math.min(30000, refreshInterval + 5000); // slow down
+                }
+
+                document.getElementById("last-updated").textContent = `Refreshing every ${Math.round(refreshInterval / 1000)}s`;
+                setTimeout(fetchStatus, refreshInterval);
+            } catch (err) {
+                console.error("Dashboard fetch failed:", err);
+                document.getElementById("refresh-status").textContent = "Offline";
+                setTimeout(fetchStatus, 10000);
+            }
+        }
+
+        function renderDashboard(data) {
+            // Stats
+            document.getElementById("stat-total").textContent = (data.total_items || 0).toLocaleString();
+            document.getElementById("stat-cats").textContent = data.checkpoints.length;
+            const completed = data.checkpoints.filter(c => c.status === "completed").length;
+            const active = data.checkpoints.filter(c => c.status !== "completed").length;
+            document.getElementById("stat-completed").textContent = completed;
+            document.getElementById("stat-active").textContent = active;
+
+            // Coverage
+            if (data.coverage) {
+                const updateCov = (tier, color) => {
+                    const stats = data.coverage[tier];
+                    if (stats) {
+                        document.getElementById(`cov-${tier}-scraped`).textContent = stats.scraped.toLocaleString();
+                        document.getElementById(`cov-${tier}-total`).textContent = stats.total.toLocaleString();
+                        document.getElementById(`cov-${tier}-pct`).textContent = stats.percent + "%";
+                        document.getElementById(`cov-${tier}-bar`).style.width = stats.percent + "%";
+                    }
+                };
+                updateCov("free");
+                updateCov("paid");
+                updateCov("global");
+            }
+
+            // Table
+            const tbody = document.getElementById("category-table-body");
+
+            if (data.checkpoints.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="px-5 py-8 text-center text-text-muted text-sm">No scrape data yet</td></tr>`;
+                return;
+            }
+
+            // Sort: in-progress first, then by updated_at desc
+            const sorted = [...data.checkpoints].sort((a, b) => {
+                if (a.status !== "completed" && b.status === "completed") return -1;
+                if (a.status === "completed" && b.status !== "completed") return 1;
+                return (b.updated_at || "").localeCompare(a.updated_at || "");
+            });
+
+            tbody.innerHTML = sorted.map(cp => {
+                const isComplete = cp.status === "completed";
+                const pct = cp.total_pages > 0 ? Math.round((cp.last_page / cp.total_pages) * 100) : 0;
+                const barColor = isComplete ? "bg-[#4ADE80]" : "bg-primary";
+                const statusDot = isComplete
+                    ? `<div class="w-2 h-2 rounded-full bg-[#4ADE80]"></div>`
+                    : `<div class="w-2 h-2 rounded-full bg-[#F59E0B] pulse-dot"></div>`;
+                const statusText = isComplete
+                    ? `<span class="text-[#4ADE80]">Done</span>`
+                    : `<span class="text-[#F59E0B]">Scraping</span>`;
+                const slug = cp.category_slug || "—";
+                const displayName = slug.replace(/-/g, " ");
+                const dateStr = cp.updated_at ? new Date(cp.updated_at + "Z").toLocaleTimeString() : "—";
+
+                return `
+                    <tr class="border-b border-glass-border/50 hover:bg-white/[0.02] transition-colors">
+                        <td class="px-5 py-2.5">
+                            <span class="text-xs font-medium text-white capitalize">${displayName}</span>
+                            <span class="text-[10px] font-mono text-text-muted ml-2">${slug}</span>
+                        </td>
+                        <td class="px-5 py-2.5 text-center text-xs font-mono text-text-muted">${cp.last_page}/${cp.total_pages}</td>
+                        <td class="px-5 py-2.5 text-center text-xs font-mono text-white">${(cp.total_collected || 0).toLocaleString()}</td>
+                        <td class="px-5 py-2.5">
+                            <div class="flex items-center justify-center gap-1.5">
+                                ${statusDot}
+                                <span class="text-[10px] font-bold uppercase tracking-wider">${statusText}</span>
+                            </div>
+                        </td>
+                        <td class="px-5 py-2.5">
+                            <div class="flex items-center gap-2">
+                                <div class="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                    <div class="h-full ${barColor} rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+                                </div>
+                                <span class="text-[10px] font-mono text-text-muted w-8 text-right">${pct}%</span>
+                            </div>
+                        </td>
+                        <td class="px-5 py-2.5 text-right text-[10px] font-mono text-text-muted">${dateStr}</td>
+                    </tr>`;
+            }).join("");
+        }
+
+        fetchStatus();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+# Core web framework
+flask>=3.0.0
+flask-compress>=1.14
+
+# HTTP client (scraper, Ollama adapter)
+requests>=2.31.0
+
+# HTML parsing (scraper)
+beautifulsoup4>=4.12.0
+
+# Scraping session management
+cloudrequests
+
+# Semantic embeddings (BLAS-backed matrix search)
+numpy>=1.26.0
+
+# Thumbnail generation
+Pillow>=10.0.0
+
+# Database
+# sqlite3 is part of Python stdlib — no install needed
+
+# Optional: faster embedding generation via sentence-transformers
+# Uncomment if using local embedding model directly (vs Ollama)
+# sentence-transformers>=2.6.0
+# torch>=2.2.0

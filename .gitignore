@@ -1,0 +1,59 @@
+# ── Database ──────────────────────────────────────────────
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# ── Scraped data (images, JSON dumps) ─────────────────────
+data/
+
+# ── Python ────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.venv/
+venv/
+.env
+
+# ── Logs ──────────────────────────────────────────────────
+logs/
+*.log
+
+# ── Credentials & secrets ─────────────────────────────────
+cookies.json
+credentials.md
+proxies.txt
+
+# ── IDE & Editor ──────────────────────────────────────────
+.vscode/
+.idea/
+*.sublime-workspace
+
+# ── OS artifacts ──────────────────────────────────────────
+Thumbs.db
+Desktop.ini
+.DS_Store
+ehthumbs.db
+
+# ── Agent working dirs ─────────────────────────────────────
+.gemini/
+.claude/
+
+# ── Backup & temp files ───────────────────────────────────
+*.bak
+*.tmp
+*.resolved
+
+# ── External repos (submodules / third-party) ─────────────
+superpowers/
+
+# ── Build artifacts ───────────────────────────────────────
+dist/
+build/
+*.egg
+
+# ── Node (if ever added) ──────────────────────────────────
+node_modules/
+.npm/

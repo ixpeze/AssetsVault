@@ -1,0 +1,7 @@
+{
+    "name": "example_importer",
+    "version": "1.0.0",
+    "description": "Example plugin demonstrating the ScraperPlugin pattern",
+    "entry": "plugin.py",
+    "plugin_class": "ExampleImporterPlugin"
+}
