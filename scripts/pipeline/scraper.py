@@ -95,6 +95,7 @@ def init_db(db_path: Path) -> sqlite3.Connection:
             local_image_path TEXT,
             post_url        TEXT,
             collected_at    TEXT DEFAULT (datetime('now')),
+            is_paid         INTEGER NOT NULL DEFAULT 0,
             FOREIGN KEY (category_id) REFERENCES categories(id)
         );
 
@@ -525,6 +526,10 @@ def scrape_category(conn: sqlite3.Connection, category_slug: str,
             mirror_link = extract_mirror_link(content)
             image_url = get_featured_image_url(post)
 
+            # Determine is_paid status:
+            # If WP REST API returns empty content, this is restricted -> is_paid = 1
+            is_paid = 1 if not content.strip() else 0
+
             # Fallback for PAID content: if API content is empty, scrape the page
             if not gdrive_link and not content.strip():
                 page_gdrive, page_mirror = scrape_page_for_links(post_url, delay=delay)
@@ -565,18 +570,18 @@ def scrape_category(conn: sqlite3.Connection, category_slug: str,
                         gdrive_link = ?, mirror_link = ?,
                         image_url = COALESCE(?, image_url),
                         local_image_path = COALESCE(?, local_image_path),
-                        post_url = ?
+                        post_url = ?, is_paid = ?
                     WHERE id = ?
                 """, (title, cat_id, category_slug, gdrive_link, mirror_link,
-                       image_url, local_image_path, post_url, post_id))
+                       image_url, local_image_path, post_url, is_paid, post_id))
             else:
                 conn.execute("""
                     INSERT INTO items
                     (id, title, category_id, category_slug, gdrive_link, mirror_link,
-                     image_url, local_image_path, post_url)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                     image_url, local_image_path, post_url, is_paid)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (post_id, title, cat_id, category_slug, gdrive_link, mirror_link,
-                      image_url, local_image_path, post_url))
+                      image_url, local_image_path, post_url, is_paid))
 
             total_collected += 1
 

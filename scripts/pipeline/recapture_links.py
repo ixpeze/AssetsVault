@@ -20,8 +20,8 @@ import os
 import sys
 from pathlib import Path
 
-# Import scraper's link-finding logic
-from scraper import scrape_page_for_links, SESSION
+# Import scraper's link-finding logic and session initialization
+from scraper import scrape_page_for_links, init_session, extract_gdrive_link, extract_mirror_link
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent  # project root
 DB_PATH = BASE_DIR / "3dskyfree.db"
@@ -90,6 +90,7 @@ def main():
     parser.add_argument("--delay",   type=float, default=2.0, help="Delay between requests in seconds")
     parser.add_argument("--id",      type=int,   help="Process specific item ID")
     parser.add_argument("--resume",  action="store_true", help="Resume the last run")
+    parser.add_argument("--cookies", action="store_true", help="Use saved cookies for authenticated page visiting")
     parser.add_argument("--task-id", default="", help="Task ID for progress webhook")
     parser.add_argument("--port",    type=int,   default=int(os.environ.get("PORT", "5000")), help="Flask port webhook")
     args = parser.parse_args()
@@ -97,6 +98,9 @@ def main():
     if not DB_PATH.exists():
         log("ERROR: Database not found")
         return
+
+    # Initialize requests session (critical fix for 'NoneType' has no attribute 'get' bug)
+    session = init_session(use_cookies=args.cookies)
 
     conn = get_db()
     ensure_checkpoint_table(conn)
@@ -171,31 +175,74 @@ def main():
             save_checkpoint(conn, run_id, item_id)
             continue
             
-        log(f"  → Visiting {post_url} ...")
+        log(f"  → Checking {post_url} ...")
         
         try:
-            # Reuses scraper.py logic and its session/delays
-            gdrive, mirror = scrape_page_for_links(post_url, delay=args.delay)
+            # Step 1: Query the WordPress REST API for a fast check
+            api_url = f"https://3dskyfree.com/wp-json/wp/v2/posts/{item_id}"
+            time.sleep(args.delay)
+            resp = session.get(api_url, timeout=30)
             
-            if gdrive or mirror:
-                updates = []
-                params = []
-                if gdrive:
-                    updates.append("gdrive_link = ?")
-                    params.append(gdrive)
-                if mirror:
-                    updates.append("mirror_link = ?")
-                    params.append(mirror)
-                
+            gdrive = None
+            mirror = None
+            is_restricted = False
+            
+            if resp.status_code == 403:
+                # Restricted content -> Paid item
+                is_restricted = True
+                log("  ℹ REST API returned 403 Forbidden -> Restricted/Paid item")
+            elif resp.status_code == 200:
+                # Public content -> Parse link directly from API response
+                try:
+                    post_data = resp.json()
+                    content_html = post_data.get("content", {}).get("rendered", "")
+                    if content_html:
+                        gdrive = extract_gdrive_link(content_html)
+                        mirror = extract_mirror_link(content_html)
+                        if gdrive or mirror:
+                            log(f"  ⚡ API Fast-path success!")
+                    else:
+                        is_restricted = True
+                        log("  ℹ REST API returned empty content body -> Restricted/Paid item")
+                except Exception as je:
+                    log(f"  ⚠ JSON parse error from API: {je}")
+            elif resp.status_code == 404:
+                log("  ⚠ REST API returned 404 Not Found -> Post deleted")
+            else:
+                log(f"  ⚠ REST API returned status {resp.status_code}")
+
+            # Step 2: Fallback to page scraping if API fast-path did not yield a link and it's not restricted
+            if not gdrive and not mirror and not is_restricted and resp.status_code != 404:
+                log("  → Visiting page to scrape...")
+                gdrive, mirror = scrape_page_for_links(post_url, delay=args.delay)
+
+            # Step 3: Update database
+            updates = []
+            params = []
+            if gdrive:
+                updates.append("gdrive_link = ?")
+                params.append(gdrive)
+            if mirror:
+                updates.append("mirror_link = ?")
+                params.append(mirror)
+            
+            # If it is restricted, update is_paid to 1
+            if is_restricted:
+                updates.append("is_paid = 1")
+            
+            if updates:
                 params.append(item_id)
                 sql = f"UPDATE items SET {', '.join(updates)} WHERE id = ?"
                 conn.execute(sql, tuple(params))
                 conn.commit()
                 
-                log(f"  ✅ SUCCESS: {gdrive or mirror}")
-                success_count += 1
+                if gdrive or mirror:
+                    log(f"  ✅ SUCCESS: {gdrive or mirror}")
+                    success_count += 1
+                elif is_restricted:
+                    log("  ✅ Reclassified as PAID (is_paid = 1)")
             else:
-                log("  ❌ Failed: No link found on page (Bot protection active?)")
+                log("  ❌ Failed: No link found and not reclassified")
                 
         except Exception as e:
             log(f"  ⚠️ ERROR: {e}")
