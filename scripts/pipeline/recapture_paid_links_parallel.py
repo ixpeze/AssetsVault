@@ -169,16 +169,33 @@ async def perform_initial_login(browser, headless: bool) -> bool:
     await context.close()
     return True
 
+async def check_logged_in(page, context) -> bool:
+    """Check if the context is authenticated."""
+    try:
+        cookies = await context.cookies()
+        has_cookie = any("wordpress_logged_in" in c["name"] for c in cookies)
+        if not has_cookie:
+            return False
+            
+        html = await page.content()
+        if "log in to download" in html.lower() or "must be logged in" in html.lower() or "please login" in html.lower():
+            return False
+    except Exception:
+        pass
+    return True
+
 async def worker(
     worker_id: int,
     queue: asyncio.Queue,
     browser,
     db_write_lock: asyncio.Lock,
+    relogin_lock: asyncio.Lock,
     delay: float,
     total_items: int,
     progress_counter: list[int],
     start_time: float,
-    run_id: str
+    run_id: str,
+    headless: bool
 ) -> None:
     """Asynchronous worker context managing page navigation and recapturing."""
     log(f"[Worker {worker_id}] Staggered start delay of {worker_id * 2}s...")
@@ -209,13 +226,32 @@ async def worker(
             await page.goto(post_url, timeout=60000)
             
             # Check for session expiration
-            if "wp-login.php" in page.url:
-                log(f"[Worker {worker_id}] ⚠️ Session expired. Context will refresh and cooldown for 30s...")
-                await context.close()
-                await asyncio.sleep(30.0)
-                context = await browser.new_context(storage_state=str(DEFAULT_AUTH_STATE_PATH))
-                page = await context.new_page()
+            is_logged_in = await check_logged_in(page, context)
+            if "wp-login.php" in page.url or not is_logged_in:
+                log(f"[Worker {worker_id}] ⚠️ Session expired. Worker will acquire lock and re-login...")
+                async with relogin_lock:
+                    file_modified_recently = False
+                    if DEFAULT_AUTH_STATE_PATH.exists():
+                        mtime = DEFAULT_AUTH_STATE_PATH.stat().st_mtime
+                        if time.time() - mtime < 30:
+                            file_modified_recently = True
+                            
+                    if not file_modified_recently:
+                        log(f"[Worker {worker_id}] Performing global re-login...")
+                        success = await perform_initial_login(browser, headless=headless)
+                        if not success:
+                            log(f"[Worker {worker_id}] ❌ Global re-login failed!")
+                            
+                    log(f"[Worker {worker_id}] Reloading new authenticated state from file...")
+                    await context.close()
+                    context = await browser.new_context(storage_state=str(DEFAULT_AUTH_STATE_PATH))
+                    page = await context.new_page()
+                    
+                # Requeue item
+                await queue.put(item)
                 queue.task_done()
+                # Cooldown worker for a few seconds before retrying
+                await asyncio.sleep(5)
                 continue
                 
             gdrive, mirror = await wait_for_download_links(page, timeout=20)
@@ -373,6 +409,7 @@ async def main_async() -> None:
             
         # Step 3: Concurrency management tools
         db_write_lock = asyncio.Lock()
+        relogin_lock = asyncio.Lock()
         progress_counter = [0]
         start_time = time.time()
         
@@ -385,11 +422,13 @@ async def main_async() -> None:
                 queue=queue,
                 browser=browser,
                 db_write_lock=db_write_lock,
+                relogin_lock=relogin_lock,
                 delay=args.delay,
                 total_items=total_items,
                 progress_counter=progress_counter,
                 start_time=start_time,
-                run_id=run_id
+                run_id=run_id,
+                headless=args.headless
             ))
             worker_tasks.append(task)
             
