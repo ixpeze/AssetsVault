@@ -22,12 +22,10 @@ def _cache_key(query: SearchQuery) -> str:
     """Build a stable cache key from all significant SearchQuery fields."""
     parts = [
         f"q={query.q}",
-        f"sq={query.semantic_q}",
         f"cat={query.category}",
         f"tax={query.taxonomy}",
         f"tier={query.tier}",
         f"tag={query.tag}",
-        f"color={query.color_hex}",
         f"fav={query.fav}",
         f"gdrive={query.has_gdrive},{query.no_gdrive}",
         f"img={query.has_image},{query.no_image}",

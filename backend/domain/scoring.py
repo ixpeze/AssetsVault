@@ -6,26 +6,24 @@ Weights (empirically tuned for 3D asset catalog):
   embedding_sim: 0.40  — cosine similarity from semantic embeddings
   tag_jaccard:   0.30  — Jaccard similarity of tag sets
 
-Total maximum: 0.80. Intentionally < 1.0 so scores are ordinal, not
-"probability-like", and remain interpretable at a glance.
+  same_category: 0.40  — base score for sharing a category
+  tag_jaccard:   0.60  — Jaccard similarity of tag sets
+
+Total maximum: 1.0. 
 """
 
 
 class HybridScorer:
-    CATEGORY_WEIGHT = 0.10
-    EMBEDDING_WEIGHT = 0.40
-    TAG_WEIGHT = 0.30
+    CATEGORY_WEIGHT = 0.40
+    TAG_WEIGHT = 0.60
 
     def compute(
         self,
         *,
-        embedding_sim: float | None,
         tag_jaccard: float,
         same_category: bool,
     ) -> float:
         score = self.CATEGORY_WEIGHT if same_category else 0.0
-        if embedding_sim is not None:
-            score += embedding_sim * self.EMBEDDING_WEIGHT
         score += tag_jaccard * self.TAG_WEIGHT
         return score
 

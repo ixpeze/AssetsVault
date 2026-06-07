@@ -7,7 +7,6 @@ import { apiGet, apiPost, apiDelete } from './api.js';
 import { showToast } from './toast.js';
 import { toggleSelection, clearSelection, updateSelectionUI, copySelectedLinks } from './selection.js';
 import { toggleFavorite, fetchFavoriteIds, refreshVisibleFavStars, favoriteAllSelected } from './favorites.js';
-import { fetchColors } from './colors.js';
 import { renderTaxonomyTree, attachTaxonomyListeners } from './taxonomy.js';
 import { applyFilters, applyGridScale, recalcColumns, setTierFilter, updateFooter, renderSkeleton } from './filters.js';
 import { cleanTitle, buildCategoryTree, attachCardListeners, initCardDelegation } from './cards.js?v=4';
@@ -687,7 +686,7 @@ if (focusCatPill) focusCatPill.addEventListener('click', clearAllFilters);
 // ── Clear all filters ──
 function clearAllFilters() {
     state.searchQuery = ""; state.activeTag = ""; state.activeTaxonomy = ""; state.activeCategory = "";
-    state.activeColor = ""; state.activeTier = ""; state.showFavorites = false;
+    state.activeTier = ""; state.showFavorites = false;
     state.showUntagged = false; state.activeCollection = null;
     dom.searchInput.value = ""; dom.searchClear.classList.add("hidden");
     dom.activeTagFilter.classList.add("hidden");
@@ -710,7 +709,7 @@ function updateGlobalClearPill() {
     const pill = document.getElementById('global-clear-filters');
     if (!pill) return;
     const hasAny = state.searchQuery || state.activeTag || state.activeTaxonomy || state.activeCategory ||
-        state.activeColor || state.activeTier || state.showFavorites || state.activeCollection ||
+        state.activeTier || state.showFavorites || state.activeCollection ||
         Object.values(state.advancedFilters).some(v => v);
     pill.classList.toggle('hidden', !hasAny);
 }
@@ -726,7 +725,6 @@ function applySmartCollectionFilters(filters) {
     state.activeCategory = filters.category || "";
     state.activeTier = filters.tier || "";
     state.activeTag = filters.tag || "";
-    state.activeColor = filters.color || "";
     state.showFavorites = filters.fav === "1";
     state.advancedFilters.hasGdrive = filters.hasGdrive || "";
     dom.searchInput.value = state.searchQuery;
@@ -777,15 +775,6 @@ if (btnSimilar) {
         const item = state.items[state.lightboxIndex];
         if (item) loadLightboxSimilar(item.id, lbDeps());
     };
-}
-
-// ── Visual Search button in lightbox ──
-const lbVisualSearchBtn = document.getElementById('lb-visual-search');
-if (lbVisualSearchBtn) {
-    lbVisualSearchBtn.addEventListener('click', () => {
-        const item = state.items[state.lightboxIndex];
-        if (item) window.visualSearch(item.id);
-    });
 }
 
 const scrollTopBtn = document.getElementById('scroll-to-top');
@@ -859,31 +848,6 @@ window.startRecapture = (args) => _startRecapture(args, showToast, updateDashboa
 window.startRecaptureWithPrompt = () => _startRecaptureWithPrompt(showToast, updateDashboard);
 window.importCollection = () => _importCollection(showToast, () => fetchCollections(renderCollectionsWrap), renderCollectionsWrap);
 window.saveCurrentSearch = () => _saveCurrentSearch(showToast, () => fetchSmartCollections(() => renderSmartCollections(collDeps())));
-window.searchWithColor = (hex) => { state.activeColor = hex; fetchItems(); }; // for any legacy inline calls
-window.visualSearch = async (itemId) => {
-    closeLightboxWrap();
-    state.loading = true;
-    clearGridDOM(); renderSkeleton();
-    try {
-        const items = await apiGet(`/api/visual-search/${itemId}`);
-        state.items = items; state.total = items.length; state.totalPages = 1; state.allLoaded = true;
-        clearGridDOM();
-        
-        const banner = document.getElementById("visual-search-banner");
-        if (banner) banner.remove();
-        
-        const header = document.createElement("div");
-        header.id = "visual-search-banner";
-        header.className = "p-4 mb-4 bg-emerald-500/10 border border-emerald-500/30 rounded-lg flex items-center justify-between";
-        header.innerHTML = `<div class="flex items-center gap-2 text-emerald-200"><span class="material-symbols-outlined">image_search</span><span class="font-medium">Visually similar items</span></div><button id="clear-visual-search" class="text-xs bg-white/10 hover:bg-white/20 px-3 py-1 rounded text-white transition-colors">Clear</button>`;
-        dom.grid.parentElement.insertBefore(header, dom.grid);
-        document.getElementById("clear-visual-search").onclick = fetchItems;
-        
-        setGridItems(items);
-        updateFooter(state);
-    } catch (e) { showToast("Visual search failed - embeddings may not be generated"); fetchItems(); }
-    finally { state.loading = false; dom.scrollLoader.classList.add("hidden"); }
-};
 
 // ── Init ──
 function runWhenIdle(fn) {
@@ -916,7 +880,6 @@ async function init() {
         fetchSidebarStats();
         fetchCollections(renderCollectionsWrap);
         fetchTags(renderTagCloudWrap);
-        fetchColors(fetchItems);
         fetchSmartCollections(() => renderSmartCollections(collDeps()));
     });
 

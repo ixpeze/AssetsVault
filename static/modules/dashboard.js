@@ -50,8 +50,6 @@ export async function updateDashboard(deps) {
 export function renderDashStats(stats) {
     if (!dom.dashStats) return;
     const coverage = stats.coverage || {};
-    const colorsPct = coverage.colors_percent || 0;
-    const embedsPct = coverage.embeddings_percent || 0;
     const tagsPct = coverage.tags_percent || 0;
     const enrichedPct = coverage.enriched_percent || 0;
     dom.dashStats.innerHTML = `
@@ -61,8 +59,6 @@ export function renderDashStats(stats) {
         <div class="bg-[#151515] border border-glass-border rounded-xl p-4"><div class="text-text-muted text-xs uppercase font-bold tracking-wider mb-1">Categories</div><div class="text-2xl font-display font-bold text-white">${stats.total_categories || 0}</div></div>
         <div class="bg-[#151515] border border-glass-border rounded-xl p-4"><div class="text-text-muted text-xs uppercase font-bold tracking-wider mb-1">Fully Enriched</div><div class="text-2xl font-display font-bold text-cyan-400">${stats.total_fully_enriched || 0}</div><div class="text-xs text-text-muted mt-1">${enrichedPct.toFixed(1)}% of all items</div></div>
         <div class="bg-[#151515] border border-glass-border rounded-xl p-4"><div class="text-text-muted text-xs uppercase font-bold tracking-wider mb-1">Tagged</div><div class="text-2xl font-display font-bold text-white">${stats.total_tags || 0}</div><div class="text-xs text-text-muted mt-1">${tagsPct.toFixed(1)}%</div></div>
-        <div class="bg-[#151515] border border-glass-border rounded-xl p-4"><div class="text-text-muted text-xs uppercase font-bold tracking-wider mb-1">Colors</div><div class="text-2xl font-display font-bold text-white">${stats.total_colors || 0}</div><div class="text-xs text-text-muted mt-1">${colorsPct.toFixed(1)}%</div></div>
-        <div class="bg-[#151515] border border-glass-border rounded-xl p-4"><div class="text-text-muted text-xs uppercase font-bold tracking-wider mb-1">Embeddings</div><div class="text-2xl font-display font-bold text-white">${stats.total_embeddings || 0}</div><div class="text-xs text-text-muted mt-1">${embedsPct.toFixed(1)}%</div></div>
     `;
 }
 
@@ -99,8 +95,6 @@ export function renderAnalytics(data) {
             { label: "Images", value: c.images, color: "#60a5fa" },
             { label: "GDrive Links", value: c.gdrive, color: "#34d399" },
             { label: "Tags", value: c.tags, color: "#f472b6" },
-            { label: "Colors", value: c.colors, color: "#fb923c" },
-            { label: "Embeddings", value: c.embeddings, color: "#c084fc" },
         ];
         coverEl.innerHTML = metrics.map(m => {
             const pct = Math.round((m.value / total) * 100);
@@ -114,12 +108,8 @@ export async function loadDbHealth() {
         const h = await apiGet('/api/analytics/db-health');
         const size = document.getElementById('dbh-size');
         const fts = document.getElementById('dbh-fts');
-        const embed = document.getElementById('dbh-embed');
-        const orphan = document.getElementById('dbh-orphan');
         if (size) size.textContent = `${h.db_size_mb} MB`;
         if (fts) { fts.textContent = h.fts_synced ? '✓ Synced' : `⚠ Off by ${Math.abs(h.items_total - h.fts_count)}`; fts.className = `text-sm font-mono ${h.fts_synced ? 'text-green-400' : 'text-amber-400'}`; }
-        if (embed) embed.textContent = `${h.embedded_pct}%`;
-        if (orphan) { orphan.textContent = h.orphan_embeddings; orphan.className = `text-lg font-mono ${h.orphan_embeddings > 0 ? 'text-amber-400' : 'text-green-400'}`; }
     } catch (e) { console.error('DB health fetch failed', e); }
 }
 
@@ -132,8 +122,7 @@ export async function loadCoverageHeatmap() {
         container.innerHTML = rows.slice(0, 15).map(r => {
             const tagPct = r.total > 0 ? Math.round(r.tagged / r.total * 100) : 0;
             const gdrivePct = r.total > 0 ? Math.round(r.has_gdrive / r.total * 100) : 0;
-            const embedPct = r.total > 0 ? Math.round(r.has_embedding / r.total * 100) : 0;
-            return `<div class="flex items-center gap-3 text-xs"><span class="w-28 truncate text-text-muted" title="${r.name}">${r.name}</span><span class="text-[10px] text-text-muted w-10 text-right">${r.total}</span><div class="flex-1 flex flex-col gap-0.5"><div class="flex items-center gap-1"><div class="h-1.5 bg-primary/80 rounded-sm transition-all" style="width:${tagPct}%" title="Tagged: ${tagPct}%"></div><span class="text-[9px] text-text-muted">${tagPct}%</span></div><div class="flex items-center gap-1"><div class="h-1.5 bg-emerald-500/80 rounded-sm" style="width:${gdrivePct}%" title="GDrive: ${gdrivePct}%"></div><span class="text-[9px] text-text-muted">${gdrivePct}%</span></div><div class="flex items-center gap-1"><div class="h-1.5 bg-purple-400/80 rounded-sm" style="width:${embedPct}%" title="Embedded: ${embedPct}%"></div><span class="text-[9px] text-text-muted">${embedPct}%</span></div></div></div>`;
+            return `<div class="flex items-center gap-3 text-xs"><span class="w-28 truncate text-text-muted" title="${r.name}">${r.name}</span><span class="text-[10px] text-text-muted w-10 text-right">${r.total}</span><div class="flex-1 flex flex-col gap-0.5"><div class="flex items-center gap-1"><div class="h-1.5 bg-primary/80 rounded-sm transition-all" style="width:${tagPct}%" title="Tagged: ${tagPct}%"></div><span class="text-[9px] text-text-muted">${tagPct}%</span></div><div class="flex items-center gap-1"><div class="h-1.5 bg-emerald-500/80 rounded-sm" style="width:${gdrivePct}%" title="GDrive: ${gdrivePct}%"></div><span class="text-[9px] text-text-muted">${gdrivePct}%</span></div></div></div>`;
         }).join('');
     } catch (e) { container.innerHTML = '<div class="text-xs text-red-500">Failed to load</div>'; }
 }

@@ -22,6 +22,30 @@ import re
 import logging
 import sqlite3
 from ..constants import PAID_CATEGORY_SLUGS
+"""
+persistence.schema — all DDL and one-time migrations.
+
+init_schema(conn) is the single entry point called by the app factory.
+Everything here is idempotent (CREATE ... IF NOT EXISTS, ALTER ... with
+try/except, etc.) so it is safe to call on every startup.
+
+FTS Startup Guard
+-----------------
+An `app_meta` table stores a `fts_synced` flag.  _ensure_fts_table() only
+performs a full bulk resync when:
+  1. The FTS table is completely empty (fresh DB), OR
+  2. The `fts_needs_sync` flag is set in app_meta (set by pipeline tasks after
+     bulk scrape writes), OR
+  3. The FTS/items count differs by >5% AND >500 rows (genuine corruption).
+Normal warm restarts skip the bulk resync entirely, shaving 5–10s off startup.
+
+Dependency direction: this module imports only sqlite3, logging, and constants —
+never from application or presentation layers.
+"""
+import re
+import logging
+import sqlite3
+from ..constants import PAID_CATEGORY_SLUGS
 
 log = logging.getLogger(__name__)
 
@@ -39,7 +63,6 @@ def init_schema(conn: sqlite3.Connection) -> None:
 
     _ensure_app_meta(conn)          # must come before FTS guard
     _ensure_fts_table(conn)
-    _ensure_visual_tables(conn)
     _ensure_favorites_table(conn)
     _ensure_collections_tables(conn)
     _ensure_tags_tables(conn)
@@ -48,17 +71,15 @@ def init_schema(conn: sqlite3.Connection) -> None:
     _ensure_indexing_tables(conn)
     _ensure_settings_table(conn)
     _ensure_downloads_table(conn)
-    _ensure_materialized_stats_tables(conn)
 
     # One-time, idempotent migrations
     _migrate_is_paid(conn)
-    _migrate_embeddings_to_binary(conn)
     _migrate_drop_render_type(conn)
     _migrate_add_local_fields(conn)
+    _migrate_remove_ai_tables(conn)
 
     _auto_extract_tags(conn)
     _ensure_items_indexes(conn)
-    _refresh_materialized_stats_if_empty(conn)
 
 
 # ---------------------------------------------------------------------------
@@ -183,38 +204,6 @@ def _ensure_fts_table(conn: sqlite3.Connection) -> None:
         conn.commit()
     except Exception:
         log.exception("[FTS5] Setup error")
-
-
-def _ensure_visual_tables(conn: sqlite3.Connection) -> None:
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS item_colors (
-            id         INTEGER PRIMARY KEY AUTOINCREMENT,
-            item_id    INTEGER NOT NULL,
-            h          INTEGER,
-            s          INTEGER,
-            l          INTEGER,
-            hex        TEXT,
-            percentage FLOAT,
-            FOREIGN KEY(item_id) REFERENCES items(id) ON DELETE CASCADE
-        )
-    """)
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_colors_item ON item_colors(item_id)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_colors_hsl  ON item_colors(h, s, l)")
-
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS item_embeddings (
-            item_id   INTEGER PRIMARY KEY,
-            embedding BLOB,
-            norm      REAL,
-            FOREIGN KEY(item_id) REFERENCES items(id) ON DELETE CASCADE
-        )
-    """)
-    try:
-        conn.execute("ALTER TABLE item_embeddings ADD COLUMN norm REAL")
-        conn.commit()
-    except Exception:
-        pass  # Already present
-    conn.commit()
 
 
 def _ensure_favorites_table(conn: sqlite3.Connection) -> None:
@@ -397,7 +386,6 @@ def _ensure_items_indexes(conn: sqlite3.Connection) -> None:
     """)
     conn.execute("CREATE INDEX IF NOT EXISTS idx_categories_parent ON categories(parent_id)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_categories_slug   ON categories(slug)")
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_item_colors_hex_item ON item_colors(hex, item_id)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_download_jobs_status_id ON download_jobs(status, id)")
     conn.execute("""
         CREATE INDEX IF NOT EXISTS idx_items_norm_title
@@ -406,56 +394,6 @@ def _ensure_items_indexes(conn: sqlite3.Connection) -> None:
         )
     """)
     conn.commit()
-
-
-def _ensure_materialized_stats_tables(conn: sqlite3.Connection) -> None:
-    """Create lightweight count caches for hot sidebar/filter endpoints."""
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS tag_stats (
-            tag_id     INTEGER PRIMARY KEY,
-            item_count INTEGER NOT NULL DEFAULT 0,
-            FOREIGN KEY(tag_id) REFERENCES tags(id) ON DELETE CASCADE
-        )
-    """)
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS color_stats (
-            hex        TEXT PRIMARY KEY,
-            item_count INTEGER NOT NULL DEFAULT 0
-        )
-    """)
-    conn.commit()
-
-
-def refresh_materialized_stats(conn: sqlite3.Connection) -> None:
-    """Rebuild derived count tables used by hot API endpoints."""
-    conn.execute("DELETE FROM tag_stats")
-    conn.execute("""
-        INSERT INTO tag_stats(tag_id, item_count)
-        SELECT tag_id, COUNT(DISTINCT item_id)
-        FROM item_tags
-        GROUP BY tag_id
-    """)
-    conn.execute("DELETE FROM color_stats")
-    conn.execute("""
-        INSERT INTO color_stats(hex, item_count)
-        SELECT hex, COUNT(DISTINCT item_id)
-        FROM item_colors
-        WHERE hex IS NOT NULL AND hex != ''
-        GROUP BY hex
-    """)
-    conn.commit()
-
-
-def _refresh_materialized_stats_if_empty(conn: sqlite3.Connection) -> None:
-    """Populate count caches once for existing databases."""
-    try:
-        tag_rows = conn.execute("SELECT COUNT(*) FROM tag_stats").fetchone()[0]
-        color_rows = conn.execute("SELECT COUNT(*) FROM color_stats").fetchone()[0]
-        if tag_rows == 0 or color_rows == 0:
-            log.info("[Stats] Building materialized tag/color counts...")
-            refresh_materialized_stats(conn)
-    except Exception:
-        log.exception("[Stats] Materialized stats refresh failed")
 
 
 # ---------------------------------------------------------------------------
@@ -516,60 +454,6 @@ def _migrate_drop_render_type(conn: sqlite3.Connection) -> None:
     except Exception as e:
         # SQLite < 3.35.0 doesn't support DROP COLUMN — silently skip
         log.warning("[Migration] Could not drop render_type column: %s", e)
-
-
-def _migrate_embeddings_to_binary(conn: sqlite3.Connection) -> None:
-    """Convert JSON-text embeddings to float32 LE BLOB."""
-    try:
-        import struct
-        import json as _json
-        try:
-            import numpy as np
-            _np = True
-        except ImportError:
-            _np = False
-
-        sample = conn.execute(
-            "SELECT embedding FROM item_embeddings LIMIT 1"
-        ).fetchone()
-        if not sample:
-            return
-
-        blob = sample["embedding"]
-        if isinstance(blob, (bytes, bytearray)) and not blob[:1] == b'[':
-            return  # Already binary
-        if isinstance(blob, str) and not blob.startswith('['):
-            return
-
-        log.info("[Migration] Converting embeddings to float32 binary…")
-        rows = conn.execute(
-            "SELECT item_id, embedding FROM item_embeddings"
-        ).fetchall()
-
-        updates = []
-        for row in rows:
-            try:
-                b   = row["embedding"]
-                vec = _json.loads(b.decode('utf-8', errors='replace')) if isinstance(b, (bytes, bytearray)) else _json.loads(b)
-                if _np:
-                    arr    = np.array(vec, dtype=np.float32)
-                    norm   = float(np.linalg.norm(arr))
-                    binary = arr.tobytes()
-                else:
-                    binary = struct.pack(f'<{len(vec)}f', *[float(x) for x in vec])
-                    norm   = sum(x * x for x in vec) ** 0.5
-                updates.append((binary, norm, row["item_id"]))
-            except Exception:
-                log.debug("[Migration] Skip item %s during embedding conversion", row["item_id"])
-
-        conn.executemany(
-            "UPDATE item_embeddings SET embedding = ?, norm = ? WHERE item_id = ?",
-            updates,
-        )
-        conn.commit()
-        log.info("[Migration] Converted %d embeddings to float32 binary", len(updates))
-    except Exception:
-        log.exception("[Migration] Embedding conversion error")
 
 
 def _auto_extract_tags(conn: sqlite3.Connection, batch_size: int = 500) -> None:
@@ -699,3 +583,24 @@ def _migrate_add_local_fields(conn: sqlite3.Connection) -> None:
         log.info("[Migration] Added status column to items")
     except Exception:
         pass  # Already present
+
+
+def _migrate_remove_ai_tables(conn: sqlite3.Connection) -> None:
+    """Drop AI-related tables and reclaim space (cloud ready cleanup)."""
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name IN ('item_colors', 'item_embeddings', 'color_stats', 'tag_stats')")
+    existing = cursor.fetchall()
+    if existing:
+        log.info("[Migration] Dropping AI tables to optimize database for cloud readiness...")
+        try:
+            conn.execute("DROP TABLE IF EXISTS item_colors")
+            conn.execute("DROP TABLE IF EXISTS item_embeddings")
+            conn.execute("DROP TABLE IF EXISTS color_stats")
+            conn.execute("DROP TABLE IF EXISTS tag_stats")
+            conn.commit()
+            log.info("[Migration] Reclaiming disk space via VACUUM...")
+            conn.execute("VACUUM")
+            conn.commit()
+            log.info("[Migration] AI tables dropped and space reclaimed successfully.")
+        except Exception as e:
+            log.warning("[Migration] Dropping AI tables failed: %s", e)

@@ -21,7 +21,6 @@ _SORT_MAP = {
 class SearchQuery:
     # Text search
     q: str = ""
-    semantic_q: str = ""
 
     # Category / taxonomy filters
     category: str = ""
@@ -30,7 +29,6 @@ class SearchQuery:
     # Attribute filters
     tier: str = ""          # "Free" | "Paid" | ""
     tag: str = ""
-    color_hex: str = ""
 
     # Exclude (NOT) filters
     exclude_tag: str = ""        # tag name to exclude
@@ -65,8 +63,6 @@ class SearchQuery:
     def __post_init__(self):
         self.page = max(1, self.page)
         self.per_page = min(100, max(1, self.per_page))
-        if self.color_hex and not self.color_hex.startswith("#"):
-            self.color_hex = "#" + self.color_hex
 
     @property
     def fts_expression(self) -> str:

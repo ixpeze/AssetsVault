@@ -6,7 +6,8 @@ from werkzeug.exceptions import HTTPException
 from .routes import ALL_BLUEPRINTS
 from .persistence.schema import init_schema
 from .infrastructure.connection import get_db, close_db
-from .search.semantic import invalidate as _invalidate_embedding_cache
+# Semantic search is disabled
+# from .search.semantic import invalidate as _invalidate_embedding_cache
 from .task_manager import task_manager
 from .constants import MAX_CONTENT_LENGTH, SECRET_KEY
 
@@ -72,7 +73,7 @@ def create_app() -> Flask:
     _init_db()
 
     # Wire embedding cache invalidation to pipeline task completion (legacy hook — keep)
-    task_manager.on_complete("pipeline", _invalidate_embedding_cache)
+    # task_manager.on_complete("pipeline", _invalidate_embedding_cache)
 
     # Start in-process task runner and wire event-driven systems
     import atexit
@@ -108,7 +109,7 @@ def create_app() -> Flask:
     app.teardown_appcontext(close_db)
 
     # ── Cache-Control for static-ish API endpoints ──
-    _CACHED_PREFIXES = ('/api/colors', '/api/categories', '/api/tags/cloud',
+    _CACHED_PREFIXES = ('/api/categories', '/api/tags/cloud',
                         '/api/stats', '/api/taxonomy')
 
     @app.after_request

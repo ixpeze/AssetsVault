@@ -105,9 +105,7 @@ export function openLightbox(index, deps) {
     document.body.style.overflow = "hidden";
     history.replaceState(null, '', `#item=${item.id}`);
 
-    const paletteContainer = document.getElementById("color-swatches");
-    if (paletteContainer) paletteContainer.innerHTML = '<div class="text-xs text-text-muted italic">Loading...</div>';
-    loadLightboxColors(item.id, deps);
+
 }
 
 export function closeLightbox(deps) {
@@ -135,40 +133,7 @@ export async function navigateLightbox(dir, deps) {
     else showToast('Reached end of results', 'info');
 }
 
-export async function loadLightboxColors(itemId, deps) {
-    const paletteContainer = document.getElementById("color-swatches");
-    if (!paletteContainer) return;
-    try {
-        const colors = await apiGet(`/api/items/${itemId}/colors`);
-        paletteContainer.innerHTML = "";
-        if (colors.length === 0) {
-            paletteContainer.innerHTML = '<div class="col-span-full text-xs text-text-muted italic">No colors extracted</div>';
-            return;
-        }
-        colors.forEach(c => {
-            const btn = document.createElement("button");
-            btn.className = "w-6 h-6 rounded-full border border-white/10 hover:scale-110 transition-transform cursor-pointer relative tooltip-trigger";
-            btn.style.backgroundColor = c.hex;
-            btn.title = `${c.percentage ? Math.round(c.percentage * 100) : ''}%`;
-            btn.onclick = () => searchWithColor(c.hex, deps);
-            paletteContainer.appendChild(btn);
-        });
-    } catch (e) {
-        console.error("Failed to load item colors", e);
-        paletteContainer.innerHTML = '<div class="col-span-full text-xs text-red-500">Error</div>';
-    }
-}
 
-export function searchWithColor(hex, deps) {
-    if (deps) {
-        closeLightbox(deps);
-        state.activeColor = hex;
-        if (deps.fetchItems) deps.fetchItems();
-    } else {
-        // fallback when called without deps (e.g. from gallery context)
-        state.activeColor = hex;
-    }
-}
 
 export function setLinkBtn(el, url) {
     if (el) {

@@ -17,12 +17,10 @@ def _parse_search_query() -> SearchQuery:
     a = request.args
     return SearchQuery(
         q=a.get("q", "").strip(),
-        semantic_q=a.get("semantic_q", "").strip(),
         category=a.get("category", "").strip(),
         taxonomy=a.get("taxonomy", "").strip(),
         tier=a.get("tier", "").strip(),
         tag=a.get("tag", "").strip(),
-        color_hex=a.get("color", "").strip(),
         fav=a.get("fav", "").strip() == "1",
         has_gdrive=a.get("has_gdrive", "").strip() == "1",
         no_gdrive=a.get("no_gdrive", "").strip() == "1",
@@ -75,22 +73,6 @@ def api_visual_search(item_id):
 
 
 
-@items_bp.route("/api/colors")
-def api_colors():
-    conn = get_db()
-    try:
-        return jsonify(analytics_uc.get_color_palette(conn))
-    finally:
-        conn.close()
-
-
-@items_bp.route("/api/items/<int:item_id>/colors")
-def api_item_colors(item_id):
-    conn = get_db()
-    try:
-        return jsonify(analytics_uc.get_item_colors(conn, item_id))
-    finally:
-        conn.close()
 
 
 @items_bp.route("/api/search/suggestions")

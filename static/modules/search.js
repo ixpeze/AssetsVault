@@ -16,11 +16,7 @@ export function buildItemParams() {
     if (state.showFavorites) params.set("fav", "1");
     if (state.activeCollection) params.set("collection", state.activeCollection);
     if (state.activeTag) params.set("tag", state.activeTag);
-    if (state.activeColor) params.set("color", state.activeColor);
     if (state.showUntagged) params.set("untagged", "1");
-    if (state.semanticSearch && state.searchQuery) {
-        params.set("semantic_q", state.searchQuery);
-    }
     if (state.advancedFilters.hasGdrive === "yes") params.set("has_gdrive", "1");
     if (state.advancedFilters.hasGdrive === "no") params.set("no_gdrive", "1");
     if (state.advancedFilters.hasImage === "yes") params.set("has_image", "1");
@@ -50,7 +46,7 @@ export function pushStateToUrl(openItemId = null) {
     if (state.activeTag) params.set('tag', state.activeTag);
     if (state.activeTaxonomy) params.set('taxonomy', state.activeTaxonomy);
     if (state.activeCategory) params.set('category', state.activeCategory);
-    if (state.activeColor) params.set('color', state.activeColor);
+
     if (state.activeTier) params.set('tier', state.activeTier);
     if (state.showFavorites) params.set('fav', '1');
     if (state.showUntagged) params.set('untagged', '1');
@@ -68,7 +64,7 @@ export function restoreStateFromUrl() {
     if (params.get('tag')) state.activeTag = params.get('tag');
     if (params.get('taxonomy')) state.activeTaxonomy = params.get('taxonomy');
     if (params.get('category')) state.activeCategory = params.get('category');
-    if (params.get('color')) state.activeColor = params.get('color');
+
     if (params.get('tier')) state.activeTier = params.get('tier');
     if (params.get('fav') === '1') state.showFavorites = true;
     if (params.get('untagged') === '1') state.showUntagged = true;

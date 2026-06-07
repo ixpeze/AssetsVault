@@ -8,7 +8,6 @@ import sqlite3
 from ..domain.scoring import HybridScorer
 from ..persistence import tags as tags_repo
 from ..persistence import items as items_repo
-from . import semantic as sem
 
 _scorer = HybridScorer()
 
@@ -28,9 +27,7 @@ def rank_similar(
     if not source:
         return []
 
-    # Embedding scores from in-memory matrix (O(N) BLAS)
-    emb_scored = sem.query_for_item(conn, item_id, top_k=200, threshold=0.0)
-    emb_map = {iid: sc for iid, sc in emb_scored}
+
 
     # Source item tags
     source_tag_ids = tags_repo.get_tag_ids_for_item(conn, item_id)
@@ -42,14 +39,11 @@ def rank_similar(
 
     results = []
     for cand in candidates:
-        emb_sim = emb_map.get(cand["id"])
-
         cand_tag_ids: set[int] = set()
         if cand["tag_ids"]:
             cand_tag_ids = {int(t) for t in cand["tag_ids"].split(",")}
 
         score = _scorer.compute(
-            embedding_sim=emb_sim,
             tag_jaccard=_scorer.jaccard(source_tag_ids, cand_tag_ids),
             same_category=True,
         )

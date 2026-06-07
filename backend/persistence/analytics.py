@@ -4,7 +4,6 @@ persistence.analytics — statistics and reporting queries.
 import logging
 import sqlite3
 from ..constants import PAID_CATEGORY_SLUGS
-from ..colors import COLOR_FAMILIES
 
 log = logging.getLogger(__name__)
 
@@ -23,22 +22,19 @@ def _coverage_counts(conn: sqlite3.Connection) -> dict:
     total_images   = conn.execute(
         "SELECT COUNT(*) FROM items WHERE image_url IS NOT NULL AND image_url != ''"
     ).fetchone()[0]
-    total_colors   = conn.execute("SELECT COUNT(DISTINCT item_id) FROM item_colors").fetchone()[0]
-    total_embed    = conn.execute("SELECT COUNT(*) FROM item_embeddings").fetchone()[0]
     total_tags     = conn.execute("SELECT COUNT(DISTINCT item_id) FROM item_tags").fetchone()[0]
     total_enriched = conn.execute("""
         SELECT COUNT(*) FROM items i
         WHERE i.id IN (SELECT DISTINCT item_id FROM item_tags)
-          AND i.id IN (SELECT DISTINCT item_id FROM item_colors)
-          AND i.id IN (SELECT item_id FROM item_embeddings)
+          AND (i.gdrive_link IS NOT NULL AND i.gdrive_link != '')
     """).fetchone()[0]
     return {
         "total_items":          total_items,
         "total_categories":     total_cats,
         "total_with_gdrive":    total_gdrive,
         "total_with_images":    total_images,
-        "total_colors":         total_colors,
-        "total_embeddings":     total_embed,
+        "total_colors":         0,
+        "total_embeddings":     0,
         "total_tags":           total_tags,
         "total_fully_enriched": total_enriched,
     }
@@ -169,11 +165,7 @@ def get_category_scrape_status(conn: sqlite3.Connection, limit: int = 20) -> lis
 
 
 def get_enrichment_coverage(conn: sqlite3.Connection, limit: int = 30) -> list[dict]:
-    """Per-category enrichment coverage stats for the dashboard heat-map.
-
-    Returns up to *limit* categories (ordered by item count DESC) with counts
-    for tagged, gdrive, embedded, and colored items.
-    """
+    """Per-category enrichment coverage stats for the dashboard heat-map."""
     rows = conn.execute("""
         SELECT
             c.name,
@@ -184,12 +176,8 @@ def get_enrichment_coverage(conn: sqlite3.Connection, limit: int = 30) -> list[d
             ) THEN 1 ELSE 0 END) AS tagged,
             SUM(CASE WHEN i.gdrive_link IS NOT NULL AND i.gdrive_link != ''
                 THEN 1 ELSE 0 END) AS has_gdrive,
-            SUM(CASE WHEN EXISTS(
-                SELECT 1 FROM item_embeddings ie WHERE ie.item_id = i.id
-            ) THEN 1 ELSE 0 END) AS has_embedding,
-            SUM(CASE WHEN EXISTS(
-                SELECT 1 FROM item_colors ic WHERE ic.item_id = i.id
-            ) THEN 1 ELSE 0 END) AS has_colors
+            0 AS has_embedding,
+            0 AS has_colors
         FROM categories c
         JOIN items i ON i.category_slug = c.slug
         GROUP BY c.id
@@ -201,26 +189,9 @@ def get_enrichment_coverage(conn: sqlite3.Connection, limit: int = 30) -> list[d
 
 
 def get_color_palette(conn: sqlite3.Connection) -> list[dict]:
-    """Return COLOR_FAMILIES that have at least one item."""
-    stats_count = conn.execute("SELECT COUNT(*) FROM color_stats").fetchone()[0]
-    if stats_count:
-        rows = conn.execute("SELECT hex, item_count as cnt FROM color_stats").fetchall()
-    else:
-        rows = conn.execute("""
-            SELECT hex, COUNT(DISTINCT item_id) as cnt
-            FROM item_colors GROUP BY hex
-        """).fetchall()
-    counts = {r["hex"]: r["cnt"] for r in rows}
-    return [
-        {"name": fam["name"], "hex": fam["hex"], "cnt": counts[fam["hex"]]}
-        for fam in COLOR_FAMILIES
-        if counts.get(fam["hex"], 0) > 0
-    ]
+    """Return COLOR_FAMILIES that have at least one item (disabled)."""
+    return []
 
 
 def get_item_colors(conn: sqlite3.Connection, item_id: int) -> list[dict]:
-    rows = conn.execute(
-        "SELECT hex, percentage FROM item_colors WHERE item_id = ? ORDER BY percentage DESC",
-        (item_id,),
-    ).fetchall()
-    return [dict(r) for r in rows]
+    return []

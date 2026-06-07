@@ -29,13 +29,7 @@ def _build_where(
     clauses: list[str] = []
     params: list = []
 
-    # --- semantic search ---------------------------------------------------
-    if semantic_ids is not None:
-        if not semantic_ids:
-            return " WHERE 1=0", []
-        phs = ",".join("?" * len(semantic_ids))
-        clauses.append(f"id IN ({phs})")
-        params.extend(semantic_ids)
+    # --- semantic search (disabled) ----------------------------------------
 
     # --- FTS / tag text search ---------------------------------------------
     if query.q:
@@ -145,9 +139,7 @@ def _build_where(
                 """)
                 params.extend(tag_list)
 
-    if query.color_hex:
-        clauses.append("id IN (SELECT item_id FROM item_colors WHERE hex = ?)")
-        params.append(query.color_hex)
+
 
     if query.has_gdrive:
         clauses.append("gdrive_link IS NOT NULL AND gdrive_link != ''")

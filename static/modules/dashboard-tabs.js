@@ -404,7 +404,6 @@ async function loadMissingData() {
                 { pct: r.no_image_pct, color: 'bg-blue-400/50' },
                 { pct: r.no_gdrive_pct, color: 'bg-emerald-400/50' },
                 { pct: r.no_tags_pct, color: 'bg-pink-400/50' },
-                { pct: r.no_embeddings_pct, color: 'bg-purple-400/50' },
             ];
 
             const renderBar = ({ pct, color }) =>
@@ -418,14 +417,13 @@ async function loadMissingData() {
             // Make row clickable — jumps to gallery with category filter
             const galleryUrl = `/?category=${encodeURIComponent(r.slug)}`;
 
-            return `<div class="grid grid-cols-[1fr_60px_80px_80px_80px_80px] gap-0 items-center px-4 py-2.5 hover:bg-white/3 transition-colors cursor-pointer group"
+            return `<div class="grid grid-cols-[1fr_60px_80px_80px_80px] gap-0 items-center px-4 py-2.5 hover:bg-white/3 transition-colors cursor-pointer group"
                     onclick="window.location.href='${galleryUrl}'" title="Browse ${r.name} in gallery">
                 <span class="text-xs text-white group-hover:text-primary transition-colors truncate" title="${r.name}">${r.name}</span>
                 <span class="text-right text-[10px] font-mono text-text-muted">${r.total.toLocaleString()}</span>
                 ${renderBar({ pct: r.no_image_pct, color: 'bg-blue-400/50' })}
                 ${renderBar({ pct: r.no_gdrive_pct, color: 'bg-emerald-400/50' })}
                 ${renderBar({ pct: r.no_tags_pct, color: 'bg-pink-400/50' })}
-                ${renderBar({ pct: r.no_embeddings_pct, color: 'bg-purple-400/50' })}
             </div>`;
         }).join('');
     } catch (e) {

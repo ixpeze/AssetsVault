@@ -23,12 +23,6 @@ PLUGINS_DIR      = BASE_DIR / "plugins"
 THUMBNAILS_DIR   = DATA_DIR / "thumbnails"
 
 # ---------------------------------------------------------------------------
-# AI Config (overridable via environment variables)
-# ---------------------------------------------------------------------------
-OLLAMA_URL  = os.environ.get("OLLAMA_URL",  "http://localhost:11434")
-EMBED_MODEL = os.environ.get("EMBED_MODEL", "nomic-embed-text")
-
-# ---------------------------------------------------------------------------
 # Admin Mode — controls visibility of the dashboard and admin routes.
 # Set ADMIN_MODE=0 in environment (or start.bat) to hide dashboard from
 # public-facing deployments. Defaults to True (on) for local installs.
@@ -45,14 +39,8 @@ MAX_CONTENT_LENGTH = int(os.environ.get("MAX_CONTENT_LENGTH", str(16 * 1024 * 10
 ALLOWED_SCRIPTS: frozenset[str] = frozenset({
     "scripts/pipeline/scraper.py",
     "scripts/pipeline/process_assets.py",
-    "scripts/pipeline/generate_embeddings.py",
-    "scripts/pipeline/extract_colors.py",
     "scripts/pipeline/generate_thumbnails.py",
     "scripts/pipeline/recapture_links.py",
-    "scripts/taxonomy/build_taxonomy.py",
-    "scripts/taxonomy/analyze_categories.py",
-    "scripts/taxonomy/classify_categories.py",
-    "scripts/ai/ai_tagger.py",
 })
 
 # ---------------------------------------------------------------------------

@@ -82,15 +82,13 @@ def api_db_health():
         fts_ok = abs(items_count - fts_count) <= 5
 
         # Orphan embeddings: embeddings for items that no longer exist
-        orphan_embeddings = conn.execute(
-            "SELECT COUNT(*) FROM item_embeddings ie WHERE NOT EXISTS (SELECT 1 FROM items i WHERE i.id=ie.item_id)"
-        ).fetchone()[0]
+        orphan_embeddings = 0
 
         # Embedding coverage
-        embedded_count = conn.execute("SELECT COUNT(*) FROM item_embeddings").fetchone()[0]
+        embedded_count = 0
 
         # Color coverage
-        colored_count = conn.execute("SELECT COUNT(DISTINCT item_id) FROM item_colors").fetchone()[0]
+        colored_count = 0
 
         # WAL checkpoint (pragmas)
         wal_info = conn.execute("PRAGMA wal_checkpoint").fetchone()
@@ -134,8 +132,8 @@ def api_export_stats():
         tagged_count = conn.execute(
             "SELECT COUNT(DISTINCT item_id) FROM item_tags"
         ).fetchone()[0]
-        embedded_count = conn.execute("SELECT COUNT(*) FROM item_embeddings").fetchone()[0]
-        colored_count = conn.execute("SELECT COUNT(DISTINCT item_id) FROM item_colors").fetchone()[0]
+        embedded_count = 0
+        colored_count = 0
         gdrive_count = conn.execute(
             "SELECT COUNT(*) FROM items WHERE gdrive_link IS NOT NULL AND gdrive_link != ''"
         ).fetchone()[0]
@@ -367,12 +365,8 @@ def api_quality_missing_data():
                 SUM(CASE WHEN NOT EXISTS (
                     SELECT 1 FROM item_tags it WHERE it.item_id = i.id
                 ) THEN 1 ELSE 0 END)                                                   AS no_tags,
-                SUM(CASE WHEN NOT EXISTS (
-                    SELECT 1 FROM item_embeddings ie WHERE ie.item_id = i.id
-                ) THEN 1 ELSE 0 END)                                                   AS no_embeddings,
-                SUM(CASE WHEN NOT EXISTS (
-                    SELECT 1 FROM item_colors ic WHERE ic.item_id = i.id
-                ) THEN 1 ELSE 0 END)                                                   AS no_colors
+                0                                                                      AS no_embeddings,
+                0                                                                      AS no_colors
             FROM items i
             JOIN categories c ON c.slug = i.category_slug
             WHERE i.category_slug IS NOT NULL

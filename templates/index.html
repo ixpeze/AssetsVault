@@ -994,17 +994,7 @@
                 <div class="px-3 py-2 text-sm text-text-muted animate-pulse">Loading categories...</div>
             </div>
 
-            <div
-                class="pt-4 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-[#52525B] font-bold flex justify-between items-center">
-                <span>Colors</span>
-                <button id="color-reset" class="hidden text-[10px] text-text-muted hover:text-white transition-colors"
-                    title="Reset Color">
-                    <span class="material-symbols-outlined text-[14px]">close</span>
-                </button>
-            </div>
-            <div id="color-palette" class="px-3 grid grid-cols-12 gap-1 mb-4">
-                <div class="col-span-12 text-xs text-text-muted italic">Loading colors...</div>
-            </div>
+
 
             <!-- Collections Section -->
             <div
@@ -1154,12 +1144,7 @@
                     class="absolute inset-y-0 right-10 flex items-center text-text-muted hover:text-white hidden">
                     <span class="material-symbols-outlined text-[18px]">close</span>
                 </button>
-                <button id="semantic-toggle"
-                    class="absolute inset-y-0 right-20 flex items-center text-text-muted hover:text-primary transition-colors"
-                    title="Toggle Semantic Search (S)"
-                    onclick="state.semanticSearch = !state.semanticSearch; this.classList.toggle('text-primary', state.semanticSearch); this.classList.toggle('text-text-muted', !state.semanticSearch); showToast(state.semanticSearch ? 'Semantic search ON' : 'Semantic search OFF')">
-                    <span class="material-symbols-outlined text-[18px]">psychology</span>
-                </button>
+
                 <!-- Autocomplete Dropdown -->
                 <div id="search-suggestions"
                     class="hidden absolute top-full left-8 right-8 mt-1 bg-[#151515] border border-glass-border rounded-lg shadow-2xl overflow-hidden z-50 max-h-80 overflow-y-auto custom-scrollbar">
@@ -1386,7 +1371,7 @@
                             <span class="text-[10px] text-text-muted">Idle</span>
                         </div>
                     </div>
-                    <p class="text-xs text-text-muted mb-3">AI Tags + Colors + Embeddings — processes partial items
+                    <p class="text-xs text-text-muted mb-3">Auto Tags + Smart Categorization — processes partial items
                         first, then new</p>
                     <div class="flex gap-2 mb-2">
                         <button id="start-pipeline" onclick="startPipelineWithPrompt()"
@@ -1527,7 +1512,7 @@
                         Vacuum DB
                     </button>
                 </div>
-                <div id="db-health-grid" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div id="db-health-grid" class="grid grid-cols-2 gap-3">
                     <div class="bg-white/5 rounded-lg p-3">
                         <div class="text-[10px] text-text-muted uppercase tracking-wider mb-1">DB Size</div>
                         <div id="dbh-size" class="text-lg font-mono text-white">—</div>
@@ -1535,14 +1520,6 @@
                     <div class="bg-white/5 rounded-lg p-3">
                         <div class="text-[10px] text-text-muted uppercase tracking-wider mb-1">FTS Sync</div>
                         <div id="dbh-fts" class="text-lg font-mono">—</div>
-                    </div>
-                    <div class="bg-white/5 rounded-lg p-3">
-                        <div class="text-[10px] text-text-muted uppercase tracking-wider mb-1">Embeddings</div>
-                        <div id="dbh-embed" class="text-lg font-mono text-white">—</div>
-                    </div>
-                    <div class="bg-white/5 rounded-lg p-3">
-                        <div class="text-[10px] text-text-muted uppercase tracking-wider mb-1">Orphan Emb.</div>
-                        <div id="dbh-orphan" class="text-lg font-mono text-white">—</div>
                     </div>
                 </div>
             </div>
@@ -1556,8 +1533,6 @@
                                 class="w-2 h-2 rounded-sm bg-primary inline-block"></span>Tags</span>
                         <span class="flex items-center gap-1"><span
                                 class="w-2 h-2 rounded-sm bg-emerald-500 inline-block"></span>GDrive</span>
-                        <span class="flex items-center gap-1"><span
-                                class="w-2 h-2 rounded-sm bg-purple-400 inline-block"></span>Embeddings</span>
                     </div>
                 </div>
                 <div id="coverage-heatmap" class="space-y-1.5">
@@ -1703,17 +1678,15 @@
                             <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-blue-400/70 inline-block"></span>No Image</span>
                             <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-emerald-400/70 inline-block"></span>No GDrive</span>
                             <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-pink-400/70 inline-block"></span>No Tags</span>
-                            <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-sm bg-purple-400/70 inline-block"></span>No Embed</span>
                         </div>
                     </div>
                     <div class="bg-[#0d0d0d] border border-glass-border rounded-xl overflow-hidden">
-                        <div class="grid grid-cols-[1fr_60px_80px_80px_80px_80px] gap-0 text-[10px] font-mono text-text-muted uppercase tracking-wider px-4 py-2 border-b border-glass-border bg-white/3">
+                        <div class="grid grid-cols-[1fr_60px_80px_80px_80px] gap-0 text-[10px] font-mono text-text-muted uppercase tracking-wider px-4 py-2 border-b border-glass-border bg-white/3">
                             <span>Category</span>
                             <span class="text-right">Total</span>
                             <span class="text-right">No Image</span>
                             <span class="text-right">No GDrive</span>
                             <span class="text-right">No Tags</span>
-                            <span class="text-right">No Embed</span>
                         </div>
                         <div id="quality-missing-data" class="divide-y divide-glass-border/30 max-h-96 overflow-y-auto custom-scrollbar">
                             <div class="p-8 text-center text-text-muted text-xs italic">Loading...</div>
@@ -1724,19 +1697,9 @@
                 <!-- Bulk Fix Actions -->
                 <div>
                     <h3 class="text-sm font-display font-semibold text-text-muted uppercase tracking-widest mb-3">Bulk Fix Actions</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <button onclick="startPipeline(['--colors-only'])"
-                            class="flex items-center gap-3 px-4 py-3 bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-xl text-sm font-semibold hover:bg-amber-500/20 transition-all">
-                            <span class="material-symbols-outlined text-[20px]">palette</span>
-                            <div class="text-left"><div class="text-xs font-semibold">Re-extract Colors</div><div class="text-[10px] text-amber-400/60 font-normal">Items missing color data</div></div>
-                        </button>
-                        <button onclick="startPipeline(['--embeddings-only'])"
-                            class="flex items-center gap-3 px-4 py-3 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-xl text-sm font-semibold hover:bg-purple-500/20 transition-all">
-                            <span class="material-symbols-outlined text-[20px]">hub</span>
-                            <div class="text-left"><div class="text-xs font-semibold">Generate Embeddings</div><div class="text-[10px] text-purple-400/60 font-normal">Unprocessed items only</div></div>
-                        </button>
+                    <div class="flex">
                         <button id="quality-fts-sync-btn"
-                            class="flex items-center gap-3 px-4 py-3 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 rounded-xl text-sm font-semibold hover:bg-cyan-500/20 transition-all">
+                            class="flex items-center gap-3 px-4 py-3 bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 rounded-xl text-sm font-semibold hover:bg-cyan-500/20 transition-all max-w-xs">
                             <span class="material-symbols-outlined text-[20px]">sync</span>
                             <div class="text-left"><div class="text-xs font-semibold">Sync FTS Index</div><div class="text-[10px] text-cyan-400/60 font-normal">Queues resync on restart</div></div>
                         </button>
@@ -2135,12 +2098,7 @@
                     </div>
                 </div>
 
-                <!-- Color Palette -->
-                <div class="px-4 py-3 border-b border-glass-border shrink-0">
-                    <div class="text-[10px] font-mono uppercase tracking-wider text-text-muted font-bold mb-2">Colors
-                    </div>
-                    <div class="flex flex-wrap gap-2" id="color-swatches"></div>
-                </div>
+
 
                 <!-- Actions -->
                 <div class="px-4 py-3 border-b border-glass-border shrink-0">
@@ -2180,9 +2138,6 @@
                         <div class="flex items-center gap-1">
                             <button id="lb-find-similar"
                                 class="text-[10px] text-primary hover:text-primary/80 transition-colors">Load</button>
-                            <span class="text-text-muted text-[10px]">·</span>
-                            <button id="lb-visual-search"
-                                class="text-[10px] text-emerald-400 hover:text-emerald-300 transition-colors">Visual</button>
                         </div>
                     </div>
                     <div id="lb-similar-grid" class="grid grid-cols-4 gap-1.5 min-h-[60px]">

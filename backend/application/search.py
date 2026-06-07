@@ -12,9 +12,7 @@ from ..persistence import categories as cat_repo
 from ..persistence import tags as tags_repo
 from ..persistence import thumbnails as thumbs_repo
 from ..persistence import analytics as analytics_repo
-from ..search import semantic as sem
 from ..search import hybrid as hybrid_search
-from ..infrastructure import ollama
 
 
 def _local_image_url(item: dict) -> str | None:
@@ -30,19 +28,7 @@ def search_assets(conn: sqlite3.Connection, query: SearchQuery) -> dict:
     Returns:
         {"items": [...], "total": int, "page": int, "pages": int}
     """
-    # 1. Semantic search — get pre-filtered ID→score map
     semantic_ids: list[int] | None = None
-    semantic_scores: dict[int, float] = {}
-
-    if query.semantic_q:
-        vec = ollama.get_embedding(query.semantic_q)
-        if vec:
-            hits = sem.query(conn, vec, top_k=2000, threshold=0.3)
-            if hits:
-                semantic_scores = {iid: score for iid, score in hits}
-                semantic_ids = list(semantic_scores.keys())
-            else:
-                semantic_ids = []   # searched but found nothing → empty result
 
     # 2. Category expansion (recursive descendants)
     category_slugs: list[str] | None = None
@@ -99,25 +85,8 @@ def find_similar(conn: sqlite3.Connection, item_id: int) -> list[dict]:
 def visual_search(
     conn: sqlite3.Connection, item_id: int, limit: int = 24
 ) -> list[dict]:
-    """Pure embedding-based visual similarity search."""
-    scored = sem.query_for_item(conn, item_id, top_k=limit, threshold=0.3)
-    if not scored:
-        return []
-
-    top_ids   = [s[0] for s in scored]
-    score_map = {s[0]: s[1] for s in scored}
-
-    # Persistence layer handles the IN(...) query and ordering
-    rows = items_repo.find_by_ids(conn, top_ids)
-
-    results = []
-    for item in rows:
-        item["similarity"] = round(score_map.get(item["id"], 0), 4)
-        item["local_image_url"] = _local_image_url(item)
-        results.append(item)
-
-    # find_by_ids returns rows in top_ids order, so already ranked
-    return results
+    """Pure embedding-based visual similarity search (disabled)."""
+    return []
 
 
 def get_suggestions(

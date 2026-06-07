@@ -18,8 +18,6 @@ export const state = {
     activeTaxonomy: "",
     activeTier: "",
     activeTag: "",
-    activeColor: "",
-    semanticSearch: false,
     activeCollection: null,
     sortBy: "newest",
     advancedFilters: {

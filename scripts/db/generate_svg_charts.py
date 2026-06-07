@@ -104,7 +104,7 @@ def generate_overview_svg():
 # 2. Grouped Feature Enrichment Breakdown (enrichment.svg)
 # -------------------------------------------------------------
 def generate_enrichment_svg():
-    width, height = 750, 530
+    width, height = 750, 430
     
     # Features to map
     features = [
@@ -112,8 +112,6 @@ def generate_enrichment_svg():
         ("Mirror Link", "mirror"),
         ("Image Preview", "image"),
         ("File Size Info", "size_info"),
-        ("Color Analysis", "color"),
-        ("Vector Embed", "embed"),
         ("Auto Tags", "tags"),
         ("Fully Enriched", "fully_enriched")
     ]

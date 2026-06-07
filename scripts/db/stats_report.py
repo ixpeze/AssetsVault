@@ -59,24 +59,13 @@ def get_stats():
             local_image_count = conn.execute(f"SELECT COUNT(*) FROM items WHERE {condition} AND local_image_path IS NOT NULL AND local_image_path != ''").fetchone()[0]
             print(f"Query local_image_count took {time.time() - t0:.3f}s")
             
-            # Optimize: use EXISTS instead of joining/distinct in subqueries
             t0 = time.time()
-            color_count = conn.execute(f"""
-                SELECT COUNT(*) FROM items i
-                WHERE i.{condition} AND EXISTS (
-                    SELECT 1 FROM item_colors ic WHERE ic.item_id = i.id
-                )
-            """).fetchone()[0]
-            print(f"Query color_count took {time.time() - t0:.3f}s")
+            color_count = 0
+            print(f"Bypassed color_count query (set to 0)")
             
             t0 = time.time()
-            embed_count = conn.execute(f"""
-                SELECT COUNT(*) FROM items i
-                WHERE i.{condition} AND EXISTS (
-                    SELECT 1 FROM item_embeddings ie WHERE ie.item_id = i.id
-                )
-            """).fetchone()[0]
-            print(f"Query embed_count took {time.time() - t0:.3f}s")
+            embed_count = 0
+            print(f"Bypassed embed_count query (set to 0)")
             
             t0 = time.time()
             tag_count = conn.execute(f"""
@@ -110,8 +99,11 @@ def get_stats():
                 SELECT COUNT(*) FROM items i
                 WHERE i.{condition}
                   AND EXISTS (SELECT 1 FROM item_tags it WHERE it.item_id = i.id)
-                  AND EXISTS (SELECT 1 FROM item_colors ic WHERE ic.item_id = i.id)
-                  AND EXISTS (SELECT 1 FROM item_embeddings ie WHERE ie.item_id = i.id)
+                  AND (i.gdrive_link IS NOT NULL AND i.gdrive_link != '')
+                  AND EXISTS (
+                      SELECT 1 FROM item_metadata im 
+                      WHERE im.item_id = i.id AND im.file_size IS NOT NULL AND im.file_size > 0
+                  )
             """).fetchone()[0]
             print(f"Query fully_enriched took {time.time() - t0:.3f}s")
 

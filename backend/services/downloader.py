@@ -367,11 +367,11 @@ class DownloaderService:
                 conn.commit()
 
                 # Invalidate embedding cache if needed
-                try:
-                    from ..embedding_cache import invalidate
-                    invalidate()
-                except ImportError:
-                    pass
+                # try:
+                #     from ..embedding_cache import invalidate
+                #     invalidate()
+                # except ImportError:
+                #     pass
 
                 log.info("[Downloader] Download completed successfully for item %d. Saved to: %s", item_id, file_path)
 
