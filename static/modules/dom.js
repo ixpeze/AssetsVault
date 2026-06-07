@@ -62,6 +62,8 @@ export const dom = {
     lbCategory: document.getElementById("lb-category"),
     lbTierDot: document.getElementById("lb-tier-dot"),
     lbDate: document.getElementById("lb-date"),
+    lbSize: document.getElementById("lb-size"),
+    lbSizeContainer: document.getElementById("lb-size-container"),
     lbId: document.getElementById("lb-id"),
     lbGdrive: document.getElementById("lb-gdrive"),
     lbMirror: document.getElementById("lb-mirror"),

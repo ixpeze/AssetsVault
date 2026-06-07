@@ -85,7 +85,8 @@ export function buildCardHTML(item, idx) {
     const imgSrcAttr = escapeAttr(imgSrc);
     const fallbackSrcAttr = escapeAttr(fallbackSrc);
     const hasImage = !!imgSrc;
-    const categoryDisplay = escapeHtml(item.category_slug ? item.category_slug.replace(/-/g, " ") : "Uncategorized");
+    const sizeDisplay = item.file_size ? ` • ${formatBytes(item.file_size)}` : '';
+    const categoryDisplay = escapeHtml(item.category_slug ? item.category_slug.replace(/-/g, " ") : "Uncategorized") + sizeDisplay;
     const isFav = state.favoriteIds.has(item.id);
     const isSelected = state.selectedIds.has(item.id);
 
@@ -128,8 +129,8 @@ export function buildCardHTML(item, idx) {
         const speed = activeJob.speed_kbps > 1024 
             ? `${(activeJob.speed_kbps / 1024).toFixed(1)} MB/s` 
             : `${activeJob.speed_kbps} KB/s`;
-        const totalStr = activeJob.total_bytes > 0 ? _formatBytes(activeJob.total_bytes) : '';
-        const bytesWrittenStr = activeJob.bytes_written > 0 ? _formatBytes(activeJob.bytes_written) : '';
+        const totalStr = activeJob.total_bytes > 0 ? formatBytes(activeJob.total_bytes) : '';
+        const bytesWrittenStr = activeJob.bytes_written > 0 ? formatBytes(activeJob.bytes_written) : '';
 
         if (activeJob.status === 'pending') {
             overlayHTML = `
@@ -167,7 +168,7 @@ export function buildCardHTML(item, idx) {
         </div>
         <div class="flex items-center justify-between p-3 bg-[#111]/80 border-t border-glass-border transition-colors">
             <div class="flex flex-col overflow-hidden flex-1">
-                <span class="text-[9px] text-text-muted font-mono uppercase truncate max-w-[150px] mb-0.5">${categoryDisplay}</span>
+                <span class="text-[9px] text-text-muted font-mono uppercase truncate mb-0.5">${categoryDisplay}</span>
                 <h3 class="text-sm font-medium text-white truncate font-display" title="${titleAttr}">${titleText}</h3>
                 <div class="flex items-center gap-2 mt-1.5">${downloadBtn}${gdriveBtn}${mirrorBtn}${sourceBtn}</div>
             </div>
@@ -252,7 +253,7 @@ export function initCardDelegation({ openLightbox, toggleSelection, toggleFavori
 // Kept for backward compatibility — now a no-op since delegation handles everything
 export function attachCardListeners() { }
 
-function _formatBytes(bytes) {
+export function formatBytes(bytes) {
     if (!bytes || bytes === 0) return '0 B';
     const units = ['B', 'KB', 'MB', 'GB'];
     let i = 0;

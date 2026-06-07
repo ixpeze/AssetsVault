@@ -31,6 +31,7 @@ def _cache_key(query: SearchQuery) -> str:
         f"fav={query.fav}",
         f"gdrive={query.has_gdrive},{query.no_gdrive}",
         f"img={query.has_image},{query.no_image}",
+        f"size={query.has_size},{query.no_size}",
         f"xq={query.exclude_q}",
         f"xtag={query.exclude_tag}",
         f"xcat={query.exclude_category}",

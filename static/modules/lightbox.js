@@ -2,7 +2,7 @@
 import { state } from './state.js';
 import { dom } from './dom.js';
 import { apiGet, apiPost, apiDelete } from './api.js';
-import { escapeAttr, escapeHtml } from './cards.js';
+import { escapeAttr, escapeHtml, formatBytes } from './cards.js';
 
 let lbZoomed = false;
 
@@ -37,6 +37,15 @@ export function openLightbox(index, deps) {
     const idValEl = document.getElementById('lb-id-val');
     if (idValEl) idValEl.textContent = item.id || '—';
     else if (dom.lbId) dom.lbId.textContent = item.id || '—';
+
+    if (dom.lbSize && dom.lbSizeContainer) {
+        if (item.file_size) {
+            dom.lbSize.textContent = formatBytes(item.file_size);
+            dom.lbSizeContainer.classList.remove('hidden');
+        } else {
+            dom.lbSizeContainer.classList.add('hidden');
+        }
+    }
 
     setLinkBtn(dom.lbGdrive, item.gdrive_link);
     setLinkBtn(dom.lbMirror, item.mirror_link);

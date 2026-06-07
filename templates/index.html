@@ -1203,7 +1203,7 @@
             </div>
 
             <div id="filters-panel" class="hidden px-8 py-4 border-t border-glass-border/50">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <!-- GDrive Link Filter -->
                     <div>
                         <label class="text-[10px] font-mono uppercase text-text-muted mb-2 block">Has GDrive
@@ -1235,6 +1235,17 @@
                             <option value="">All</option>
                             <option value="Free">Free</option>
                             <option value="Paid">Paid</option>
+                        </select>
+                    </div>
+
+                    <!-- Size Data Filter -->
+                    <div>
+                        <label class="text-[10px] font-mono uppercase text-text-muted mb-2 block">Has Size Data</label>
+                        <select id="filter-size"
+                            class="w-full bg-[#151515] border border-glass-border text-xs px-2 py-1.5 rounded text-white">
+                            <option value="">All</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
                         </select>
                     </div>
                 </div>
@@ -2097,6 +2108,11 @@
                         <span class="text-text-muted">Collected:</span>
                         <span id="lb-date" class="text-white font-medium"></span>
                         <span id="lb-id" class="text-text-muted font-mono ml-auto">#<span id="lb-id-val"></span></span>
+                    </div>
+                    <div id="lb-size-container" class="flex items-center gap-2 text-xs hidden">
+                        <span class="material-symbols-outlined text-[14px] text-text-muted">database</span>
+                        <span class="text-text-muted">Size:</span>
+                        <span id="lb-size" class="text-white font-medium"></span>
                     </div>
                 </div>
 

@@ -46,6 +46,8 @@ class SearchQuery:
     no_gdrive: bool = False
     has_image: bool = False
     no_image: bool = False
+    has_size: bool = False
+    no_size: bool = False
     exclude_q: str = ""      # terms to exclude from results (space-separated)
 
     # Quick-view filters

@@ -1,0 +1,30 @@
+{
+    "is_paid = 0": {
+        "available": 1002171,
+        "scraped": 117053,
+        "gdrive": 117051,
+        "mirror": 116885,
+        "image": 116778,
+        "local_image": 115970,
+        "color": 78408,
+        "embed": 78410,
+        "tags": 74734,
+        "downloaded": 6,
+        "size_info": 117005,
+        "fully_enriched": 74731
+    },
+    "is_paid = 1": {
+        "available": 10155,
+        "scraped": 10040,
+        "gdrive": 9872,
+        "mirror": 9623,
+        "image": 9996,
+        "local_image": 9935,
+        "color": 4660,
+        "embed": 4664,
+        "tags": 4208,
+        "downloaded": 0,
+        "size_info": 9867,
+        "fully_enriched": 4208
+    }
+}

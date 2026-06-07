@@ -360,7 +360,7 @@ document.getElementById("filters-toggle")?.addEventListener("click", () => {
 });
 
 // Wire filter dropdowns to the imported applyFilters from filters.js
-["filter-gdrive", "filter-image", "filter-tier"].forEach(id => {
+["filter-gdrive", "filter-image", "filter-tier", "filter-size"].forEach(id => {
     document.getElementById(id)?.addEventListener("change", () => applyFilters(fetchItems));
 });
 
@@ -368,7 +368,7 @@ const filtersClear = document.getElementById("filters-clear");
 if (filtersClear) {
     filtersClear.addEventListener("click", () => {
         Object.keys(state.advancedFilters).forEach(k => state.advancedFilters[k] = "");
-        ["filter-gdrive", "filter-image", "filter-tier"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+        ["filter-gdrive", "filter-image", "filter-tier", "filter-size"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
         const badge = document.getElementById("active-filters-badge");
         if (badge) badge.classList.add("hidden");
         filtersClear.classList.add("hidden");
@@ -695,7 +695,7 @@ function clearAllFilters() {
     dom.allAssetsLink.classList.add("bg-frost-hover", "text-white");
     dom.favoritesLink.classList.remove("bg-frost-hover", "text-white");
     Object.keys(state.advancedFilters).forEach(k => state.advancedFilters[k] = "");
-    ["filter-gdrive", "filter-image", "filter-tier"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+    ["filter-gdrive", "filter-image", "filter-tier", "filter-size"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
     const badge = document.getElementById("active-filters-badge");
     const clearBtn = document.getElementById("filters-clear");
     if (badge) badge.classList.add("hidden");

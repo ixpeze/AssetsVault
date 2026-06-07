@@ -7,6 +7,7 @@ export function applyFilters(fetchItems) {
     state.advancedFilters.hasGdrive = document.getElementById("filter-gdrive").value;
     state.advancedFilters.hasImage = document.getElementById("filter-image").value;
     state.advancedFilters.tier = document.getElementById("filter-tier").value;
+    state.advancedFilters.hasSize = document.getElementById("filter-size").value;
 
     const activeCount = Object.values(state.advancedFilters).filter(v => v !== "").length;
     const badge = document.getElementById("active-filters-badge");

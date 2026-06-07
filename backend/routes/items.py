@@ -28,6 +28,8 @@ def _parse_search_query() -> SearchQuery:
         no_gdrive=a.get("no_gdrive", "").strip() == "1",
         has_image=a.get("has_image", "").strip() == "1",
         no_image=a.get("no_image", "").strip() == "1",
+        has_size=a.get("has_size", "").strip() == "1",
+        no_size=a.get("no_size", "").strip() == "1",
         exclude_q=a.get("exclude_q", "").strip(),
         untagged=a.get("untagged", "").strip() == "1",
         missing=a.get("missing", "").strip() == "1",

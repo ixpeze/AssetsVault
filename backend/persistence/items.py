@@ -167,6 +167,16 @@ def _build_where(
             "AND (local_image_path IS NULL OR local_image_path = '')"
         )
 
+    if query.has_size:
+        clauses.append(
+            "id IN (SELECT item_id FROM item_metadata WHERE file_size IS NOT NULL AND file_size > 0)"
+        )
+
+    if query.no_size:
+        clauses.append(
+            "id NOT IN (SELECT item_id FROM item_metadata WHERE file_size IS NOT NULL AND file_size > 0)"
+        )
+
     if query.untagged:
         clauses.append(
             "id NOT IN (SELECT DISTINCT item_id FROM item_tags)"
@@ -214,10 +224,14 @@ def find_page(
     """Return one page of items matching *query*."""
     where, params = _build_where(query, **build_kwargs)
     sql = f"""
-        SELECT id, title, category_slug, gdrive_link, mirror_link,
-               image_url, local_image_path, post_url,
-               collected_at, is_paid, status
-        FROM items{where}
+        SELECT items.id AS id, items.title AS title, items.category_slug AS category_slug,
+               items.gdrive_link AS gdrive_link, items.mirror_link AS mirror_link,
+               items.image_url AS image_url, items.local_image_path AS local_image_path,
+               items.post_url AS post_url, items.collected_at AS collected_at,
+               items.is_paid AS is_paid, items.status AS status, item_metadata.file_size AS file_size
+        FROM items
+        LEFT JOIN item_metadata ON items.id = item_metadata.item_id
+        {where}
         ORDER BY {query.order_by}
         LIMIT ? OFFSET ?
     """
@@ -238,11 +252,15 @@ def find_page_with_count(
     """
     where, params = _build_where(query, **build_kwargs)
     sql = f"""
-        SELECT id, title, category_slug, gdrive_link, mirror_link,
-               image_url, local_image_path, post_url,
-               collected_at, is_paid, status,
+        SELECT items.id AS id, items.title AS title, items.category_slug AS category_slug,
+               items.gdrive_link AS gdrive_link, items.mirror_link AS mirror_link,
+               items.image_url AS image_url, items.local_image_path AS local_image_path,
+               items.post_url AS post_url, items.collected_at AS collected_at,
+               items.is_paid AS is_paid, items.status AS status, item_metadata.file_size AS file_size,
                COUNT(*) OVER() AS _total
-        FROM items{where}
+        FROM items
+        LEFT JOIN item_metadata ON items.id = item_metadata.item_id
+        {where}
         ORDER BY {query.order_by}
         LIMIT ? OFFSET ?
     """
@@ -270,7 +288,12 @@ def find_by_id(conn: sqlite3.Connection, item_id: int) -> dict | None:
 
 def find_by_id_with_tags(conn: sqlite3.Connection, item_id: int) -> dict | None:
     """Return a single item by ID with tags hydrated, or None if not found."""
-    row = conn.execute("SELECT * FROM items WHERE id = ?", (item_id,)).fetchone()
+    row = conn.execute("""
+        SELECT items.*, item_metadata.file_size
+        FROM items
+        LEFT JOIN item_metadata ON items.id = item_metadata.item_id
+        WHERE items.id = ?
+    """, (item_id,)).fetchone()
     if not row:
         return None
     item = dict(row)
@@ -340,7 +363,7 @@ def same_category_candidates(
 def find_by_ids(
     conn: sqlite3.Connection,
     ids: list[int],
-    fields: str = "id, title, category_slug, image_url, local_image_path, gdrive_link",
+    fields: str = "items.id AS id, items.title AS title, items.category_slug AS category_slug, items.image_url AS image_url, items.local_image_path AS local_image_path, items.gdrive_link AS gdrive_link, item_metadata.file_size AS file_size",
 ) -> list[dict]:
     """Return items whose IDs are in *ids*, in the order of *ids*.
 
@@ -351,7 +374,7 @@ def find_by_ids(
         return []
     phs  = ",".join("?" * len(ids))
     rows  = conn.execute(
-        f"SELECT {fields} FROM items WHERE id IN ({phs})", ids
+        f"SELECT {fields} FROM items LEFT JOIN item_metadata ON items.id = item_metadata.item_id WHERE items.id IN ({phs})", ids
     ).fetchall()
     # Restore caller-defined ordering
     order = {iid: i for i, iid in enumerate(ids)}

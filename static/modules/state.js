@@ -25,7 +25,8 @@ export const state = {
     advancedFilters: {
         hasGdrive: "",
         hasImage: "",
-        tier: ""
+        tier: "",
+        hasSize: ""
     },
     expandedCategories: new Set(),
     lightboxIndex: -1,

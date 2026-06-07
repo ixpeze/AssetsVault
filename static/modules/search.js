@@ -25,6 +25,8 @@ export function buildItemParams() {
     if (state.advancedFilters.hasGdrive === "no") params.set("no_gdrive", "1");
     if (state.advancedFilters.hasImage === "yes") params.set("has_image", "1");
     if (state.advancedFilters.hasImage === "no") params.set("no_image", "1");
+    if (state.advancedFilters.hasSize === "yes") params.set("has_size", "1");
+    if (state.advancedFilters.hasSize === "no") params.set("no_size", "1");
     if (state.advancedFilters.tier) params.set("tier", state.advancedFilters.tier);
 
     const rawQ = state.searchQuery || '';
