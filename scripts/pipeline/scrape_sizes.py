@@ -80,12 +80,18 @@ def get_remote_file_size(url: str) -> int | None:
                     response.close()  # Close previous connection
                     response = session.get(action_url, params=params, stream=True, timeout=15)
             
+            final_content_type = response.headers.get("Content-Type", "")
+            if "text/html" in final_content_type:
+                return None
             size = response.headers.get('Content-Length')
             if size:
                 return int(size)
         else:
             # Mirror/Direct download url
             response = session.get(url, stream=True, timeout=15)
+            final_content_type = response.headers.get("Content-Type", "")
+            if "text/html" in final_content_type:
+                return None
             size = response.headers.get('Content-Length')
             if size:
                 return int(size)

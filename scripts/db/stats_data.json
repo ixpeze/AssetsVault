@@ -10,8 +10,8 @@
         "embed": 0,
         "tags": 74734,
         "downloaded": 6,
-        "size_info": 117005,
-        "fully_enriched": 74704
+        "size_info": 35393,
+        "fully_enriched": 15946
     },
     "is_paid = 1": {
         "available": 10155,
@@ -24,7 +24,7 @@
         "embed": 0,
         "tags": 4208,
         "downloaded": 0,
-        "size_info": 9867,
-        "fully_enriched": 4123
+        "size_info": 7257,
+        "fully_enriched": 2802
     }
 }
