@@ -62,6 +62,7 @@ def init_schema(conn: sqlite3.Connection) -> None:
     conn.execute("PRAGMA wal_autocheckpoint = 2000")      # ~8 MB WAL
 
     _ensure_app_meta(conn)          # must come before FTS guard
+    _ensure_core_tables(conn)
     _ensure_fts_table(conn)
     _ensure_favorites_table(conn)
     _ensure_collections_tables(conn)
@@ -98,6 +99,43 @@ def _ensure_app_meta(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
+def _ensure_core_tables(conn: sqlite3.Connection) -> None:
+    """Ensure core categories and items tables exist."""
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS categories (
+            id          INTEGER PRIMARY KEY,
+            name        TEXT NOT NULL,
+            slug        TEXT NOT NULL UNIQUE,
+            parent_id   INTEGER DEFAULT 0,
+            post_count  INTEGER DEFAULT 0,
+            link        TEXT,
+            fetched_at  TEXT DEFAULT (datetime('now'))
+        )
+    """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT NOT NULL,
+            category_id INTEGER,
+            category_slug TEXT,
+            gdrive_link TEXT,
+            mirror_link TEXT,
+            image_url TEXT,
+            local_image_path TEXT,
+            local_file_path TEXT,
+            post_url TEXT,
+            render_type TEXT,
+            tier TEXT DEFAULT 'Free',
+            taxonomy_id INTEGER DEFAULT NULL,
+            is_paid INTEGER NOT NULL DEFAULT 0,
+            local_path TEXT,
+            status TEXT DEFAULT 'online',
+            collected_at TEXT DEFAULT (datetime('now'))
+        )
+    """)
+    conn.commit()
+
+
 def get_meta(conn: sqlite3.Connection, key: str, default: str | None = None) -> str | None:
     """Read a value from app_meta."""
     row = conn.execute("SELECT value FROM app_meta WHERE key = ?", (key,)).fetchone()
@@ -127,29 +165,15 @@ def flag_fts_needs_sync(conn: sqlite3.Connection) -> None:
 # ---------------------------------------------------------------------------
 
 def _ensure_fts_table(conn: sqlite3.Connection) -> None:
-    """Create and conditionally sync the FTS5 virtual table.
-
-    Full resync only runs when:
-      - FTS is empty (new/wiped DB), OR
-      - `fts_needs_sync` flag is set in app_meta (post-pipeline), OR
-      - Count diverges by >5% AND >500 rows (possible corruption).
-    """
+    """Create and conditionally sync the FTS5 virtual table."""
     try:
-        # Drop legacy content-synced table if present
-        row = conn.execute(
-            "SELECT sql FROM sqlite_master WHERE name='items_fts' AND type='table'"
-        ).fetchone()
-        if row and "content='items'" in (row[0] or ""):
-            conn.execute("DROP TABLE items_fts")
-            conn.commit()
-            log.warning("[FTS5] Dropped broken content-synced table")
-
         conn.execute("""
             CREATE VIRTUAL TABLE IF NOT EXISTS items_fts USING fts5(
                 title,
+                category_name,
                 category_slug,
-                tokenize = 'porter unicode61',
-                prefix   = '2 3 4'
+                tags,
+                tokenize = 'porter unicode61'
             )
         """)
 
@@ -157,50 +181,54 @@ def _ensure_fts_table(conn: sqlite3.Connection) -> None:
         items_count = conn.execute("SELECT COUNT(*) FROM items").fetchone()[0]
         needs_sync  = get_meta(conn, "fts_needs_sync") == "1"
 
-        # Determine whether a full resync is needed
-        diff       = abs(fts_count - items_count)
-        pct_drift  = diff / max(items_count, 1)
-        corrupted  = diff > 500 and pct_drift > 0.05
-
-        if fts_count == 0 or needs_sync or corrupted:
-            reason = "empty" if fts_count == 0 else ("pipeline flag" if needs_sync else "corruption")
-            log.info("[FTS5] Resyncing (%s): %d items → FTS...", reason, items_count)
+        if fts_count == 0 or needs_sync:
+            log.info("[FTS5] Resyncing items → FTS5...")
             conn.execute("DELETE FROM items_fts")
             conn.execute("""
-                INSERT INTO items_fts(rowid, title, category_slug)
-                SELECT id, title, category_slug FROM items
+                INSERT INTO items_fts(rowid, title, category_name, category_slug, tags)
+                SELECT i.id, i.title, COALESCE(c.name, ''), COALESCE(i.category_slug, ''), ''
+                FROM items i
+                LEFT JOIN categories c ON c.slug = i.category_slug
             """)
             conn.commit()
-            conn.execute("INSERT INTO items_fts(items_fts) VALUES('optimize')")
-            conn.commit()
-            # Clear the flag so subsequent restarts skip resync
             set_meta(conn, "fts_needs_sync", "0")
-            log.info("[FTS5] Synced and optimised %d items", items_count)
-        else:
-            log.debug("[FTS5] Skipping resync (items=%d, fts=%d, drift=%.2f%%)",
-                      items_count, fts_count, pct_drift * 100)
+            log.info("[FTS5] Synced %d items", items_count)
 
-        # Ensure triggers exist (idempotent)
+        # Ensure triggers exist
         conn.execute("""
-            CREATE TRIGGER IF NOT EXISTS items_ai
-            AFTER INSERT ON items BEGIN
-                INSERT INTO items_fts(rowid, title, category_slug)
-                VALUES (new.id, new.title, new.category_slug);
-            END
+            CREATE TRIGGER IF NOT EXISTS trg_items_ai AFTER INSERT ON items BEGIN
+                INSERT INTO items_fts(rowid, title, category_name, category_slug, tags)
+                VALUES (
+                    new.id,
+                    new.title,
+                    COALESCE((SELECT name FROM categories WHERE slug = new.category_slug), ''),
+                    COALESCE(new.category_slug, ''),
+                    ''
+                );
+            END;
         """)
         conn.execute("""
-            CREATE TRIGGER IF NOT EXISTS items_au
-            AFTER UPDATE OF title, category_slug ON items BEGIN
+            CREATE TRIGGER IF NOT EXISTS trg_items_ad AFTER DELETE ON items BEGIN
                 DELETE FROM items_fts WHERE rowid = old.id;
-                INSERT INTO items_fts(rowid, title, category_slug)
-                VALUES (new.id, new.title, new.category_slug);
-            END
+            END;
         """)
         conn.execute("""
-            CREATE TRIGGER IF NOT EXISTS items_ad
-            AFTER DELETE ON items BEGIN
+            CREATE TRIGGER IF NOT EXISTS trg_items_au AFTER UPDATE OF title, category_slug ON items BEGIN
                 DELETE FROM items_fts WHERE rowid = old.id;
-            END
+                INSERT INTO items_fts(rowid, title, category_name, category_slug, tags)
+                VALUES (
+                    new.id,
+                    new.title,
+                    COALESCE((SELECT name FROM categories WHERE slug = new.category_slug), ''),
+                    COALESCE(new.category_slug, ''),
+                    (
+                        SELECT GROUP_CONCAT(t.name, ' ')
+                        FROM item_tags it
+                        JOIN tags t ON t.id = it.tag_id
+                        WHERE it.item_id = new.id
+                    )
+                );
+            END;
         """)
         conn.commit()
     except Exception:
@@ -255,9 +283,16 @@ def _ensure_tags_tables(conn: sqlite3.Connection) -> None:
         CREATE TABLE IF NOT EXISTS tags (
             id     INTEGER PRIMARY KEY AUTOINCREMENT,
             name   TEXT UNIQUE NOT NULL,
-            source TEXT DEFAULT 'auto'
+            source TEXT DEFAULT 'auto',
+            count  INTEGER DEFAULT 0
         )
     """)
+    for col, ctype, dval in [("count", "INTEGER", "0"), ("source", "TEXT", "'auto'")]:
+        try:
+            conn.execute(f"ALTER TABLE tags ADD COLUMN {col} {ctype} DEFAULT {dval}")
+            conn.commit()
+        except Exception:
+            pass
     conn.execute("""
         CREATE TABLE IF NOT EXISTS item_tags (
             item_id INTEGER NOT NULL,
@@ -438,32 +473,13 @@ def optimize_fts(conn: sqlite3.Connection) -> None:
 # ---------------------------------------------------------------------------
 
 def _migrate_is_paid(conn: sqlite3.Connection) -> None:
-    """Add is_paid column to items and backfill from PAID_CATEGORY_SLUGS."""
+    """Add is_paid column to items if missing."""
     try:
         conn.execute("ALTER TABLE items ADD COLUMN is_paid INTEGER NOT NULL DEFAULT 0")
         conn.commit()
         log.info("[Migration] Added is_paid column to items")
     except Exception:
         pass  # Already present
-
-    needs_backfill = conn.execute(
-        "SELECT COUNT(*) FROM items WHERE is_paid = 1"
-    ).fetchone()[0] == 0
-
-    if needs_backfill and PAID_CATEGORY_SLUGS:
-        conn.execute("CREATE TEMP TABLE IF NOT EXISTS _paid_slugs (slug TEXT PRIMARY KEY)")
-        conn.executemany(
-            "INSERT OR IGNORE INTO _paid_slugs VALUES (?)",
-            [(s,) for s in PAID_CATEGORY_SLUGS],
-        )
-        conn.execute(
-            "UPDATE items SET is_paid = 1 "
-            "WHERE category_slug IN (SELECT slug FROM _paid_slugs)"
-        )
-        conn.execute("DROP TABLE IF EXISTS _paid_slugs")
-        conn.commit()
-        n = conn.execute("SELECT COUNT(*) FROM items WHERE is_paid = 1").fetchone()[0]
-        log.info("[Migration] Backfilled is_paid=1 for %d items", n)
 
 
 def _migrate_drop_render_type(conn: sqlite3.Connection) -> None:

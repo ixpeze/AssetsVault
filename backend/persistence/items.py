@@ -19,79 +19,58 @@ def _build_where(
     category_slugs: list | None = None,
     taxonomy_ids: list | None = None,
     taxonomy_cat_slugs: list | None = None,
+    is_fts_from: bool = False,
 ) -> tuple[str, list]:
     """
-    Build a (where_sql, params) pair from a SearchQuery and pre-computed IDs.
-
-    Returns ("1=0", []) when a filter is active but produced no candidates
-    (e.g. semantic search ran but found no matches).
+    Build a (where_sql, params) pair from a SearchQuery.
+    
+    If is_fts_from is True, assumes items_fts is part of the FROM clause,
+    so it uses `items_fts MATCH ?` directly instead of a subquery.
     """
     clauses: list[str] = []
     params: list = []
 
-    # --- semantic search (disabled) ----------------------------------------
-
-    # --- FTS / tag text search ---------------------------------------------
+    # --- FTS / text search -------------------------------------------------
     if query.q:
         fts_expr = query.fts_expression
         if fts_expr:
-            clauses.append("""
-                (
-                    id IN (
-                        SELECT rowid FROM items_fts
-                        WHERE items_fts MATCH ?
-                        ORDER BY rank
-                        LIMIT 2000
-                    )
-                    OR
-                    id IN (
-                        SELECT it.item_id
-                        FROM item_tags it
-                        JOIN tags t ON t.id = it.tag_id
-                        WHERE t.name LIKE ?
-                    )
-                )
-            """)
-            params.append(fts_expr)
-            params.append(f"%{query.q}%")
+            if is_fts_from:
+                clauses.append("items_fts MATCH ?")
+                params.append(fts_expr)
+            else:
+                clauses.append("items.id IN (SELECT rowid FROM items_fts WHERE items_fts MATCH ?)")
+                params.append(fts_expr)
         else:
-            clauses.append("title LIKE ?")
+            clauses.append("items.title LIKE ?")
             params.append(f"%{query.q}%")
 
-    # --- taxonomy / category filter ----------------------------------------
-    if taxonomy_ids:
-        conds = [f"taxonomy_id IN ({','.join('?' * len(taxonomy_ids))})"]
-        params.extend(taxonomy_ids)
-        if taxonomy_cat_slugs:
-            conds.append(
-                f"(taxonomy_id IS NULL AND category_slug IN "
-                f"({','.join('?' * len(taxonomy_cat_slugs))}))"
-            )
-            params.extend(taxonomy_cat_slugs)
-        clauses.append(f"({' OR '.join(conds)})")
-    elif category_slugs:
+    # --- category filter ---------------------------------------------------
+    if category_slugs:
         phs = ",".join("?" * len(category_slugs))
-        clauses.append(f"category_slug IN ({phs})")
+        clauses.append(f"items.category_slug IN ({phs})")
         params.extend(category_slugs)
+    elif query.category:
+        clauses.append("items.category_slug = ?")
+        params.append(query.category)
 
     # --- attribute filters -------------------------------------------------
     if query.tier == "Paid":
-        clauses.append("is_paid = 1")
+        clauses.append("items.is_paid = 1")
     elif query.tier == "Free":
-        clauses.append("is_paid = 0")
+        clauses.append("items.is_paid = 0")
 
     if query.fav:
-        clauses.append("id IN (SELECT item_id FROM favorites)")
+        clauses.append("items.id IN (SELECT item_id FROM favorites)")
 
     if query.collection_id:
         clauses.append(
-            "id IN (SELECT item_id FROM collection_items WHERE collection_id = ?)"
+            "items.id IN (SELECT item_id FROM collection_items WHERE collection_id = ?)"
         )
         params.append(query.collection_id)
 
     if query.tag:
         clauses.append("""
-            id IN (
+            items.id IN (
                 SELECT it.item_id FROM item_tags it
                 JOIN tags t ON t.id = it.tag_id
                 WHERE t.name = ?
@@ -101,7 +80,7 @@ def _build_where(
 
     if query.exclude_tag:
         clauses.append("""
-            id NOT IN (
+            items.id NOT IN (
                 SELECT it.item_id FROM item_tags it
                 JOIN tags t ON t.id = it.tag_id
                 WHERE t.name = ?
@@ -110,17 +89,16 @@ def _build_where(
         params.append(query.exclude_tag)
 
     if query.exclude_category:
-        clauses.append("category_slug != ?")
+        clauses.append("items.category_slug != ?")
         params.append(query.exclude_category)
 
     if query.tags:
         tag_list = [t.strip() for t in query.tags.split(",") if t.strip()]
         if tag_list:
             if query.tags_mode == "and":
-                # Item must have ALL tags
                 for tag_name in tag_list:
                     clauses.append("""
-                        id IN (
+                        items.id IN (
                             SELECT it.item_id FROM item_tags it
                             JOIN tags t ON t.id = it.tag_id
                             WHERE t.name = ?
@@ -128,10 +106,9 @@ def _build_where(
                     """)
                     params.append(tag_name)
             else:
-                # Item must have ANY tag (OR)
                 phs = ",".join("?" * len(tag_list))
                 clauses.append(f"""
-                    id IN (
+                    items.id IN (
                         SELECT it.item_id FROM item_tags it
                         JOIN tags t ON t.id = it.tag_id
                         WHERE t.name IN ({phs})
@@ -139,59 +116,55 @@ def _build_where(
                 """)
                 params.extend(tag_list)
 
-
-
     if query.has_gdrive:
-        clauses.append("gdrive_link IS NOT NULL AND gdrive_link != ''")
+        clauses.append("items.gdrive_link IS NOT NULL AND items.gdrive_link != ''")
 
     if query.no_gdrive:
-        clauses.append("(gdrive_link IS NULL OR gdrive_link = '')")
+        clauses.append("(items.gdrive_link IS NULL OR items.gdrive_link = '')")
 
     if query.has_image:
         clauses.append(
-            "(image_url IS NOT NULL AND image_url != '') "
-            "OR (local_image_path IS NOT NULL AND local_image_path != '')"
+            "(items.image_url IS NOT NULL AND items.image_url != '') "
+            "OR (items.local_image_path IS NOT NULL AND items.local_image_path != '')"
         )
 
     if query.no_image:
         clauses.append(
-            "(image_url IS NULL OR image_url = '') "
-            "AND (local_image_path IS NULL OR local_image_path = '')"
+            "(items.image_url IS NULL OR items.image_url = '') "
+            "AND (items.local_image_path IS NULL OR items.local_image_path = '')"
         )
 
     if query.has_size:
         clauses.append(
-            "id IN (SELECT item_id FROM item_metadata WHERE file_size IS NOT NULL AND file_size > 0)"
+            "items.id IN (SELECT item_id FROM item_metadata WHERE file_size IS NOT NULL AND file_size > 0)"
         )
 
     if query.no_size:
         clauses.append(
-            "id NOT IN (SELECT item_id FROM item_metadata WHERE file_size IS NOT NULL AND file_size > 0)"
+            "items.id NOT IN (SELECT item_id FROM item_metadata WHERE file_size IS NOT NULL AND file_size > 0)"
         )
 
     if query.untagged:
         clauses.append(
-            "id NOT IN (SELECT DISTINCT item_id FROM item_tags)"
+            "items.id NOT IN (SELECT DISTINCT item_id FROM item_tags)"
         )
 
     if query.missing:
         clauses.append(
-            "(image_url IS NULL OR image_url = '') "
-            "AND (local_image_path IS NULL OR local_image_path = '')"
+            "(items.image_url IS NULL OR items.image_url = '') "
+            "AND (items.local_image_path IS NULL OR items.local_image_path = '')"
         )
 
     if query.exclude_q:
         for term in query.exclude_q.split():
             term = term.strip()
             if term:
-                clauses.append("title NOT LIKE ? AND id NOT IN (SELECT it.item_id FROM item_tags it JOIN tags t ON t.id=it.tag_id WHERE t.name LIKE ?)")
+                clauses.append("items.title NOT LIKE ? AND items.id NOT IN (SELECT it.item_id FROM item_tags it JOIN tags t ON t.id=it.tag_id WHERE t.name LIKE ?)")
                 params.append(f"%{term}%")
                 params.append(f"%{term}%")
 
     where_sql = (" WHERE " + " AND ".join(clauses)) if clauses else ""
     return where_sql, params
-
-
 
 
 # ---------------------------------------------------------------------------
@@ -204,8 +177,20 @@ def count(
     **build_kwargs,
 ) -> int:
     """Return total number of items matching *query*."""
-    where, params = _build_where(query, **build_kwargs)
-    return conn.execute(f"SELECT COUNT(*) FROM items{where}", params).fetchone()[0]
+    use_fts_join = bool(query.q and query.fts_expression and query.sort == "relevance")
+    where, params = _build_where(query, is_fts_from=use_fts_join, **build_kwargs)
+    
+    if use_fts_join:
+        sql = f"""
+            SELECT COUNT(*)
+            FROM items_fts
+            JOIN items ON items.id = items_fts.rowid
+            {where}
+        """
+    else:
+        sql = f"SELECT COUNT(*) FROM items{where}"
+        
+    return conn.execute(sql, params).fetchone()[0]
 
 
 def find_page(
@@ -214,19 +199,36 @@ def find_page(
     **build_kwargs,
 ) -> list[dict]:
     """Return one page of items matching *query*."""
-    where, params = _build_where(query, **build_kwargs)
-    sql = f"""
-        SELECT items.id AS id, items.title AS title, items.category_slug AS category_slug,
-               items.gdrive_link AS gdrive_link, items.mirror_link AS mirror_link,
-               items.image_url AS image_url, items.local_image_path AS local_image_path,
-               items.post_url AS post_url, items.collected_at AS collected_at,
-               items.is_paid AS is_paid, items.status AS status, item_metadata.file_size AS file_size
-        FROM items
-        LEFT JOIN item_metadata ON items.id = item_metadata.item_id
-        {where}
-        ORDER BY {query.order_by}
-        LIMIT ? OFFSET ?
-    """
+    use_fts_join = bool(query.q and query.fts_expression and query.sort == "relevance")
+    where, params = _build_where(query, is_fts_from=use_fts_join, **build_kwargs)
+
+    if use_fts_join:
+        sql = f"""
+            SELECT items.id AS id, items.title AS title, items.category_slug AS category_slug,
+                   items.gdrive_link AS gdrive_link, items.mirror_link AS mirror_link,
+                   items.image_url AS image_url, items.local_image_path AS local_image_path,
+                   items.post_url AS post_url, items.collected_at AS collected_at,
+                   items.is_paid AS is_paid, items.status AS status, item_metadata.file_size AS file_size
+            FROM items_fts
+            JOIN items ON items.id = items_fts.rowid
+            LEFT JOIN item_metadata ON items.id = item_metadata.item_id
+            {where}
+            ORDER BY items_fts.rank ASC
+            LIMIT ? OFFSET ?
+        """
+    else:
+        sql = f"""
+            SELECT items.id AS id, items.title AS title, items.category_slug AS category_slug,
+                   items.gdrive_link AS gdrive_link, items.mirror_link AS mirror_link,
+                   items.image_url AS image_url, items.local_image_path AS local_image_path,
+                   items.post_url AS post_url, items.collected_at AS collected_at,
+                   items.is_paid AS is_paid, items.status AS status, item_metadata.file_size AS file_size
+            FROM items
+            LEFT JOIN item_metadata ON items.id = item_metadata.item_id
+            {where}
+            ORDER BY {query.order_by}
+            LIMIT ? OFFSET ?
+        """
     rows = conn.execute(sql, params + [query.per_page, query.offset]).fetchall()
     return [dict(r) for r in rows]
 
@@ -236,40 +238,11 @@ def find_page_with_count(
     query: SearchQuery,
     **build_kwargs,
 ) -> tuple[list[dict], int]:
-    """Return (page_items, total_count) in a single query.
-
-    Uses COUNT(*) OVER() window function to piggyback the total
-    count onto each row, eliminating a separate COUNT query.
-    ~2× faster than calling count() + find_page() separately.
-    """
-    where, params = _build_where(query, **build_kwargs)
-    sql = f"""
-        SELECT items.id AS id, items.title AS title, items.category_slug AS category_slug,
-               items.gdrive_link AS gdrive_link, items.mirror_link AS mirror_link,
-               items.image_url AS image_url, items.local_image_path AS local_image_path,
-               items.post_url AS post_url, items.collected_at AS collected_at,
-               items.is_paid AS is_paid, items.status AS status, item_metadata.file_size AS file_size,
-               COUNT(*) OVER() AS _total
-        FROM items
-        LEFT JOIN item_metadata ON items.id = item_metadata.item_id
-        {where}
-        ORDER BY {query.order_by}
-        LIMIT ? OFFSET ?
-    """
-    rows = conn.execute(sql, params + [query.per_page, query.offset]).fetchall()
-    if not rows:
-        # No results — still need total to be 0 OR the real count
-        # when offset is past the end
-        total = conn.execute(
-            f"SELECT COUNT(*) FROM items{where}", params
-        ).fetchone()[0]
-        return [], total
-    total = rows[0]["_total"]
-    items = []
-    for r in rows:
-        d = dict(r)
-        d.pop("_total", None)
-        items.append(d)
+    """Return (page_items, total_count)."""
+    total = count(conn, query, **build_kwargs)
+    if total == 0:
+        return [], 0
+    items = find_page(conn, query, **build_kwargs)
     return items, total
 
 

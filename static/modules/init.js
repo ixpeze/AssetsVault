@@ -252,6 +252,24 @@ function setupEventListeners() {
 
     document.getElementById('open-downloads-folder')?.addEventListener('click', openDownloadsFolder);
 
+    // Open item directly by ID (e.g. from autocomplete instant results)
+    async function openItemById(targetId) {
+        let idx = state.items.findIndex(it => it.id === targetId);
+        if (idx >= 0) {
+            openLightboxWrap(idx);
+        } else {
+            try {
+                const item = await apiGet(`/api/items/${targetId}`);
+                if (item && item.id) {
+                    state.items.unshift(item);
+                    openLightboxWrap(0);
+                }
+            } catch (e) {
+                console.error("Failed to fetch item for preview", e);
+            }
+        }
+    }
+
     // Search bar
     let searchTimer, autocompleteTimer;
     if (dom.searchInput) {
@@ -262,11 +280,15 @@ function setupEventListeners() {
             clearTimeout(searchTimer);
             clearTimeout(autocompleteTimer);
             if (val.length > 1) {
-                autocompleteTimer = setTimeout(() => showAutocompleteSuggestions(val, setActiveTaxonomy), 250);
+                autocompleteTimer = setTimeout(() => showAutocompleteSuggestions(val, {
+                    setActiveCategory: setActiveTaxonomy,
+                    fetchItems,
+                    openLightboxById: openItemById
+                }), 200);
             } else {
                 hideAutocompleteSuggestions();
             }
-            searchTimer = setTimeout(fetchItems, 200);
+            searchTimer = setTimeout(fetchItems, 250);
         });
         dom.searchInput.addEventListener("keydown", (e) => {
             if (e.key === "Enter") { clearTimeout(searchTimer); hideAutocompleteSuggestions(); fetchItems(); }

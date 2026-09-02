@@ -86,8 +86,8 @@ def test_api_search_suggestions(client):
     resp = client.get("/api/search/suggestions?q=sof")
     assert resp.status_code == 200
     data = resp.get_json()
-    assert isinstance(data, list)
-    assert len(data) > 0
+    assert isinstance(data, dict)
+    assert "categories" in data or "phrases" in data or "items" in data
 
 
 def test_api_item_detail(client):

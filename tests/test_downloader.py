@@ -39,78 +39,31 @@ from backend.routes.downloads import downloads_bp
 class TestDownloaderAndSchema(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # Initialize schema in the test database
+        temp_downloads_dir.mkdir(parents=True, exist_ok=True)
         conn = get_db_fresh()
         try:
-            # Create a mock categories table (expected by schema indexing)
-            conn.execute("""
-                CREATE TABLE IF NOT EXISTS categories (
-                    id          INTEGER PRIMARY KEY,
-                    name        TEXT NOT NULL,
-                    slug        TEXT NOT NULL UNIQUE,
-                    parent_id   INTEGER DEFAULT 0,
-                    post_count  INTEGER DEFAULT 0,
-                    link        TEXT,
-                    fetched_at  TEXT DEFAULT (datetime('now'))
-                )
-            """)
-            # Create a mock items table first (since schema.py expects it to exist and alters/syncs it)
-            conn.execute("""
-                CREATE TABLE IF NOT EXISTS items (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title TEXT NOT NULL,
-                    category_id INTEGER,
-                    category_slug TEXT,
-                    gdrive_link TEXT,
-                    mirror_link TEXT,
-                    image_url TEXT,
-                    local_image_path TEXT,
-                    local_file_path TEXT,
-                    post_url TEXT,
-                    render_type TEXT,
-                    tier TEXT DEFAULT 'Free',
-                    taxonomy_id INTEGER DEFAULT NULL,
-                    is_paid INTEGER NOT NULL DEFAULT 0,
-                    local_path TEXT,
-                    status TEXT DEFAULT 'online',
-                    collected_at TEXT DEFAULT (datetime('now'))
-                )
-            """)
-            conn.commit()
-            
-            # Run schema init
-            init_schema(conn)
-            
             # Seed settings
             conn.execute(
                 "INSERT OR REPLACE INTO settings (key, value) VALUES ('download_directory', ?)",
                 (str(temp_downloads_dir.absolute()),)
             )
-            conn.execute(
-                "INSERT OR REPLACE INTO settings (key, value) VALUES ('disk_quota', '0.0001')"  # ~100KB quota for eviction tests
-            )
-            conn.execute(
-                "INSERT OR REPLACE INTO settings (key, value) VALUES ('collision_mode', 'auto_rename')"
-            )
-            conn.execute(
-                "INSERT OR REPLACE INTO settings (key, value) VALUES ('retry_count', '3')"
-            )
-            conn.execute(
-                "INSERT OR REPLACE INTO settings (key, value) VALUES ('concurrency', '2')"
-            )
+            conn.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('disk_quota', '0.0001')")
+            conn.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('collision_mode', 'auto_rename')")
+            conn.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('retry_count', '3')")
+            conn.execute("INSERT OR REPLACE INTO settings (key, value) VALUES ('concurrency', '2')")
             
-            # Seed some items
+            # Seed downloader-specific test items
             conn.execute("""
                 INSERT OR REPLACE INTO items (id, title, category_slug, gdrive_link, mirror_link)
-                VALUES (1, 'Test Item 1', 'free-models', 'https://drive.google.com/uc?id=123', NULL)
+                VALUES (901, 'Test Item 1', 'free-models', 'https://drive.google.com/uc?id=123', NULL)
             """)
             conn.execute("""
                 INSERT OR REPLACE INTO items (id, title, category_slug, gdrive_link, mirror_link)
-                VALUES (2, 'Test Item 2', 'free-models', NULL, 'https://example.com/file2.zip')
+                VALUES (902, 'Test Item 2', 'free-models', NULL, 'https://example.com/file2.zip')
             """)
             conn.execute("""
                 INSERT OR REPLACE INTO items (id, title, category_slug, gdrive_link, mirror_link)
-                VALUES (3, 'Test Item 3', 'free-models', NULL, 'https://example.com/file3.zip')
+                VALUES (903, 'Test Item 3', 'free-models', NULL, 'https://example.com/file3.zip')
             """)
             conn.commit()
         finally:
@@ -122,22 +75,24 @@ class TestDownloaderAndSchema(unittest.TestCase):
         cls.client = cls.app.test_client()
 
     def setUp(self):
-        # Clear jobs and reset item status
+        # Clear jobs and reset test item status
         conn = get_db_fresh()
         try:
             conn.execute("DELETE FROM download_jobs")
-            conn.execute("UPDATE items SET local_file_path = NULL, status = 'online'")
+            conn.execute("UPDATE items SET local_file_path = NULL, status = 'online' WHERE id IN (901, 902, 903)")
             conn.commit()
         finally:
             conn.close()
 
     @classmethod
     def tearDownClass(cls):
-        # Cleanup temp directory
+        conn = get_db_fresh()
         try:
-            temp_dir.cleanup()
-        except Exception:
-            pass
+            conn.execute("DELETE FROM download_jobs")
+            conn.execute("DELETE FROM items WHERE id IN (901, 902, 903)")
+            conn.commit()
+        finally:
+            conn.close()
 
     def test_schema_migration_columns(self):
         """Verify settings, download_jobs tables exist, and local_file_path / status columns were migrated."""
@@ -183,7 +138,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
         conn = get_db_fresh()
         try:
             cursor = conn.execute(
-                "INSERT INTO download_jobs (item_id, url, status) VALUES (1, 'https://drive.google.com/uc?id=123', 'pending')"
+                "INSERT INTO download_jobs (item_id, url, status) VALUES (901, 'https://drive.google.com/uc?id=123', 'pending')"
             )
             job_id = cursor.lastrowid
             conn.commit()
@@ -191,7 +146,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
             conn.close()
 
         downloader = DownloaderService()
-        downloader._download_task(job_id, 1, "https://drive.google.com/uc?id=123")
+        downloader._download_task(job_id, 901, "https://drive.google.com/uc?id=123")
 
         # Verify DB updates
         conn = get_db_fresh()
@@ -203,9 +158,9 @@ class TestDownloaderAndSchema(unittest.TestCase):
             self.assertEqual(job["total_bytes"], 100)
             self.assertIsNone(job["error_message"])
 
-            item = conn.execute("SELECT local_file_path, status FROM items WHERE id = 1").fetchone()
+            item = conn.execute("SELECT local_file_path, status FROM items WHERE id = 901").fetchone()
             self.assertEqual(item["status"], "local")
-            self.assertTrue(item["local_file_path"].endswith("1_Test_Item_1.zip"))
+            self.assertTrue(item["local_file_path"].endswith("901_Test_Item_1.zip"))
         finally:
             conn.close()
 
@@ -241,25 +196,25 @@ class TestDownloaderAndSchema(unittest.TestCase):
         downloader = DownloaderService()
 
         # Download first file
-        downloader._download_task(101, 2, "https://example.com/file2.zip")
+        downloader._download_task(101, 902, "https://example.com/file2.zip")
         time.sleep(0.1)
 
         # Download second file (triggers eviction of first file)
-        downloader._download_task(102, 3, "https://example.com/file3.zip")
+        downloader._download_task(102, 903, "https://example.com/file3.zip")
 
         # Verify eviction
         conn = get_db_fresh()
         try:
-            item2 = conn.execute("SELECT local_file_path, status FROM items WHERE id = 2").fetchone()
+            item2 = conn.execute("SELECT local_file_path, status FROM items WHERE id = 902").fetchone()
             self.assertIsNone(item2["local_file_path"])
             self.assertEqual(item2["status"], "online")
 
-            item3 = conn.execute("SELECT local_file_path, status FROM items WHERE id = 3").fetchone()
+            item3 = conn.execute("SELECT local_file_path, status FROM items WHERE id = 903").fetchone()
             self.assertIsNotNone(item3["local_file_path"])
             self.assertEqual(item3["status"], "local")
 
-            self.assertFalse((temp_downloads_dir / "2_Test_Item_2.zip").exists())
-            self.assertTrue((temp_downloads_dir / "3_Test_Item_3.zip").exists())
+            self.assertFalse((temp_downloads_dir / "902_Test_Item_2.zip").exists())
+            self.assertTrue((temp_downloads_dir / "903_Test_Item_3.zip").exists())
         finally:
             conn.close()
 
@@ -267,7 +222,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
     def test_downloader_resume_range_request(self, mock_get):
         """Verify the downloader resumes a partial download (.part) using Range HTTP headers."""
         # Create a partial file manually (50 bytes)
-        filename = "1_Test_Item_1.zip"
+        filename = "901_Test_Item_1.zip"
         part_file = temp_downloads_dir / f"{filename}.part"
         
         # Clean folder first
@@ -294,7 +249,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
         try:
             cursor = conn.execute("""
                 INSERT INTO download_jobs (item_id, url, status, progress, bytes_written, total_bytes)
-                VALUES (1, 'https://example.com/file1.zip', 'pending', 50, 50, 100)
+                VALUES (901, 'https://example.com/file1.zip', 'pending', 50, 50, 100)
             """)
             job_id = cursor.lastrowid
             conn.commit()
@@ -302,7 +257,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
             conn.close()
 
         downloader = DownloaderService()
-        downloader._download_task(job_id, 1, "https://example.com/file1.zip")
+        downloader._download_task(job_id, 901, "https://example.com/file1.zip")
 
         # Check Range header was passed correctly in requests.Session.get
         # The mock_get mock was called with headers={'Range': 'bytes=50-'}
@@ -345,7 +300,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
         try:
             cursor = conn.execute("""
                 INSERT INTO download_jobs (item_id, url, status)
-                VALUES (1, 'https://example.com/file1.zip', 'pending')
+                VALUES (901, 'https://example.com/file1.zip', 'pending')
             """)
             job_id = cursor.lastrowid
             conn.commit()
@@ -353,7 +308,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
             conn.close()
 
         downloader = DownloaderService()
-        downloader._download_task(job_id, 1, "https://example.com/file1.zip")
+        downloader._download_task(job_id, 901, "https://example.com/file1.zip")
 
         # Check job status is updated to paused
         conn = get_db_fresh()
@@ -365,7 +320,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
             self.assertEqual(job["progress"], 50)
 
             # Check that `.part` file remains and is 50 bytes
-            part_file = temp_downloads_dir / "1_Test_Item_1.zip.part"
+            part_file = temp_downloads_dir / "901_Test_Item_1.zip.part"
             self.assertTrue(part_file.exists())
             self.assertEqual(part_file.stat().st_size, 50)
         finally:
@@ -386,14 +341,14 @@ class TestDownloaderAndSchema(unittest.TestCase):
             conn.execute("""
                 UPDATE items 
                 SET gdrive_link = 'https://drive.google.com/drive/folders/folder_123'
-                WHERE id = 1
+                WHERE id = 901
             """)
             conn.commit()
         finally:
             conn.close()
 
         # Request enqueue endpoint
-        resp = self.client.post("/api/downloads/enqueue", json={"item_id": 1})
+        resp = self.client.post("/api/downloads/enqueue", json={"item_id": 901})
         self.assertEqual(resp.status_code, 200)
         res_data = resp.get_json()
         self.assertEqual(res_data["status"], "pending")
@@ -402,7 +357,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
         # Verify that both jobs were created in DB
         conn = get_db_fresh()
         try:
-            jobs = conn.execute("SELECT id, url, status FROM download_jobs WHERE item_id = 1").fetchall()
+            jobs = conn.execute("SELECT id, url, status FROM download_jobs WHERE item_id = 901").fetchall()
             self.assertEqual(len(jobs), 2)
             urls = [j["url"] for j in jobs]
             self.assertIn("https://drive.google.com/file/d/child_abc/view", urls)
@@ -418,7 +373,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
                 INSERT INTO download_jobs
                     (item_id, url, status, progress, bytes_written, total_bytes)
                 VALUES
-                    (1, 'https://example.com/file1.zip', 'downloading', 25, 50, 200)
+                    (901, 'https://example.com/file1.zip', 'downloading', 25, 50, 200)
             """)
             conn.commit()
         finally:
@@ -429,7 +384,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
         active = resp.get_json()
 
         self.assertEqual(len(active), 1)
-        self.assertEqual(active[0]["item_id"], 1)
+        self.assertEqual(active[0]["item_id"], 901)
         self.assertEqual(active[0]["status"], "downloading")
         self.assertEqual(active[0]["progress"], 25)
         self.assertEqual(active[0]["bytes_written"], 50)
@@ -443,9 +398,9 @@ class TestDownloaderAndSchema(unittest.TestCase):
         # Seed the jobs in the database
         conn = get_db_fresh()
         try:
-            conn.execute("INSERT INTO download_jobs (id, item_id, url, status) VALUES (201, 2, 'https://example.com/file2.zip', 'pending')")
-            conn.execute("INSERT INTO download_jobs (id, item_id, url, status) VALUES (202, 2, 'https://example.com/file2.zip', 'pending')")
-            conn.execute("INSERT INTO download_jobs (id, item_id, url, status) VALUES (203, 2, 'https://example.com/file2.zip', 'pending')")
+            conn.execute("INSERT INTO download_jobs (id, item_id, url, status) VALUES (201, 902, 'https://example.com/file2.zip', 'pending')")
+            conn.execute("INSERT INTO download_jobs (id, item_id, url, status) VALUES (202, 902, 'https://example.com/file2.zip', 'pending')")
+            conn.execute("INSERT INTO download_jobs (id, item_id, url, status) VALUES (203, 902, 'https://example.com/file2.zip', 'pending')")
             conn.commit()
         finally:
             conn.close()
@@ -459,7 +414,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
             conn.close()
 
         # Create existing file manually
-        filename = "2_Test_Item_2.zip"
+        filename = "902_Test_Item_2.zip"
         file_path = temp_downloads_dir / filename
         if file_path.exists():
             file_path.unlink()
@@ -467,7 +422,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
             f.write(b"Existing")
 
         # Run task
-        downloader._download_task(201, 2, "https://example.com/file2.zip")
+        downloader._download_task(201, 902, "https://example.com/file2.zip")
 
         # Verify that status was marked as completed and file was not modified
         conn = get_db_fresh()
@@ -496,10 +451,10 @@ class TestDownloaderAndSchema(unittest.TestCase):
         mock_resp.raise_for_status = MagicMock()
         mock_get.return_value = mock_resp
 
-        downloader._download_task(202, 2, "https://example.com/file2.zip")
+        downloader._download_task(202, 902, "https://example.com/file2.zip")
 
         # Should rename to suffix _1
-        renamed_file = temp_downloads_dir / "2_Test_Item_2_1.zip"
+        renamed_file = temp_downloads_dir / "902_Test_Item_2_1.zip"
         self.assertTrue(renamed_file.exists())
         self.assertEqual(renamed_file.stat().st_size, 100)
 
@@ -527,7 +482,7 @@ class TestDownloaderAndSchema(unittest.TestCase):
         mock_get.return_value = mock_resp_match
 
         # Run task
-        downloader._download_task(203, 2, "https://example.com/file2.zip")
+        downloader._download_task(203, 902, "https://example.com/file2.zip")
 
         # Verify skipped (no iter_content called on the response since size matches)
         mock_resp_match.iter_content.assert_not_called()

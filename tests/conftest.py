@@ -30,7 +30,7 @@ def seed_test_database(conn: sqlite3.Connection):
     """Seed comprehensive sample records for integration testing."""
     # 1. Categories
     conn.executemany("""
-        INSERT INTO categories (id, name, slug, parent_id, post_count, link)
+        INSERT OR REPLACE INTO categories (id, name, slug, parent_id, post_count, link)
         VALUES (?, ?, ?, ?, ?, ?)
     """, [
         (1, "Furniture", "furniture", 0, 10, "https://3dskyfree.com/category/furniture"),
@@ -41,7 +41,7 @@ def seed_test_database(conn: sqlite3.Connection):
 
     # 2. Items
     conn.executemany("""
-        INSERT INTO items (id, title, category_id, category_slug, gdrive_link, mirror_link, image_url, tier, is_paid, status)
+        INSERT OR REPLACE INTO items (id, title, category_id, category_slug, gdrive_link, mirror_link, image_url, tier, is_paid, status)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """, [
         (1, "Modern Velvet Sofa", 2, "sofas", "https://drive.google.com/file/d/test1", "", "https://img.test/sofa1.jpg", "Free", 0, "online"),
@@ -55,7 +55,7 @@ def seed_test_database(conn: sqlite3.Connection):
 
     # 3. Item Metadata (File Sizes)
     conn.executemany("""
-        INSERT INTO item_metadata (item_id, file_size)
+        INSERT OR REPLACE INTO item_metadata (item_id, file_size)
         VALUES (?, ?)
     """, [
         (1, 104857600),   # 100 MB
@@ -65,19 +65,19 @@ def seed_test_database(conn: sqlite3.Connection):
 
     # 4. Tags
     conn.executemany("""
-        INSERT INTO tags (id, name, source)
-        VALUES (?, ?, ?)
+        INSERT OR REPLACE INTO tags (id, name, source, count)
+        VALUES (?, ?, ?, ?)
     """, [
-        (1, "modern", "manual"),
-        (2, "velvet", "auto"),
-        (3, "wood", "auto"),
-        (4, "leather", "auto"),
-        (5, "orphan_tag", "auto"),
+        (1, "modern", "manual", 3),
+        (2, "velvet", "auto", 1),
+        (3, "wood", "auto", 1),
+        (4, "leather", "auto", 1),
+        (5, "orphan_tag", "auto", 0),
     ])
 
     # 5. Item Tags
     conn.executemany("""
-        INSERT INTO item_tags (item_id, tag_id)
+        INSERT OR REPLACE INTO item_tags (item_id, tag_id)
         VALUES (?, ?)
     """, [
         (1, 1),
@@ -89,18 +89,28 @@ def seed_test_database(conn: sqlite3.Connection):
     ])
 
     # 6. Collections
-    conn.execute("INSERT INTO collections (id, name) VALUES (1, 'Living Room Project')")
-    conn.execute("INSERT INTO collection_items (collection_id, item_id) VALUES (1, 1)")
-    conn.execute("INSERT INTO collection_items (collection_id, item_id) VALUES (1, 2)")
+    conn.execute("INSERT OR REPLACE INTO collections (id, name) VALUES (1, 'Living Room Project')")
+    conn.execute("INSERT OR REPLACE INTO collection_items (collection_id, item_id) VALUES (1, 1)")
+    conn.execute("INSERT OR REPLACE INTO collection_items (collection_id, item_id) VALUES (1, 2)")
 
     # 7. Favorites
-    conn.execute("INSERT INTO favorites (item_id) VALUES (1)")
-    conn.execute("INSERT INTO favorites (item_id) VALUES (5)")
+    conn.execute("INSERT OR REPLACE INTO favorites (item_id) VALUES (1)")
+    conn.execute("INSERT OR REPLACE INTO favorites (item_id) VALUES (5)")
 
     # 8. Smart Collections
     conn.execute("""
-        INSERT INTO smart_collections (id, name, filters)
+        INSERT OR REPLACE INTO smart_collections (id, name, filters)
         VALUES (1, 'Free Corona Assets', '{"tier":"Free","render_type":"Corona"}')
+    """)
+
+    # 9. Sync FTS5 for seeded records
+    conn.execute("DELETE FROM items_fts")
+    conn.execute("""
+        INSERT INTO items_fts(rowid, title, category_name, category_slug, tags)
+        SELECT i.id, i.title, COALESCE(c.name, ''), COALESCE(i.category_slug, ''),
+               COALESCE((SELECT GROUP_CONCAT(t.name, ' ') FROM item_tags it JOIN tags t ON t.id = it.tag_id WHERE it.item_id = i.id), '')
+        FROM items i
+        LEFT JOIN categories c ON c.slug = i.category_slug
     """)
 
     conn.commit()

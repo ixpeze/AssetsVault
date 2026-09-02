@@ -85,45 +85,125 @@ export async function fetchStats() {
     }
 }
 
-export async function showAutocompleteSuggestions(query, setActiveCategory) {
+export async function showAutocompleteSuggestions(query, options = {}) {
     try {
-        const suggestions = await apiGet(`/api/search/suggestions?q=${encodeURIComponent(query)}&limit=8`);
-        const dropdown = document.getElementById("search-suggestions");
+        const { setActiveCategory, fetchItems, openLightboxById } = typeof options === 'function' 
+            ? { setActiveCategory: options } 
+            : options;
 
-        if (!suggestions || suggestions.length === 0) {
+        const data = await apiGet(`/api/search/suggestions?q=${encodeURIComponent(query)}&limit=8`);
+        const dropdown = document.getElementById("search-suggestions");
+        if (!dropdown) return;
+
+        // Support both new grouped schema and legacy array schema
+        const isGrouped = data && !Array.isArray(data) && (data.categories || data.phrases || data.items);
+        const categories = isGrouped ? (data.categories || []) : (Array.isArray(data) ? data.filter(d => d.type === 'category') : []);
+        const phrases = isGrouped ? (data.phrases || []) : (Array.isArray(data) ? data.filter(d => d.type === 'tag') : []);
+        const items = isGrouped ? (data.items || []) : [];
+
+        const hasResults = categories.length > 0 || phrases.length > 0 || items.length > 0;
+        if (!hasResults) {
             hideAutocompleteSuggestions();
             return;
         }
 
-        dropdown.innerHTML = suggestions.map((s) => {
-            const icon = s.type === 'tag' ? 'label' : 'folder';
-            const color = s.type === 'tag' ? 'text-primary' : 'text-secondary';
-            return `
-                <button class="suggestion-item w-full flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 transition-colors text-left"
-                        data-type="${s.type}" data-value="${s.value}">
-                    <span class="material-symbols-outlined ${color} text-[18px]">${icon}</span>
-                    <span class="flex-1 text-sm text-white">${s.label}</span>
-                    ${s.count ? `<span class="text-xs text-text-muted">${s.count.toLocaleString()}</span>` : ''}
-                </button>
-            `;
-        }).join("");
+        let html = '<div class="py-2 divide-y divide-white/5">';
 
+        // 1. Categories Section
+        if (categories.length > 0) {
+            html += `
+                <div class="px-3 py-1.5">
+                    <div class="text-[10px] font-semibold tracking-wider text-text-muted uppercase px-2 mb-1">Categories</div>
+                    <div class="space-y-0.5">
+                        ${categories.map(c => `
+                            <button class="suggestion-item group w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md hover:bg-white/5 transition-colors text-left"
+                                    data-type="category" data-slug="${c.slug}" data-name="${c.name}">
+                                <span class="material-symbols-outlined text-primary text-[18px] shrink-0 group-hover:scale-110 transition-transform">folder</span>
+                                <span class="flex-1 text-xs font-medium text-slate-200 group-hover:text-white truncate">${c.name}</span>
+                                <span class="text-[11px] text-text-muted bg-white/5 px-1.5 py-0.5 rounded font-mono">${(c.count || 0).toLocaleString()}</span>
+                            </button>
+                        `).join("")}
+                    </div>
+                </div>
+            `;
+        }
+
+        // 2. Search Phrases Section
+        if (phrases.length > 0) {
+            html += `
+                <div class="px-3 py-1.5">
+                    <div class="text-[10px] font-semibold tracking-wider text-text-muted uppercase px-2 mb-1">Suggested Searches</div>
+                    <div class="space-y-0.5">
+                        ${phrases.map(p => `
+                            <button class="suggestion-item group w-full flex items-center gap-2.5 px-2.5 py-1.5 rounded-md hover:bg-white/5 transition-colors text-left"
+                                    data-type="phrase" data-text="${p.text || p.value}">
+                                <span class="material-symbols-outlined text-accent text-[18px] shrink-0 group-hover:scale-110 transition-transform">search</span>
+                                <span class="flex-1 text-xs text-slate-300 group-hover:text-white truncate">${p.text || p.label || p.value}</span>
+                                ${p.count ? `<span class="text-[11px] text-text-muted font-mono">${p.count.toLocaleString()}</span>` : ''}
+                            </button>
+                        `).join("")}
+                    </div>
+                </div>
+            `;
+        }
+
+        // 3. Item Previews Section
+        if (items.length > 0) {
+            html += `
+                <div class="px-3 py-1.5">
+                    <div class="text-[10px] font-semibold tracking-wider text-text-muted uppercase px-2 mb-1">Instant Results</div>
+                    <div class="space-y-1">
+                        ${items.map(it => `
+                            <button class="suggestion-item group w-full flex items-center gap-3 px-2.5 py-1.5 rounded-md hover:bg-white/5 transition-colors text-left"
+                                    data-type="item" data-id="${it.id}">
+                                <div class="w-8 h-8 rounded bg-black/40 border border-white/10 overflow-hidden shrink-0 flex items-center justify-center">
+                                    ${it.image_url ? `<img src="${it.image_url}" class="w-full h-full object-cover" onerror="this.style.display='none'" />` : '<span class="material-symbols-outlined text-text-muted text-[14px]">view_in_ar</span>'}
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="text-xs font-medium text-slate-200 group-hover:text-white truncate">${it.title}</div>
+                                    <div class="text-[10px] text-text-muted truncate">${it.category_slug || ''}</div>
+                                </div>
+                                <span class="material-symbols-outlined text-text-muted text-[16px] opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+                            </button>
+                        `).join("")}
+                    </div>
+                </div>
+            `;
+        }
+
+        html += '</div>';
+        dropdown.innerHTML = html;
         dropdown.classList.remove("hidden");
 
+        // Attach click listeners to all items
         dropdown.querySelectorAll(".suggestion-item").forEach(btn => {
             btn.addEventListener("click", () => {
                 const type = btn.dataset.type;
-                const value = btn.dataset.value;
-                if (type === 'tag') {
-                    state.activeTag = value;
-                    dom.currentCategoryName.textContent = `Tag: ${value}`;
-                } else {
-                    setActiveCategory(value, value);
+                if (type === 'category') {
+                    const slug = btn.dataset.slug;
+                    const name = btn.dataset.name;
+                    if (dom.searchInput) dom.searchInput.value = '';
+                    state.searchQuery = '';
+                    if (setActiveCategory) setActiveCategory(slug, name);
+                } else if (type === 'phrase') {
+                    const text = btn.dataset.text;
+                    if (dom.searchInput) dom.searchInput.value = text;
+                    state.searchQuery = text;
+                    state.activeCategory = '';
+                    state.activeTaxonomy = '';
+                    if (fetchItems) fetchItems();
+                } else if (type === 'item') {
+                    const id = parseInt(btn.dataset.id, 10);
+                    if (openLightboxById) {
+                        openLightboxById(id);
+                    } else {
+                        // Fallback: search for this exact item
+                        if (dom.searchInput) dom.searchInput.value = btn.querySelector('.text-xs')?.textContent || '';
+                        state.searchQuery = dom.searchInput.value;
+                        if (fetchItems) fetchItems();
+                    }
                 }
-                dom.searchInput.value = '';
-                state.searchQuery = '';
                 hideAutocompleteSuggestions();
-                // fetchItems called externally via suggestion click handler in init
             });
         });
     } catch (e) {
@@ -132,5 +212,7 @@ export async function showAutocompleteSuggestions(query, setActiveCategory) {
 }
 
 export function hideAutocompleteSuggestions() {
-    document.getElementById("search-suggestions").classList.add("hidden");
+    const dropdown = document.getElementById("search-suggestions");
+    if (dropdown) dropdown.classList.add("hidden");
 }
+

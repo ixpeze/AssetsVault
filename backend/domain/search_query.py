@@ -6,14 +6,16 @@ consume this object; they never touch raw request params.
 """
 from dataclasses import dataclass, field
 from typing import Optional
+from ..search.fts import build_expression
 
 
 _SORT_MAP = {
-    "newest":    "id DESC",
-    "oldest":    "id ASC",
-    "title_asc": "title ASC",
-    "title_desc":"title DESC",
-    "has_gdrive":"CASE WHEN gdrive_link IS NOT NULL AND gdrive_link != '' THEN 0 ELSE 1 END, id DESC",
+    "relevance":  "rank ASC",
+    "newest":     "items.id DESC",
+    "oldest":     "items.id ASC",
+    "title_asc":  "items.title ASC",
+    "title_desc": "items.title DESC",
+    "has_gdrive": "CASE WHEN items.gdrive_link IS NOT NULL AND items.gdrive_link != '' THEN 0 ELSE 1 END, items.id DESC",
 }
 
 
@@ -63,14 +65,14 @@ class SearchQuery:
     def __post_init__(self):
         self.page = max(1, self.page)
         self.per_page = min(100, max(1, self.per_page))
+        # Default to relevance ranking whenever a search query is active unless explicitly asked for another sort
+        if self.q and self.sort == "newest":
+            self.sort = "relevance"
 
     @property
     def fts_expression(self) -> str:
-        """Build FTS5 MATCH expression with prefix wildcards."""
-        if not self.q:
-            return ""
-        terms = [w for w in self.q.split() if w.strip()]
-        return " ".join(f'"{w}"*' for w in terms)
+        """Build FTS5 MATCH expression with sanitized prefix wildcards."""
+        return build_expression(self.q)
 
     @property
     def offset(self) -> int:
@@ -78,4 +80,5 @@ class SearchQuery:
 
     @property
     def order_by(self) -> str:
-        return _SORT_MAP.get(self.sort, "id DESC")
+        return _SORT_MAP.get(self.sort, "items.id DESC")
+
