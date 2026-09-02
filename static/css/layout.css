@@ -1,0 +1,185 @@
+/* ── Global Layout, Scrollbars, Sidebar & Animations ── */
+
+/* Custom Technical Scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-primary) / 0.25);
+    border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-primary) / 0.5);
+}
+
+/* Smooth container scrolling */
+#scroll-container {
+    scroll-behavior: smooth;
+}
+
+/* Sidebar Glassmorphism */
+#sidebar {
+    background: rgb(var(--color-void) / 0.55);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-right-color: var(--color-glass-border);
+}
+
+/* Mobile Sidebar Drawer */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        height: 100%;
+        z-index: 50;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+}
+
+/* Sidebar Navigation Items */
+.category-item {
+    position: relative;
+    transition:
+        background var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast);
+}
+
+.category-item.active {
+    color: white !important;
+    background: var(--color-frost-hover);
+    border-left-color: rgb(var(--color-primary)) !important;
+}
+
+.category-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: rgb(var(--color-primary));
+    border-radius: 0 1px 1px 0;
+    box-shadow: 0 0 8px rgb(var(--color-primary) / 0.5);
+}
+
+.category-children {
+    overflow: hidden;
+    animation: expandIn 0.2s ease-out;
+}
+
+@keyframes expandIn {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 500px;
+    }
+}
+
+/* Toolbar & Search Bar Glass Card */
+#main-toolbar,
+#main-search-bar {
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+}
+
+/* Floating Action Bar */
+#action-bar {
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s;
+    pointer-events: none;
+}
+
+#action-bar.visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Micro-animations & Transitions */
+button:active:not(:disabled) {
+    transform: scale(0.97);
+    transition: transform 80ms ease;
+}
+
+.nav-hover-line {
+    position: relative;
+}
+
+.nav-hover-line::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: rgb(var(--color-primary));
+    transition: width var(--transition-base);
+}
+
+.nav-hover-line:hover::after {
+    width: 100%;
+}
+
+/* Empty State Illustration */
+#gallery-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    gap: 1rem;
+    animation: fadeIn 0.4s ease;
+}
+
+#gallery-empty .empty-icon {
+    font-size: 64px;
+    opacity: 0.12;
+    color: rgb(var(--color-primary));
+    animation: floatIdle 4s ease-in-out infinite;
+}
+
+@keyframes floatIdle {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-8px); }
+}
+
+#gallery-empty h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    opacity: 0.6;
+}
+
+#gallery-empty p {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    text-align: center;
+    max-width: 280px;
+    line-height: 1.5;
+}
+
+/* Global Keyframes */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes shimmer {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}

@@ -13,6 +13,7 @@ Usage:
 import collections
 import threading
 import logging
+import sys
 from typing import Callable
 from .event_bus import bus
 
@@ -59,7 +60,7 @@ class TaskRunner:
                 bus.emit(f"{task_type}_completed", result=result)
             except Exception:
                 log.exception("[TaskRunner] Task '%s' raised an exception", task_type)
-        log.info("[TaskRunner] Worker thread stopped")
+        pass
 
     def start(self) -> None:
         if self._running:

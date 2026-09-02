@@ -1,0 +1,34 @@
+/* ── Lightbox Component ── */
+
+#lightbox {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+#lightbox.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#lightbox .lightbox-image {
+    transform: scale(0.96);
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                opacity 0.25s ease;
+}
+
+#lightbox.active .lightbox-image {
+    transform: scale(1);
+}
+
+#lightbox .lb-nav-btn {
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+#lightbox:hover .lb-nav-btn {
+    opacity: 1;
+}

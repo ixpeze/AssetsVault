@@ -3,6 +3,10 @@ title Obsidian Frost Launcher
 color 0B
 cd /d "%~dp0"
 
+if exist ".venv\Scripts\activate.bat" (
+    call .venv\Scripts\activate.bat
+)
+
 echo.
 echo   =====================================================
 echo      Obsidian Frost  ^|  3D Asset Directory Manager

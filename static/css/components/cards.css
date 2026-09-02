@@ -1,0 +1,88 @@
+/* ── Cards Component ── */
+
+.gallery-card {
+    transition:
+        transform var(--transition-spring),
+        box-shadow var(--transition-spring),
+        border-color var(--transition-fast);
+    contain: layout style;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 320px;
+}
+
+.gallery-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), var(--glow-primary-sm);
+    border-color: rgb(var(--color-primary) / 0.22);
+    will-change: transform;
+}
+
+/* Card image scale on hover */
+.gallery-card .card-thumb {
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow: hidden;
+}
+
+.gallery-card:hover .card-thumb img,
+.gallery-card:hover .card-thumb video {
+    transform: scale(1.04);
+}
+
+/* Selection Ring */
+.gallery-card.selected {
+    border-color: rgb(var(--color-primary) / 0.7) !important;
+    box-shadow: 0 0 0 2px rgb(var(--color-primary) / 0.35), 0 4px 20px rgba(0,0,0,0.4);
+}
+
+/* Keyboard Focus Ring */
+.gallery-card.keyboard-focused {
+    border-color: rgb(var(--color-primary) / 0.8) !important;
+    box-shadow: 0 0 0 2px rgb(var(--color-primary) / 0.4),
+                0 0 18px rgb(var(--color-primary) / 0.2);
+    animation: focusPulse 2s ease-in-out infinite;
+}
+
+@keyframes focusPulse {
+    0%, 100% { box-shadow: 0 0 0 2px rgb(var(--color-primary) / 0.4), 0 0 18px rgb(var(--color-primary) / 0.2); }
+    50%       { box-shadow: 0 0 0 3px rgb(var(--color-primary) / 0.6), 0 0 28px rgb(var(--color-primary) / 0.35); }
+}
+
+/* Favorite Heartbeat */
+.gallery-card .fav-btn.active .material-symbols-outlined {
+    color: #f87171;
+    text-shadow: 0 0 8px rgba(248, 113, 113, 0.6);
+    animation: heartBeat 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes heartBeat {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.35); }
+    100% { transform: scale(1); }
+}
+
+/* Image Shimmer & Loading */
+.img-placeholder {
+    background: linear-gradient(135deg, #151515 0%, #1a1a1a 50%, #151515 100%);
+    background-size: 200% 200%;
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+.img-loaded {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Skeleton Loading */
+.skeleton {
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0.04) 25%,
+        rgba(255,255,255,0.08) 50%,
+        rgba(255,255,255,0.04) 75%);
+    background-size: 200% 100%;
+    animation: skeletonShimmer 1.6s ease-in-out infinite;
+    border-radius: 6px;
+}
+
+@keyframes skeletonShimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}

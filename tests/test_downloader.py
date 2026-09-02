@@ -10,18 +10,23 @@ from flask import Flask
 
 # Override DB_PATH and other paths in constants and connection BEFORE initializing anything
 import backend.constants
+import backend.infrastructure.connection
 
-temp_dir = tempfile.TemporaryDirectory()
-temp_db_path = Path(temp_dir.name) / "test_3dskyfree.db"
-temp_downloads_dir = Path(temp_dir.name) / "downloads"
-temp_downloads_dir.mkdir(parents=True, exist_ok=True)
-
-backend.constants.DB_PATH = temp_db_path
-backend.constants.DATA_DIR = Path(temp_dir.name)
+if getattr(backend.constants, "DB_PATH", None) and Path(backend.constants.DB_PATH).parent.exists():
+    temp_db_path = backend.constants.DB_PATH
+    temp_downloads_dir = Path(backend.constants.DATA_DIR) / "downloads"
+    temp_downloads_dir.mkdir(parents=True, exist_ok=True)
+    temp_dir = None
+else:
+    temp_dir = tempfile.TemporaryDirectory()
+    temp_db_path = Path(temp_dir.name) / "test_3dskyfree.db"
+    temp_downloads_dir = Path(temp_dir.name) / "downloads"
+    temp_downloads_dir.mkdir(parents=True, exist_ok=True)
+    backend.constants.DB_PATH = temp_db_path
+    backend.constants.DATA_DIR = Path(temp_dir.name)
+    backend.infrastructure.connection.DB_PATH = temp_db_path
 
 from backend.infrastructure.connection import get_db_fresh, get_db, close_db
-import backend.infrastructure.connection
-backend.infrastructure.connection.DB_PATH = temp_db_path
 
 from backend.persistence.schema import init_schema
 from backend.services.downloader import (
@@ -54,13 +59,21 @@ class TestDownloaderAndSchema(unittest.TestCase):
                 CREATE TABLE IF NOT EXISTS items (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     title TEXT NOT NULL,
+                    category_id INTEGER,
                     category_slug TEXT,
                     gdrive_link TEXT,
                     mirror_link TEXT,
                     image_url TEXT,
                     local_image_path TEXT,
                     local_file_path TEXT,
-                    status TEXT DEFAULT 'online'
+                    post_url TEXT,
+                    render_type TEXT,
+                    tier TEXT DEFAULT 'Free',
+                    taxonomy_id INTEGER DEFAULT NULL,
+                    is_paid INTEGER NOT NULL DEFAULT 0,
+                    local_path TEXT,
+                    status TEXT DEFAULT 'online',
+                    collected_at TEXT DEFAULT (datetime('now'))
                 )
             """)
             conn.commit()
@@ -88,15 +101,15 @@ class TestDownloaderAndSchema(unittest.TestCase):
             
             # Seed some items
             conn.execute("""
-                INSERT INTO items (id, title, category_slug, gdrive_link, mirror_link)
+                INSERT OR REPLACE INTO items (id, title, category_slug, gdrive_link, mirror_link)
                 VALUES (1, 'Test Item 1', 'free-models', 'https://drive.google.com/uc?id=123', NULL)
             """)
             conn.execute("""
-                INSERT INTO items (id, title, category_slug, gdrive_link, mirror_link)
+                INSERT OR REPLACE INTO items (id, title, category_slug, gdrive_link, mirror_link)
                 VALUES (2, 'Test Item 2', 'free-models', NULL, 'https://example.com/file2.zip')
             """)
             conn.execute("""
-                INSERT INTO items (id, title, category_slug, gdrive_link, mirror_link)
+                INSERT OR REPLACE INTO items (id, title, category_slug, gdrive_link, mirror_link)
                 VALUES (3, 'Test Item 3', 'free-models', NULL, 'https://example.com/file3.zip')
             """)
             conn.commit()

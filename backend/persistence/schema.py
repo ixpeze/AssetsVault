@@ -69,6 +69,7 @@ def init_schema(conn: sqlite3.Connection) -> None:
     _ensure_smart_collections_table(conn)
     _ensure_pipeline_tables(conn)
     _ensure_indexing_tables(conn)
+    _ensure_taxonomy_tables(conn)
     _ensure_settings_table(conn)
     _ensure_downloads_table(conn)
 
@@ -363,6 +364,29 @@ def _ensure_indexing_tables(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
+def _ensure_taxonomy_tables(conn: sqlite3.Connection) -> None:
+    """Create taxonomy tree and category mapping tables if they don't exist."""
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS taxonomy (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            slug TEXT NOT NULL UNIQUE,
+            parent_id INTEGER DEFAULT 0,
+            icon TEXT,
+            dynamic_tag_source TEXT,
+            sort_order INTEGER DEFAULT 0
+        )
+    """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS taxonomy_mapping (
+            taxonomy_id INTEGER NOT NULL,
+            category_slug TEXT NOT NULL,
+            PRIMARY KEY (taxonomy_id, category_slug)
+        )
+    """)
+    conn.commit()
+
+
 def _ensure_items_indexes(conn: sqlite3.Connection) -> None:
     """Performance indexes on the items table and related lookup tables."""
     conn.execute("""
@@ -443,11 +467,12 @@ def _migrate_is_paid(conn: sqlite3.Connection) -> None:
 
 
 def _migrate_drop_render_type(conn: sqlite3.Connection) -> None:
-    """Drop the render_type column (requires SQLite ≥ 3.35.0)."""
+    """Drop the render_type column and its legacy index (requires SQLite ≥ 3.35.0)."""
     cols = [row[1] for row in conn.execute("PRAGMA table_info(items)").fetchall()]
     if "render_type" not in cols:
         return
     try:
+        conn.execute("DROP INDEX IF EXISTS idx_items_render_type")
         conn.execute("ALTER TABLE items DROP COLUMN render_type")
         conn.commit()
         log.info("[Migration] Dropped render_type column from items")

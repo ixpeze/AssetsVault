@@ -11,18 +11,22 @@ let _rowHeight = 320;
 let _gap = 24;
 let _isXS = false;
 let _isS = false;
+let _isL = false;
+let _isXL = false;
+let _dimensionsDirty = true;
 
 // Buffer of rows before and after the viewport to avoid blank gaps during fast scrolling
 const ROW_BUFFER = 2;
 
 export function setGridItems(items) {
-    _items = items;
+    _items = items || [];
     clearGridDOM();
+    _dimensionsDirty = true;
     renderVirtualGrid(true); // force full re-layout
 }
 
 export function clearGridDOM() {
-    dom.grid.innerHTML = "";
+    if (dom.grid) dom.grid.innerHTML = "";
     _visibleCards.forEach(el => el.remove());
     _visibleCards.clear();
 }
@@ -30,7 +34,7 @@ export function clearGridDOM() {
 export function initVirtualGrid() {
     if (!dom.scrollContainer) return;
     
-    // Wire scroll event with requestAnimationFrame throttling
+    // Wire scroll event with requestAnimationFrame throttling (zero layout thrashing)
     let scrollRaf = null;
     dom.scrollContainer.addEventListener('scroll', () => {
         if (scrollRaf) return;
@@ -38,7 +42,14 @@ export function initVirtualGrid() {
             renderVirtualGrid();
             scrollRaf = null;
         });
+    }, { passive: true });
+
+    // Mark dirty on container resize
+    const resizeObserver = new ResizeObserver(() => {
+        _dimensionsDirty = true;
+        renderVirtualGrid(true);
     });
+    resizeObserver.observe(dom.scrollContainer);
 
     // Wire custom itemsFetched event
     window.addEventListener('itemsFetched', () => {
@@ -46,23 +57,39 @@ export function initVirtualGrid() {
     });
 }
 
-export function recalcGridDimensions() {
+export function recalcGridDimensions(force = false) {
     if (!dom.scrollContainer || !dom.grid) return;
+    if (!_dimensionsDirty && !force) return;
 
     const scale = parseFloat(dom.gridScale?.value || 1);
     const sizeMode = dom.grid.dataset.size || 'm';
     _isXS = sizeMode === 'xs';
     _isS = sizeMode === 's';
+    _isL = sizeMode === 'l';
+    _isXL = sizeMode === 'xl';
 
-    const baseWidth = _isXS ? 160 : 280;
-    _gap = _isXS ? 6 : 24;
+    let baseWidth = 280;
+    _gap = 24;
+
+    if (_isXS) {
+        baseWidth = 160;
+        _gap = 6;
+    } else if (_isS) {
+        baseWidth = 220;
+        _gap = 14;
+    } else if (_isL) {
+        baseWidth = 360;
+        _gap = 28;
+    } else if (_isXL) {
+        baseWidth = 460;
+        _gap = 32;
+    }
     
     const targetWidth = baseWidth * scale;
     const currentWidth = dom.scrollContainer.clientWidth;
-    const style = window.getComputedStyle(dom.scrollContainer);
-    const paddingLeft = parseFloat(style.paddingLeft) || 0;
-    const paddingRight = parseFloat(style.paddingRight) || 0;
-    const availableWidth = currentWidth - paddingLeft - paddingRight;
+    const paddingLeft = 24;
+    const paddingRight = 24;
+    const availableWidth = Math.max(100, currentWidth - paddingLeft - paddingRight);
 
     _cols = Math.max(1, Math.round((availableWidth + _gap) / (targetWidth + _gap)));
     
@@ -74,6 +101,8 @@ export function recalcGridDimensions() {
         _cardHeight = Math.round(_cardWidth * 0.75); // Thumbnail only, absolute hover footer
     } else if (_isS) {
         _cardHeight = Math.round(_cardWidth * 0.75) + 65; // Compact footer
+    } else if (_isL || _isXL) {
+        _cardHeight = Math.round(_cardWidth * 0.75) + 95; // Spacious footer
     } else {
         _cardHeight = Math.round(_cardWidth * 0.75) + 85; // Standard footer
     }
@@ -82,21 +111,25 @@ export function recalcGridDimensions() {
 
     // Apply grid parent properties
     dom.grid.style.position = 'relative';
-    dom.grid.style.columnCount = 'auto'; // Disable CSS columns
+    dom.grid.style.columnCount = 'auto';
     dom.grid.style.columns = 'none';
     dom.grid.style.columnGap = '0px';
     
     const totalRows = Math.ceil(_items.length / _cols);
-    dom.grid.style.height = `${totalRows * _rowHeight}px`;
+    dom.grid.style.height = `${Math.max(0, totalRows * _rowHeight)}px`;
+    _dimensionsDirty = false;
 }
 
 export function renderVirtualGrid(forceLayout = false) {
     if (!_items || !_items.length) {
         clearGridDOM();
+        if (dom.grid) dom.grid.style.height = "0px";
         return;
     }
 
-    recalcGridDimensions();
+    if (forceLayout || _dimensionsDirty) {
+        recalcGridDimensions(true);
+    }
 
     const scrollTop = dom.scrollContainer.scrollTop;
     const viewportHeight = dom.scrollContainer.clientHeight;
@@ -145,7 +178,7 @@ export function renderVirtualGrid(forceLayout = false) {
             cardEl.dataset.index = i;
         }
 
-        // Apply dynamic sizes and placement
+        // Apply dynamic sizes and placement with hardware-accelerated transform
         cardEl.style.width = `${_cardWidth}px`;
         cardEl.style.height = `${_cardHeight}px`;
         cardEl.style.transform = `translate3d(${left}px, ${top}px, 0)`;

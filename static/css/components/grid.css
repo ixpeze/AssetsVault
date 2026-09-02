@@ -1,0 +1,128 @@
+/* ── Grid Component (Masonry & Virtual Grid) ── */
+
+.masonry-grid {
+    column-gap: 1.5rem;
+}
+
+.masonry-grid .gallery-card {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 300px;
+}
+
+/* ── Size S: Compact ── */
+#gallery-grid[data-size="s"] .gallery-card,
+#gallery-grid[data-size="xs"] .gallery-card {
+    margin-bottom: 0.375rem;
+}
+
+#gallery-grid[data-size="s"] .gallery-card h3 {
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+#gallery-grid[data-size="s"] .gallery-card>div:last-child>div>span:first-child {
+    font-size: 7px;
+}
+
+#gallery-grid[data-size="s"] .gallery-card>div:last-child {
+    padding: 0.375rem 0.5rem;
+}
+
+#gallery-grid[data-size="s"] .gallery-card>div:last-child .flex.items-center.gap-2 a,
+#gallery-grid[data-size="s"] .gallery-card>div:last-child .flex.items-center.gap-2 button {
+    width: 1.375rem;
+    height: 1.375rem;
+}
+
+#gallery-grid[data-size="s"] .gallery-card>div:last-child .flex.items-center.gap-2 .material-symbols-outlined {
+    font-size: 13px;
+}
+
+#gallery-grid[data-size="s"] .gallery-card .fav-btn {
+    width: 1.375rem;
+    height: 1.375rem;
+}
+
+#gallery-grid[data-size="s"] .gallery-card .fav-btn .material-symbols-outlined {
+    font-size: 14px;
+}
+
+/* ── Size XS: Ultra-compact Thumbnails ── */
+#gallery-grid[data-size="xs"] {
+    column-gap: 6px;
+}
+
+#gallery-grid[data-size="xs"] .gallery-card {
+    border: none;
+    border-radius: 3px;
+    margin-bottom: 6px;
+    overflow: hidden;
+}
+
+#gallery-grid[data-size="xs"] .gallery-card>div:last-child {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.25rem 0.3rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.4) 65%, transparent 100%);
+    backdrop-filter: none;
+    border-top: none;
+    opacity: 0;
+    transition: opacity 0.18s ease;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3px;
+}
+
+#gallery-grid[data-size="xs"] .gallery-card:hover>div:last-child {
+    opacity: 1;
+}
+
+#gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>span:first-child,
+#gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>h3 {
+    display: none;
+}
+
+#gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>div {
+    margin-top: 0;
+    gap: 3px;
+    display: flex;
+}
+
+#gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>div a,
+#gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>div button {
+    width: 1.1rem;
+    height: 1.1rem;
+    border: none;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0;
+}
+
+#gallery-grid[data-size="xs"] .gallery-card>div:last-child>div>div .material-symbols-outlined {
+    font-size: 11px;
+}
+
+#gallery-grid[data-size="xs"] .gallery-card .fav-btn {
+    width: 1.1rem;
+    height: 1.1rem;
+    top: 0.2rem;
+    right: 0.2rem;
+}
+
+#gallery-grid[data-size="xs"] .gallery-card .fav-btn .material-symbols-outlined {
+    font-size: 12px;
+}
+
+#gallery-grid[data-size="xs"] .gallery-card>div>div:first-child {
+    top: 0.2rem;
+    left: 0.2rem;
+}
+
+#gallery-grid[data-size="xs"] .gallery-card>div>div:first-child>div {
+    width: 0.4rem;
+    height: 0.4rem;
+}

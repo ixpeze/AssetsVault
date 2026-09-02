@@ -94,36 +94,17 @@ def delete(conn: sqlite3.Connection, tag_id: int) -> None:
 
 
 def refresh_stats(conn: sqlite3.Connection) -> None:
-    """Rebuild tag usage counts after tag mutations."""
-    conn.execute("DELETE FROM tag_stats")
-    conn.execute("""
-        INSERT INTO tag_stats(tag_id, item_count)
-        SELECT tag_id, COUNT(DISTINCT item_id)
-        FROM item_tags
-        GROUP BY tag_id
-    """)
+    """No-op retained for backwards compatibility; counts are queried dynamically from indexed item_tags."""
+    pass
 
 
 def list_popular(conn: sqlite3.Connection, limit: int = 80) -> list[dict]:
-    stats_count = conn.execute("SELECT COUNT(*) FROM tag_stats").fetchone()[0]
-    if stats_count:
-        rows = conn.execute("""
-            SELECT t.id, t.name, t.source, ts.item_count as count
-            FROM tag_stats ts
-            JOIN tags t ON t.id = ts.tag_id
-            WHERE ts.item_count >= 3
-            ORDER BY ts.item_count DESC
-            LIMIT ?
-        """, (limit,)).fetchall()
-        return [dict(r) for r in rows]
-
     rows = conn.execute("""
         SELECT t.id, t.name, t.source, COUNT(it.item_id) as count
         FROM tags t
         JOIN item_tags it ON t.id = it.tag_id
         GROUP BY t.id
-        HAVING count >= 3
-        ORDER BY count DESC
+        ORDER BY count DESC, t.name ASC
         LIMIT ?
     """, (limit,)).fetchall()
     return [dict(r) for r in rows]
