@@ -222,10 +222,11 @@ def scrape_category_batch(conn: sqlite3.Connection, cat: dict, output_dir: Path,
             break
 
         posts = resp.json()
-        if not posts or not isinstance(posts, list):
+        if not posts or not isinstance(posts, list) or len(posts) == 0:
             break
 
-        total_pages = int(resp.headers.get("X-WP-TotalPages", 1))
+        total_pages_hdr = int(resp.headers.get("X-WP-TotalPages", 0))
+        total_display = total_pages_hdr if total_pages_hdr > 0 else "?"
 
         for post in posts:
             if limit > 0 and total_collected >= limit:
@@ -264,11 +265,12 @@ def scrape_category_batch(conn: sqlite3.Connection, cat: dict, output_dir: Path,
         conn.execute("""
             INSERT OR REPLACE INTO checkpoints (category_slug, last_page, total_pages, total_collected, status)
             VALUES (?, ?, ?, ?, 'in_progress')
-        """, (cat_slug, page, total_pages, total_collected))
+        """, (cat_slug, page, total_pages_hdr, total_collected))
         conn.commit()
 
-        print(f"   Page {page}/{total_pages} done ({len(posts)} posts).")
-        if page >= total_pages:
+        print(f"   Page {page}/{total_display} done ({len(posts)} posts).")
+        # Only stop when we reached the final partial page or verified end of pages
+        if len(posts) < 50 or (total_pages_hdr > 0 and page >= total_pages_hdr):
             break
         page += 1
 
