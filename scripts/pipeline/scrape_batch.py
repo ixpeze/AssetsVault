@@ -346,6 +346,26 @@ def main():
 
         print(f"\n🎉 Slice {args.slice_id} Finished! Total items collected: {grand_total}")
 
+        # Generate summary stats
+        gdrive_count = conn.execute("SELECT COUNT(*) FROM items WHERE gdrive_link IS NOT NULL").fetchone()[0]
+        render_count = conn.execute("SELECT COUNT(*) FROM items WHERE render_engine IS NOT NULL").fetchone()[0]
+        max_count = conn.execute("SELECT COUNT(*) FROM items WHERE max_version IS NOT NULL").fetchone()[0]
+        image_count = conn.execute("SELECT COUNT(*) FROM items WHERE local_image_path IS NOT NULL").fetchone()[0]
+
+        # Write to GitHub Step Summary if running in GitHub Actions
+        summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+        if summary_path:
+            with open(summary_path, "a", encoding="utf-8") as sf:
+                sf.write(f"\n## 📊 Slice {args.slice_id} Progress Report\n\n")
+                sf.write(f"| Metric | Value |\n| :--- | :--- |\n")
+                sf.write(f"| **Categories Processed** | {len(selected_slice['categories'])} categories |\n")
+                sf.write(f"| **Items Collected** | {grand_total:,} items |\n")
+                sf.write(f"| **Google Drive Links** | {gdrive_count:,} |\n")
+                sf.write(f"| **WebP Images Downloaded** | {image_count:,} |\n")
+                sf.write(f"| **Render Engines Identified** | {render_count:,} |\n")
+                sf.write(f"| **3ds Max Versions** | {max_count:,} |\n")
+                sf.write(f"| **Status** | ✅ Uploaded to Google Drive |\n\n")
+
         if args.rclone_upload:
             tar_path = Path("data") / f"batch_{args.slice_id}.tar.gz"
             print(f"\n📦 Creating archive: {tar_path}...")

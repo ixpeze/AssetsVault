@@ -27,8 +27,11 @@ on:
       skip_images:
         description: 'Skip downloading preview images (metadata only)'
         required: false
-        default: false
+        default: true
         type: boolean
+  schedule:
+    # Calm background image scraping: runs every 6 hours (4 runs/day over 2-3 days)
+    - cron: '0 */6 * * *'
 
 jobs:
   scrape-matrix:
