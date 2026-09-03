@@ -49,7 +49,7 @@ jobs:
         run: |
           TARGET="${{ github.event.inputs.slice_id }}"
           CURRENT="${{ matrix.slice_id }}"
-          if [ "$TARGET" != "all" ] && [ "$TARGET" != "$CURRENT" ]; then
+          if [ -n "$TARGET" ] && [ "$TARGET" != "all" ] && [ "$TARGET" != "$CURRENT" ]; then
             echo "Skipping slice $CURRENT (target is $TARGET)"
             echo "run=false" >> $GITHUB_OUTPUT
           else
