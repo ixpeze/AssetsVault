@@ -2,7 +2,9 @@
 Sync and Merge Script: Downloads scraped batches from Google Drive and merges into local 3dskyfree.db
 """
 
+import argparse
 import os
+import re
 import shutil
 import sqlite3
 import subprocess
@@ -23,28 +25,61 @@ def ensure_synced_table(conn: sqlite3.Connection):
         CREATE TABLE IF NOT EXISTS synced_batches (
             batch_filename TEXT PRIMARY KEY,
             synced_at      TEXT DEFAULT (datetime('now')),
-            item_count     INTEGER DEFAULT 0
+            item_count     INTEGER DEFAULT 0,
+            remote_size    INTEGER DEFAULT 0,
+            remote_mtime   TEXT DEFAULT ''
         )
     """)
+    # Migrations for existing tables
+    try:
+        conn.execute("ALTER TABLE synced_batches ADD COLUMN remote_size INTEGER DEFAULT 0")
+    except Exception:
+        pass
+    try:
+        conn.execute("ALTER TABLE synced_batches ADD COLUMN remote_mtime TEXT DEFAULT ''")
+    except Exception:
+        pass
     conn.commit()
 
 
-def get_gdrive_batches() -> list[str]:
+def get_gdrive_batches() -> list[dict]:
     print("🔍 Checking Google Drive for completed batch archives...")
-    cmd = ["rclone", "lsf", "gdrive:3DSkyData/batches/"]
+    cmd = ["rclone", "lsl", "gdrive:3DSkyData/batches/"]
     res = subprocess.run(cmd, capture_output=True, text=True)
     if res.returncode != 0:
         print(f"⚠️ Could not read gdrive:3DSkyData/batches/: {res.stderr.strip()}")
         return []
-    
-    files = [f.strip() for f in res.stdout.splitlines() if f.strip().endswith(".tar.gz")]
-    return sorted(files)
+
+    batches = []
+    for line in res.stdout.splitlines():
+        line = line.strip()
+        if not line.endswith(".tar.gz"):
+            continue
+        # Format: size date time filename
+        # e.g.: 7355210 2026-09-03 19:24:22.552000000 batch_0.tar.gz
+        parts = line.split(maxsplit=3)
+        if len(parts) >= 4:
+            try:
+                size = int(parts[0])
+                mtime = f"{parts[1]} {parts[2]}"
+                filename = parts[3].strip()
+                batches.append({
+                    "filename": filename,
+                    "size": size,
+                    "mtime": mtime
+                })
+            except Exception:
+                continue
+
+    return sorted(batches, key=lambda b: b["filename"])
 
 
 def download_batch(filename: str, target_dir: Path) -> Path | None:
     print(f"\n⬇️ Downloading {filename} from Google Drive...")
     target_dir.mkdir(parents=True, exist_ok=True)
     target_file = target_dir / filename
+    if target_file.exists():
+        target_file.unlink()
     cmd = ["rclone", "copy", f"gdrive:3DSkyData/batches/{filename}", str(target_dir), "-P"]
     res = subprocess.run(cmd, capture_output=True, text=True)
     if res.returncode == 0 and target_file.exists():
@@ -63,7 +98,7 @@ def merge_batch(conn: sqlite3.Connection, archive_path: Path) -> int:
     with tarfile.open(archive_path, "r:gz") as tar:
         tar.extractall(extract_dir)
 
-    # 1. Copy images
+    # 1. Copy images if present
     extracted_images = extract_dir / "images"
     image_count = 0
     if extracted_images.exists():
@@ -90,10 +125,10 @@ def merge_batch(conn: sqlite3.Connection, archive_path: Path) -> int:
     # Count before
     before_count = conn.execute("SELECT COUNT(*) FROM items").fetchone()[0]
 
-    # Attach and merge
+    # Attach and merge with upsert
     conn.execute(f"ATTACH DATABASE '{batch_db.resolve()}' AS batch_src")
     conn.execute("""
-        INSERT OR IGNORE INTO items
+        INSERT INTO items
         (id, title, category_id, category_slug, gdrive_link, mirror_link,
          image_url, local_image_path, post_url, is_paid,
          render_engine, max_version, file_size_mb, has_lighting)
@@ -101,6 +136,16 @@ def merge_batch(conn: sqlite3.Connection, archive_path: Path) -> int:
                image_url, local_image_path, post_url, is_paid,
                render_engine, max_version, file_size_mb, has_lighting
         FROM batch_src.items
+        WHERE true
+        ON CONFLICT(id) DO UPDATE SET
+            gdrive_link = COALESCE(excluded.gdrive_link, items.gdrive_link),
+            mirror_link = COALESCE(excluded.mirror_link, items.mirror_link),
+            render_engine = COALESCE(excluded.render_engine, items.render_engine),
+            max_version = COALESCE(excluded.max_version, items.max_version),
+            file_size_mb = COALESCE(excluded.file_size_mb, items.file_size_mb),
+            has_lighting = COALESCE(excluded.has_lighting, items.has_lighting),
+            image_url = COALESCE(excluded.image_url, items.image_url),
+            local_image_path = COALESCE(excluded.local_image_path, items.local_image_path)
     """)
     conn.commit()
     conn.execute("DETACH DATABASE batch_src")
@@ -113,11 +158,15 @@ def merge_batch(conn: sqlite3.Connection, archive_path: Path) -> int:
     if archive_path.exists():
         archive_path.unlink()
 
-    print(f"✅ Merged {new_items} new items and {image_count} new images from {archive_path.name}")
+    print(f"✅ Merged {new_items} new items (and {image_count} new images) from {archive_path.name}")
     return new_items
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Sync 3DSkyFree batch archives from Google Drive.")
+    parser.add_argument("--force", action="store_true", help="Force re-download and re-merge all batches from Drive")
+    args = parser.parse_args()
+
     print(f"{'='*60}")
     print("🔄 3DSkyFree Cloud-to-Local Sync Engine")
     print(f"{'='*60}")
@@ -131,10 +180,23 @@ def main():
             print("No batch archives found in gdrive:3DSkyData/batches/.")
             return
 
-        synced_rows = conn.execute("SELECT batch_filename FROM synced_batches").fetchall()
-        already_synced = {row[0] for row in synced_rows}
+        synced_rows = conn.execute("SELECT batch_filename, remote_size, remote_mtime FROM synced_batches").fetchall()
+        synced_lookup = {row[0]: {"size": row[1], "mtime": row[2]} for row in synced_rows}
 
-        pending = [b for b in available_batches if b not in already_synced]
+        pending = []
+        for b in available_batches:
+            fname = b["filename"]
+            if args.force:
+                pending.append(b)
+            elif fname not in synced_lookup:
+                pending.append(b)
+            else:
+                prev = synced_lookup[fname]
+                # Check if size changed or mtime updated
+                if prev["size"] != b["size"] or prev["mtime"] != b["mtime"]:
+                    print(f"  🔄 Detected updated archive for {fname} (remote size: {b['size']:,} bytes)")
+                    pending.append(b)
+
         print(f"Found {len(available_batches)} total batches on Drive ({len(pending)} pending sync).")
 
         if not pending:
@@ -142,14 +204,15 @@ def main():
             return
 
         total_new_items = 0
-        for batch_name in pending:
-            tar_file = download_batch(batch_name, SYNC_TEMP)
+        for batch_info in pending:
+            fname = batch_info["filename"]
+            tar_file = download_batch(fname, SYNC_TEMP)
             if tar_file:
                 new_items = merge_batch(conn, tar_file)
                 conn.execute("""
-                    INSERT INTO synced_batches (batch_filename, item_count)
-                    VALUES (?, ?)
-                """, (batch_name, new_items))
+                    INSERT OR REPLACE INTO synced_batches (batch_filename, item_count, remote_size, remote_mtime, synced_at)
+                    VALUES (?, ?, ?, ?, datetime('now'))
+                """, (fname, new_items, batch_info["size"], batch_info["mtime"]))
                 conn.commit()
                 total_new_items += new_items
 
