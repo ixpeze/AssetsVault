@@ -17,6 +17,9 @@ from html import unescape
 from pathlib import Path
 from urllib.parse import unquote
 
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
 import requests
 from PIL import Image
 
@@ -27,8 +30,24 @@ MAX_RETRIES = 3
 session = requests.Session()
 session.headers.update({
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-    "Accept": "application/json",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
 })
+
+# Load member cookie for bypassing WordPress Paid Memberships Pro paywall
+WP_COOKIE = os.environ.get("WP_COOKIE")
+if WP_COOKIE:
+    session.headers["Cookie"] = WP_COOKIE
+elif Path("cookies.json").exists():
+    try:
+        import json
+        with open("cookies.json", "r", encoding="utf-8") as f:
+            cookie_data = json.load(f)
+            if isinstance(cookie_data, list):
+                session.headers["Cookie"] = "; ".join([f"{c['name']}={c['value']}" for c in cookie_data if "name" in c and "value" in c])
+            elif isinstance(cookie_data, dict):
+                session.headers["Cookie"] = "; ".join([f"{k}={v}" for k, v in cookie_data.items()])
+    except Exception as e:
+        print(f"⚠️ Could not load cookies.json: {e}")
 
 
 def extract_gdrive_link(html_content: str) -> str | None:
@@ -242,6 +261,19 @@ def scrape_category_batch(conn: sqlite3.Connection, cat: dict, output_dir: Path,
             image_url = get_featured_image_url(post) or extract_content_image_url(content)
             meta = extract_metadata(content)
             is_paid = 1 if cat_slug in ("member", "pro-models", "3dsky-pro-models") or not content.strip() else 0
+
+            # If Google Drive link was blocked by member paywall in REST content, fetch post page with member cookie
+            if not gdrive_link and post_url:
+                try:
+                    page_resp = session.get(post_url, timeout=12)
+                    if page_resp.status_code == 200:
+                        page_html = page_resp.text
+                        gdrive_link = extract_gdrive_link(page_html) or gdrive_link
+                        mirror_link = extract_mirror_link(page_html) or mirror_link
+                        if not meta.get("render_engine"):
+                            meta = extract_metadata(page_html)
+                except Exception:
+                    pass
 
             local_image_path = None
             if image_url and not skip_images:

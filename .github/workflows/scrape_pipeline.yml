@@ -86,6 +86,8 @@ jobs:
 
       - name: Run Batch Scraper
         if: steps.check_slice.outputs.run == 'true'
+        env:
+          WP_COOKIE: ${{ secrets.WP_COOKIE }}
         run: |
           EXTRA_FLAGS=""
           if [ "${{ github.event.inputs.skip_images }}" = "true" ]; then
