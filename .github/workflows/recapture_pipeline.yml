@@ -1,0 +1,106 @@
+name: Concurrent Missing GDrive Recapture
+
+on:
+  workflow_dispatch:
+    inputs:
+      slice_id:
+        description: 'Slice ID to run (0-9, or "all")'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - 'all'
+          - '0'
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+      limit_per_slice:
+        description: 'Limit items per slice (0 = all, default: 1000)'
+        required: false
+        default: '1000'
+      delay:
+        description: 'Request delay in seconds (default: 0.5)'
+        required: false
+        default: '0.5'
+  schedule:
+    # Runs every 6 hours (03:00, 09:00, 15:00, 21:00 UTC) offset from scraper
+    - cron: '0 3,9,15,21 * * *'
+
+jobs:
+  recapture-matrix:
+    name: Recapture Slice ${{ matrix.slice_id }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        slice_id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    steps:
+      - name: Check if this slice should run
+        id: check_slice
+        run: |
+          TARGET="${{ github.event.inputs.slice_id }}"
+          CURRENT="${{ matrix.slice_id }}"
+          if [ -n "$TARGET" ] && [ "$TARGET" != "all" ] && [ "$TARGET" != "$CURRENT" ]; then
+            echo "Skipping slice $CURRENT (target is $TARGET)"
+            echo "run=false" >> $GITHUB_OUTPUT
+          else
+            echo "run=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check out repository
+        if: steps.check_slice.outputs.run == 'true'
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: steps.check_slice.outputs.run == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        if: steps.check_slice.outputs.run == 'true'
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4
+
+      - name: Install and configure rclone
+        if: steps.check_slice.outputs.run == 'true'
+        env:
+          RCLONE_RAW: ${{ secrets.RCLONE_CONFIG_GDRIVE }}
+        run: |
+          sudo apt-get update && sudo apt-get install -y rclone
+          mkdir -p ~/.config/rclone
+          python -c "import os; from pathlib import Path; p = Path.home() / '.config' / 'rclone' / 'rclone.conf'; p.write_text(os.environ['RCLONE_RAW'], encoding='utf-8')"
+          chmod 600 ~/.config/rclone/rclone.conf
+          rclone lsd gdrive:
+
+      - name: Run Recapture Worker
+        if: steps.check_slice.outputs.run == 'true'
+        env:
+          WP_COOKIE: ${{ secrets.WP_COOKIE }}
+        run: |
+          LIMIT_VAL="1000"
+          if [ -n "${{ github.event.inputs.limit_per_slice }}" ]; then
+            LIMIT_VAL="${{ github.event.inputs.limit_per_slice }}"
+          fi
+
+          DELAY_VAL="0.5"
+          if [ -n "${{ github.event.inputs.delay }}" ]; then
+            DELAY_VAL="${{ github.event.inputs.delay }}"
+          fi
+
+          python scripts/pipeline/recapture_batch.py \
+            --slice-id ${{ matrix.slice_id }} \
+            --num-slices 10 \
+            --limit $LIMIT_VAL \
+            --delay $DELAY_VAL \
+            --rclone-upload

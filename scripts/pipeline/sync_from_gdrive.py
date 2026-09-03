@@ -220,6 +220,14 @@ def main():
         print(f"🎉 Sync Complete! Added {total_new_items} new items to local database.")
         print(f"{'='*60}")
 
+        # Also check for and sync completed recapture batches from Google Drive
+        recapture_sync = Path(__file__).parent / "sync_recaptured_links.py"
+        if recapture_sync.exists():
+            try:
+                subprocess.run([sys.executable, str(recapture_sync)], check=False)
+            except Exception as e:
+                print(f"⚠️ Recaptured link sync check note: {e}")
+
     finally:
         conn.close()
 
