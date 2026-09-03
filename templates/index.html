@@ -371,6 +371,32 @@
                             <option value="no">No</option>
                         </select>
                     </div>
+
+                    <!-- Render Engine Filter -->
+                    <div>
+                        <label class="text-[10px] font-mono uppercase text-text-muted mb-2 block">Render Engine</label>
+                        <select id="filter-render"
+                            class="w-full bg-[#151515] border border-glass-border text-xs px-2 py-1.5 rounded text-white">
+                            <option value="">All Engines</option>
+                            <option value="vray">V-Ray</option>
+                            <option value="corona">Corona</option>
+                        </select>
+                    </div>
+
+                    <!-- 3ds Max Version Filter -->
+                    <div>
+                        <label class="text-[10px] font-mono uppercase text-text-muted mb-2 block">Max Version</label>
+                        <select id="filter-max-version"
+                            class="w-full bg-[#151515] border border-glass-border text-xs px-2 py-1.5 rounded text-white">
+                            <option value="">All Versions</option>
+                            <option value="2013">2013</option>
+                            <option value="2014">2014</option>
+                            <option value="2016">2016</option>
+                            <option value="2018">2018</option>
+                            <option value="2020">2020</option>
+                            <option value="2022">2022</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1214,6 +1240,16 @@
                         <span class="material-symbols-outlined text-[14px] text-text-muted">database</span>
                         <span class="text-text-muted">Size:</span>
                         <span id="lb-size" class="text-white font-medium"></span>
+                    </div>
+                    <div id="lb-render-container" class="flex items-center gap-2 text-xs hidden">
+                        <span class="material-symbols-outlined text-[14px] text-text-muted">brush</span>
+                        <span class="text-text-muted">Render:</span>
+                        <span id="lb-render" class="text-white font-medium"></span>
+                    </div>
+                    <div id="lb-max-container" class="flex items-center gap-2 text-xs hidden">
+                        <span class="material-symbols-outlined text-[14px] text-text-muted">view_in_ar</span>
+                        <span class="text-text-muted">Max Version:</span>
+                        <span id="lb-max" class="text-white font-medium"></span>
                     </div>
                 </div>
 

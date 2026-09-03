@@ -24,7 +24,9 @@ export const state = {
         hasGdrive: "",
         hasImage: "",
         tier: "",
-        hasSize: ""
+        hasSize: "",
+        render: "",
+        maxVersion: ""
     },
     expandedCategories: new Set(),
     lightboxIndex: -1,

@@ -170,6 +170,11 @@ export function buildCardHTML(item, idx) {
             <div class="flex flex-col overflow-hidden flex-1">
                 <span class="text-[9px] text-text-muted font-mono uppercase truncate mb-0.5">${categoryDisplay}</span>
                 <h3 class="text-sm font-medium text-white truncate font-display" title="${titleAttr}">${titleText}</h3>
+                ${(item.render_engine || item.max_version) ? `
+                <div class="flex items-center gap-1 mt-1 overflow-hidden">
+                    ${item.render_engine ? `<span class="px-1.5 py-0.2 rounded text-[8px] font-mono bg-primary/10 border border-primary/20 text-primary truncate max-w-[120px]" title="Render Engine">${escapeHtml(item.render_engine)}</span>` : ''}
+                    ${item.max_version ? `<span class="px-1.5 py-0.2 rounded text-[8px] font-mono bg-white/5 border border-white/10 text-text-muted truncate" title="Max Version">${escapeHtml(item.max_version)}</span>` : ''}
+                </div>` : ''}
                 <div class="flex items-center gap-2 mt-1.5">${downloadBtn}${gdriveBtn}${mirrorBtn}${sourceBtn}</div>
             </div>
         </div>

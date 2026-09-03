@@ -8,6 +8,10 @@ export function applyFilters(fetchItems) {
     state.advancedFilters.hasImage = document.getElementById("filter-image").value;
     state.advancedFilters.tier = document.getElementById("filter-tier").value;
     state.advancedFilters.hasSize = document.getElementById("filter-size").value;
+    const rEl = document.getElementById("filter-render");
+    if (rEl) state.advancedFilters.render = rEl.value;
+    const mEl = document.getElementById("filter-max-version");
+    if (mEl) state.advancedFilters.maxVersion = mEl.value;
 
     const activeCount = Object.values(state.advancedFilters).filter(v => v !== "").length;
     const badge = document.getElementById("active-filters-badge");

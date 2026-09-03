@@ -27,6 +27,8 @@ logs/
 # ── Credentials & secrets ─────────────────────────────────
 cookies.json
 credentials.md
+.credentials
+*.credentials*
 proxies.txt
 
 # ── IDE & Editor ──────────────────────────────────────────

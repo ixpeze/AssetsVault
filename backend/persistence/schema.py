@@ -79,6 +79,7 @@ def init_schema(conn: sqlite3.Connection) -> None:
     _migrate_drop_render_type(conn)
     _migrate_add_local_fields(conn)
     _migrate_remove_ai_tables(conn)
+    _migrate_add_metadata_fields(conn)
 
     _auto_extract_tags(conn)
     _ensure_items_indexes(conn)
@@ -124,7 +125,10 @@ def _ensure_core_tables(conn: sqlite3.Connection) -> None:
             local_image_path TEXT,
             local_file_path TEXT,
             post_url TEXT,
-            render_type TEXT,
+            render_engine TEXT,
+            max_version TEXT,
+            file_size_mb REAL,
+            has_lighting INTEGER,
             tier TEXT DEFAULT 'Free',
             taxonomy_id INTEGER DEFAULT NULL,
             is_paid INTEGER NOT NULL DEFAULT 0,
@@ -191,10 +195,12 @@ def _ensure_fts_table(conn: sqlite3.Connection) -> None:
                 LEFT JOIN categories c ON c.slug = i.category_slug
             """)
             conn.commit()
-            set_meta(conn, "fts_needs_sync", "0")
-            log.info("[FTS5] Synced %d items", items_count)
+        # Clean up any legacy duplicate triggers
+        conn.execute("DROP TRIGGER IF EXISTS items_ai")
+        conn.execute("DROP TRIGGER IF EXISTS items_au")
+        conn.execute("DROP TRIGGER IF EXISTS items_ad")
 
-        # Ensure triggers exist
+        # Ensure canonical triggers exist
         conn.execute("""
             CREATE TRIGGER IF NOT EXISTS trg_items_ai AFTER INSERT ON items BEGIN
                 INSERT INTO items_fts(rowid, title, category_name, category_slug, tags)
@@ -645,3 +651,47 @@ def _migrate_remove_ai_tables(conn: sqlite3.Connection) -> None:
             log.info("[Migration] AI tables dropped and space reclaimed successfully.")
         except Exception as e:
             log.warning("[Migration] Dropping AI tables failed: %s", e)
+
+
+def _migrate_add_metadata_fields(conn: sqlite3.Connection) -> None:
+    """Add render_engine, max_version, file_size_mb, and has_lighting fields to items table if missing."""
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(items)").fetchall()}
+
+    if "render_engine" not in cols:
+        try:
+            conn.execute("ALTER TABLE items ADD COLUMN render_engine TEXT")
+            conn.commit()
+            log.info("[Migration] Added render_engine column to items")
+        except Exception:
+            pass
+
+    if "max_version" not in cols:
+        try:
+            conn.execute("ALTER TABLE items ADD COLUMN max_version TEXT")
+            conn.commit()
+            log.info("[Migration] Added max_version column to items")
+        except Exception:
+            pass
+
+    if "file_size_mb" not in cols:
+        try:
+            conn.execute("ALTER TABLE items ADD COLUMN file_size_mb REAL")
+            conn.commit()
+            log.info("[Migration] Added file_size_mb column to items")
+        except Exception:
+            pass
+
+    if "has_lighting" not in cols:
+        try:
+            conn.execute("ALTER TABLE items ADD COLUMN has_lighting INTEGER")
+            conn.commit()
+            log.info("[Migration] Added has_lighting column to items")
+        except Exception:
+            pass
+
+    try:
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_items_render_engine ON items(render_engine)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_items_max_version ON items(max_version)")
+        conn.commit()
+    except Exception:
+        pass

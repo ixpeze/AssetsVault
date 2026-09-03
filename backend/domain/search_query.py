@@ -40,6 +40,13 @@ class SearchQuery:
     tags: str = ""           # comma-separated list of tag names
     tags_mode: str = "or"   # "and" | "or"
 
+    # Technical metadata filters (Advance Search)
+    render_engine: str = ""      # e.g. "vray", "corona"
+    max_version: str = ""        # e.g. "2016", "2020"
+    min_size: Optional[float] = None  # file size in MB >= min_size
+    max_size: Optional[float] = None  # file size in MB <= max_size
+    lighting: Optional[bool] = None   # True = lighting YES, False = NO
+
     # Boolean filters
     fav: bool = False
     has_gdrive: bool = False

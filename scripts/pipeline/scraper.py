@@ -14,6 +14,8 @@ Usage:
 """
 
 import argparse
+import html
+import io
 import json
 import os
 import re
@@ -22,6 +24,7 @@ import sys
 import time
 from pathlib import Path
 from urllib.parse import urlparse, unquote
+from PIL import Image
 
 # Force UTF-8 encoding for stdout/stderr to support emoji logging on Windows
 if sys.stdout.encoding != 'utf-8':
@@ -96,11 +99,17 @@ def init_db(db_path: Path) -> sqlite3.Connection:
             post_url        TEXT,
             collected_at    TEXT DEFAULT (datetime('now')),
             is_paid         INTEGER NOT NULL DEFAULT 0,
+            render_engine   TEXT,
+            max_version     TEXT,
+            file_size_mb    REAL,
+            has_lighting    INTEGER,
             FOREIGN KEY (category_id) REFERENCES categories(id)
         );
 
         CREATE INDEX IF NOT EXISTS idx_items_category ON items(category_slug);
         CREATE INDEX IF NOT EXISTS idx_items_gdrive ON items(gdrive_link);
+        CREATE INDEX IF NOT EXISTS idx_items_render ON items(render_engine);
+        CREATE INDEX IF NOT EXISTS idx_items_max_version ON items(max_version);
 
         CREATE TABLE IF NOT EXISTS checkpoints (
             category_slug   TEXT PRIMARY KEY,
@@ -112,6 +121,20 @@ def init_db(db_path: Path) -> sqlite3.Connection:
         );
     """)
     conn.commit()
+
+    # Ensure columns exist if table was created previously
+    for col_def in [
+        ("render_engine", "TEXT"),
+        ("max_version", "TEXT"),
+        ("file_size_mb", "REAL"),
+        ("has_lighting", "INTEGER")
+    ]:
+        try:
+            conn.execute(f"ALTER TABLE items ADD COLUMN {col_def[0]} {col_def[1]}")
+            conn.commit()
+        except Exception:
+            pass
+
     return conn
 
 
@@ -296,11 +319,65 @@ def extract_mirror_link(html_content: str) -> str | None:
     """Extract mirror download link from post HTML content."""
     if not html_content:
         return None
-
     match = re.search(r'href=["\']?(https?://download\.3dskyfree\.com/[^"\'<>\s]+)', html_content)
     if match:
         return unquote(match.group(1))
 
+    return None
+
+
+def extract_metadata(html_content: str) -> dict:
+    """Extract technical specifications from post HTML content."""
+    meta = {
+        "render_engine": None,
+        "max_version": None,
+        "file_size_mb": None,
+        "has_lighting": None,
+    }
+    if not html_content:
+        return meta
+
+    m_render = re.search(r'Render:\s*([^<\r\n]+)', html_content, re.I)
+    if m_render:
+        meta["render_engine"] = html.unescape(m_render.group(1)).strip()
+
+    m_max = re.search(r'(?:3ds\s*Max\s*Version|Max\s*Version):\s*([^<\r\n]+)', html_content, re.I)
+    if m_max:
+        meta["max_version"] = html.unescape(m_max.group(1)).strip()
+
+    m_size = re.search(r'File\s*Size:\s*([0-9.]+)\s*(MB|GB|KB)?', html_content, re.I)
+    if m_size:
+        try:
+            val = float(m_size.group(1))
+            unit = (m_size.group(2) or "MB").upper()
+            if unit == "GB":
+                val *= 1024
+            elif unit == "KB":
+                val /= 1024
+            meta["file_size_mb"] = round(val, 2)
+        except Exception:
+            pass
+
+    m_light = re.search(r'Lighting:\s*([A-Za-z]+)', html_content, re.I)
+    if m_light:
+        val = m_light.group(1).upper()
+        if "YES" in val:
+            meta["has_lighting"] = 1
+        elif "NO" in val:
+            meta["has_lighting"] = 0
+
+    return meta
+
+
+def extract_content_image_url(html_content: str) -> str | None:
+    """Extract image preview URL from post HTML content if featured media is missing."""
+    if not html_content:
+        return None
+    soup = BeautifulSoup(html_content, "html.parser")
+    for img in soup.find_all("img"):
+        src = img.get("data-src") or img.get("src")
+        if src and not src.startswith("data:image"):
+            return src
     return None
 
 
@@ -311,77 +388,15 @@ def get_featured_image_url(post: dict) -> str | None:
         featured_media = embedded.get("wp:featuredmedia", [])
         if featured_media and len(featured_media) > 0:
             media = featured_media[0]
-            # Try to get the best available size
             sizes = media.get("media_details", {}).get("sizes", {})
-            # Prefer: full > large > medium_large > medium > thumbnail
             for size_key in ["full", "large", "medium_large", "medium", "thumbnail"]:
                 if size_key in sizes:
                     return sizes[size_key]["source_url"]
-            # Fallback to source_url
             return media.get("source_url")
     except (KeyError, IndexError, TypeError):
         pass
 
     return None
-
-
-def scrape_page_for_links(post_url: str, delay: float = DEFAULT_DELAY) -> tuple[str | None, str | None]:
-    """Fallback: scrape the actual post page for download links (paid content).
-    Returns (gdrive_link, mirror_link) tuple."""
-    try:
-        time.sleep(delay)
-        resp = SESSION.get(post_url, timeout=60)
-        html = resp.text
-
-        gdrive_link = None
-        mirror_link = None
-
-        # Pattern 1: redirect-to URL with encoded drive link
-        # e.g. /redirect-to/?_p=405275&url=https%3A%2F%2Fdrive.google.com%2F...
-        redirect_matches = re.findall(
-            r'href=["\']?https?://3dskyfree\.com/redirect-to/\?[^"\'>]*url=([^"\'>\s&]+)',
-            html
-        )
-        for encoded_url in redirect_matches:
-            decoded = unquote(encoded_url)
-            if 'drive.google.com' in decoded and not gdrive_link:
-                gdrive_link = decoded
-            elif 'download.3dskyfree.com' in decoded and not mirror_link:
-                mirror_link = decoded
-
-        # Pattern 2: Direct drive.google.com links
-        if not gdrive_link:
-            match = re.search(r'href=["\']?(https?://drive\.google\.com/[^"\'>\s]+)', html)
-            if match:
-                gdrive_link = match.group(1)
-
-        # Pattern 3: Direct download.3dskyfree.com links
-        if not mirror_link:
-            match = re.search(r'href=["\']?(https?://download\.3dskyfree\.com/[^"\'>\s]+)', html)
-            if match:
-                mirror_link = unquote(match.group(1))
-
-        return gdrive_link, mirror_link
-
-    except Exception as e:
-        print(f"  [WARN] Page scrape failed: {e}")
-        return None, None
-
-
-def fetch_image_url_from_api(media_id: int, delay: float = DEFAULT_DELAY) -> str | None:
-    """Fallback: fetch image URL via the media endpoint if _embed didn't work."""
-    if not media_id:
-        return None
-    try:
-        resp = api_get(f"media/{media_id}", delay=delay)
-        data = resp.json()
-        sizes = data.get("media_details", {}).get("sizes", {})
-        for size_key in ["full", "large", "medium_large", "medium", "thumbnail"]:
-            if size_key in sizes:
-                return sizes[size_key]["source_url"]
-        return data.get("source_url")
-    except Exception:
-        return None
 
 
 # ============================================================================
@@ -390,23 +405,34 @@ def fetch_image_url_from_api(media_id: int, delay: float = DEFAULT_DELAY) -> str
 
 def download_image(url: str, save_path: Path, delay: float = 0.5,
                    max_retries: int = 2) -> bool:
-    """Download an image to the specified path with retry."""
-    if save_path.exists():
-        return True  # Already downloaded
+    """Download an image to the specified path, converting to compressed WebP."""
+    target_path = save_path.with_suffix(".webp")
+    if target_path.exists():
+        return True  # Already downloaded and converted
 
-    save_path.parent.mkdir(parents=True, exist_ok=True)
+    target_path.parent.mkdir(parents=True, exist_ok=True)
 
     for attempt in range(1, max_retries + 1):
         try:
             time.sleep(delay)
-            resp = SESSION.get(url, timeout=60, stream=True)
+            resp = SESSION.get(url, timeout=60)
             resp.raise_for_status()
 
-            with open(save_path, "wb") as f:
-                for chunk in resp.iter_content(chunk_size=8192):
-                    f.write(chunk)
+            # Compress and save as WebP
+            try:
+                img = Image.open(io.BytesIO(resp.content))
+                if img.mode in ("RGBA", "P"):
+                    img = img.convert("RGBA")
+                else:
+                    img = img.convert("RGB")
+                img.save(target_path, "WEBP", quality=82, method=4)
+                return True
+            except Exception as pil_err:
+                # Fallback to direct bytes write if PIL fails
+                with open(target_path, "wb") as f:
+                    f.write(resp.content)
+                return True
 
-            return True
         except Exception as e:
             if attempt < max_retries:
                 print(f"  [RETRY IMG {attempt}/{max_retries}] {e}")
@@ -414,6 +440,7 @@ def download_image(url: str, save_path: Path, delay: float = 0.5,
             else:
                 print(f"  [WARN] Failed to download image after {max_retries} attempts: {e}")
                 return False
+    return False
 
 
 # ============================================================================
@@ -524,11 +551,12 @@ def scrape_category(conn: sqlite3.Connection, category_slug: str,
             # Extract data from API content
             gdrive_link = extract_gdrive_link(content)
             mirror_link = extract_mirror_link(content)
-            image_url = get_featured_image_url(post)
+            image_url = get_featured_image_url(post) or extract_content_image_url(content)
+            meta = extract_metadata(content)
 
             # Determine is_paid status:
-            # If WP REST API returns empty content, this is restricted -> is_paid = 1
-            is_paid = 1 if not content.strip() else 0
+            # If WP REST API returns empty content or category is member/pro, mark accordingly
+            is_paid = 1 if category_slug in ("member", "pro-models", "3dsky-pro-models") or not content.strip() else 0
 
             # Fallback for PAID content: if API content is empty, scrape the page
             if not gdrive_link and not content.strip():
@@ -544,12 +572,9 @@ def scrape_category(conn: sqlite3.Connection, category_slug: str,
 
             local_image_path = None
 
-            # Download preview image
+            # Download preview image as WebP
             if image_url and not skip_images:
-                # Determine file extension from URL
-                parsed = urlparse(image_url)
-                ext = Path(parsed.path).suffix or ".jpg"
-                img_filename = f"{post_id}{ext}"
+                img_filename = f"{post_id}.webp"
                 img_path = img_dir / img_filename
 
                 if download_image(image_url, img_path, delay=0.3):
@@ -570,18 +595,26 @@ def scrape_category(conn: sqlite3.Connection, category_slug: str,
                         gdrive_link = ?, mirror_link = ?,
                         image_url = COALESCE(?, image_url),
                         local_image_path = COALESCE(?, local_image_path),
-                        post_url = ?, is_paid = ?
+                        post_url = ?, is_paid = ?,
+                        render_engine = ?, max_version = ?,
+                        file_size_mb = ?, has_lighting = ?
                     WHERE id = ?
                 """, (title, cat_id, category_slug, gdrive_link, mirror_link,
-                       image_url, local_image_path, post_url, is_paid, post_id))
+                       image_url, local_image_path, post_url, is_paid,
+                       meta["render_engine"], meta["max_version"],
+                       meta["file_size_mb"], meta["has_lighting"],
+                       post_id))
             else:
                 conn.execute("""
                     INSERT INTO items
                     (id, title, category_id, category_slug, gdrive_link, mirror_link,
-                     image_url, local_image_path, post_url, is_paid)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                     image_url, local_image_path, post_url, is_paid,
+                     render_engine, max_version, file_size_mb, has_lighting)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (post_id, title, cat_id, category_slug, gdrive_link, mirror_link,
-                      image_url, local_image_path, post_url, is_paid))
+                      image_url, local_image_path, post_url, is_paid,
+                      meta["render_engine"], meta["max_version"],
+                      meta["file_size_mb"], meta["has_lighting"]))
 
             total_collected += 1
 
@@ -638,6 +671,110 @@ def scrape_category(conn: sqlite3.Connection, category_slug: str,
     print(f"{'='*60}")
 
 
+def scrape_single_url(conn: sqlite3.Connection, url: str, skip_images: bool = False, delay: float = DEFAULT_DELAY) -> bool:
+    """Scrape a single item by its 3dskyfree.com URL."""
+    print(f"\n🔍 Scraping single URL: {url}")
+    clean_url = url.rstrip('/')
+    parts = clean_url.split('/')
+    slug = parts[-2] if parts[-1] in ("3dskyfree", "3ds-max") and len(parts) >= 2 else parts[-1]
+    
+    print(f"   Target slug: {slug}")
+    resp = api_get("posts", {"slug": slug, "_embed": "wp:featuredmedia"}, delay=delay)
+    posts = resp.json()
+    if not posts:
+        print(f"❌ Post with slug '{slug}' not found via WP REST API!")
+        return False
+
+    post = posts[0]
+    post_id = post["id"]
+    title = post["title"]["rendered"]
+    content = post["content"]["rendered"]
+    post_url = post["link"]
+
+    # Category handling
+    cat_ids = post.get("categories", [])
+    cat_id = cat_ids[0] if cat_ids else None
+    cat_slug = None
+    if cat_id:
+        c_row = conn.execute("SELECT slug FROM categories WHERE id = ?", (cat_id,)).fetchone()
+        if c_row:
+            cat_slug = c_row["slug"]
+        else:
+            try:
+                c_resp = api_get(f"categories/{cat_id}", delay=delay)
+                c_data = c_resp.json()
+                cat_slug = c_data.get("slug")
+                conn.execute("""
+                    INSERT OR REPLACE INTO categories (id, name, slug, parent_id, post_count, link)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """, (c_data["id"], c_data["name"], c_data["slug"], c_data.get("parent", 0),
+                      c_data.get("count", 0), c_data.get("link")))
+                conn.commit()
+            except Exception:
+                pass
+
+    if not cat_slug:
+        if len(parts) >= 3 and parts[-3] != "3dskyfree.com":
+            cat_slug = parts[-3]
+        else:
+            cat_slug = "member"
+
+    meta = extract_metadata(content)
+    gdrive_link = extract_gdrive_link(content)
+    mirror_link = extract_mirror_link(content)
+    image_url = get_featured_image_url(post) or extract_content_image_url(content)
+    is_paid = 1 if cat_slug in ("member", "pro-models", "3dsky-pro-models") or not content.strip() else 0
+
+    local_image_path = None
+    if image_url and not skip_images:
+        img_dir = DATA_DIR / cat_slug / "images"
+        img_dir.mkdir(parents=True, exist_ok=True)
+        img_path = img_dir / f"{post_id}.webp"
+        if download_image(image_url, img_path, delay=0.3):
+            local_image_path = f"images/{post_id}.webp"
+
+    existing_full = conn.execute("SELECT id FROM items WHERE id = ?", (post_id,)).fetchone()
+    if existing_full:
+        conn.execute("""
+            UPDATE items
+            SET title = ?, category_id = ?, category_slug = ?,
+                gdrive_link = ?, mirror_link = ?,
+                image_url = COALESCE(?, image_url),
+                local_image_path = COALESCE(?, local_image_path),
+                post_url = ?, is_paid = ?,
+                render_engine = ?, max_version = ?,
+                file_size_mb = ?, has_lighting = ?
+            WHERE id = ?
+        """, (title, cat_id, cat_slug, gdrive_link, mirror_link,
+               image_url, local_image_path, post_url, is_paid,
+               meta["render_engine"], meta["max_version"],
+               meta["file_size_mb"], meta["has_lighting"],
+               post_id))
+    else:
+        conn.execute("""
+            INSERT INTO items
+            (id, title, category_id, category_slug, gdrive_link, mirror_link,
+             image_url, local_image_path, post_url, is_paid,
+             render_engine, max_version, file_size_mb, has_lighting)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (post_id, title, cat_id, cat_slug, gdrive_link, mirror_link,
+              image_url, local_image_path, post_url, is_paid,
+              meta["render_engine"], meta["max_version"],
+              meta["file_size_mb"], meta["has_lighting"]))
+
+    conn.commit()
+    print(f"\n✅ Successfully captured post #{post_id}:")
+    print(f"   Title:       {title}")
+    print(f"   Category:    {cat_slug} (id: {cat_id})")
+    print(f"   Drive link:  {gdrive_link}")
+    print(f"   Image path:  {local_image_path}")
+    print(f"   Render:      {meta['render_engine']}")
+    print(f"   Max version: {meta['max_version']}")
+    print(f"   File size:   {meta['file_size_mb']} MB")
+    print(f"   Lighting:    {meta['has_lighting']}")
+    return True
+
+
 def list_categories(conn: sqlite3.Connection, delay: float = DEFAULT_DELAY):
     """List all categories with post counts."""
     # Check if we have categories in DB
@@ -666,6 +803,7 @@ def list_categories(conn: sqlite3.Connection, delay: float = DEFAULT_DELAY):
     print(f"Total categories: {len(rows)}  |  Total posts: {total_posts}")
     print(f"\nUsage: python scraper.py --category <slug>")
     print(f"Example: python scraper.py --category decor-helper-bathroom-decor --limit 10")
+    print(f"Single URL: python scraper.py --url <url>")
 
 
 # ============================================================================
@@ -679,8 +817,8 @@ def main():
         epilog="""
 Examples:
   python scraper.py --list-categories
-  python scraper.py --category camping-decor
-  python scraper.py --category camping-decor --limit 5
+  python scraper.py --category member --limit 10
+  python scraper.py --url https://3dskyfree.com/member/folding-door.../3dskyfree/
   python scraper.py --category camping-decor --cookies       # paid content
   python scraper.py --category camping-decor --skip-images
   python scraper.py --category camping-decor --resume
@@ -696,6 +834,8 @@ Paid content:
                        help="List all available categories with post counts")
     group.add_argument("--category", type=str,
                        help="Category slug to scrape (e.g. 'camping-decor')")
+    group.add_argument("--url", type=str,
+                       help="Scrape a single specific post URL")
 
     parser.add_argument("--cookies", action="store_true",
                        help="Use saved cookies for paid content (run export_cookies.py first)")
@@ -718,6 +858,13 @@ Paid content:
     try:
         if args.list_categories:
             list_categories(conn, delay=args.delay)
+        elif args.url:
+            scrape_single_url(
+                conn=conn,
+                url=args.url,
+                skip_images=args.skip_images,
+                delay=args.delay,
+            )
         elif args.category:
             scrape_category(
                 conn=conn,

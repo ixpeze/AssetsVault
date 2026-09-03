@@ -24,6 +24,8 @@ export function buildItemParams() {
     if (state.advancedFilters.hasSize === "yes") params.set("has_size", "1");
     if (state.advancedFilters.hasSize === "no") params.set("no_size", "1");
     if (state.advancedFilters.tier) params.set("tier", state.advancedFilters.tier);
+    if (state.advancedFilters.render) params.set("render", state.advancedFilters.render);
+    if (state.advancedFilters.maxVersion) params.set("max_version", state.advancedFilters.maxVersion);
 
     const rawQ = state.searchQuery || '';
     const excludeTokens = rawQ.match(/-(\S+)/g);

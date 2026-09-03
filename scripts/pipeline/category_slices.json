@@ -1,0 +1,5331 @@
+{
+  "total_categories": 658,
+  "total_remaining": 1078345,
+  "num_slices": 10,
+  "slices": [
+    {
+      "slice_id": 0,
+      "target_posts": 141180,
+      "categories": [
+        {
+          "id": 263,
+          "name": "Furniture",
+          "slug": "furniture",
+          "total_posts": 141200,
+          "scraped": 20,
+          "remaining": 141180
+        }
+      ]
+    },
+    {
+      "slice_id": 1,
+      "target_posts": 104130,
+      "categories": [
+        {
+          "id": 258,
+          "name": "DECORATION",
+          "slug": "decoration",
+          "total_posts": 57803,
+          "scraped": 0,
+          "remaining": 57803
+        },
+        {
+          "id": 1107,
+          "name": "Curtain",
+          "slug": "curtain",
+          "total_posts": 5812,
+          "scraped": 0,
+          "remaining": 5812
+        },
+        {
+          "id": 102,
+          "name": "FURNITURE - BED",
+          "slug": "furniture-bed",
+          "total_posts": 4599,
+          "scraped": 0,
+          "remaining": 4599
+        },
+        {
+          "id": 60,
+          "name": "BEDROOM - MODERN STYLE",
+          "slug": "bedroom-modern-style",
+          "total_posts": 3742,
+          "scraped": 0,
+          "remaining": 3742
+        },
+        {
+          "id": 789,
+          "name": "FURNITURE - OTHER",
+          "slug": "furniture-other",
+          "total_posts": 3172,
+          "scraped": 0,
+          "remaining": 3172
+        },
+        {
+          "id": 1038,
+          "name": "Sculpture",
+          "slug": "sculpture",
+          "total_posts": 2661,
+          "scraped": 0,
+          "remaining": 2661
+        },
+        {
+          "id": 318,
+          "name": "DECORATION - PLANT - FLOWER",
+          "slug": "decoration-plant-flower",
+          "total_posts": 2362,
+          "scraped": 0,
+          "remaining": 2362
+        },
+        {
+          "id": 1079,
+          "name": "Tree",
+          "slug": "tree",
+          "total_posts": 2224,
+          "scraped": 0,
+          "remaining": 2224
+        },
+        {
+          "id": 1065,
+          "name": "Toy",
+          "slug": "toy",
+          "total_posts": 1793,
+          "scraped": 0,
+          "remaining": 1793
+        },
+        {
+          "id": 1161,
+          "name": "Stone",
+          "slug": "stone",
+          "total_posts": 2169,
+          "scraped": 428,
+          "remaining": 1741
+        },
+        {
+          "id": 1057,
+          "name": "Building",
+          "slug": "building",
+          "total_posts": 1532,
+          "scraped": 0,
+          "remaining": 1532
+        },
+        {
+          "id": 27020,
+          "name": "Sports and Fitness",
+          "slug": "sports-and-fitness",
+          "total_posts": 1377,
+          "scraped": 0,
+          "remaining": 1377
+        },
+        {
+          "id": 103,
+          "name": "FURNITURE - CONSOLE & CABINETS",
+          "slug": "furniture-console-cabinets",
+          "total_posts": 1240,
+          "scraped": 0,
+          "remaining": 1240
+        },
+        {
+          "id": 27007,
+          "name": "Dining Space",
+          "slug": "dining-space",
+          "total_posts": 1182,
+          "scraped": 0,
+          "remaining": 1182
+        },
+        {
+          "id": 126,
+          "name": "HDRI",
+          "slug": "hdri",
+          "total_posts": 1054,
+          "scraped": 0,
+          "remaining": 1054
+        },
+        {
+          "id": 27022,
+          "name": "Amusement equipment",
+          "slug": "amusement-equipment",
+          "total_posts": 1019,
+          "scraped": 0,
+          "remaining": 1019
+        },
+        {
+          "id": 62,
+          "name": "BEDROOM - EUROPEAN STYLE",
+          "slug": "bedroom-european-style",
+          "total_posts": 907,
+          "scraped": 0,
+          "remaining": 907
+        },
+        {
+          "id": 790,
+          "name": "FURNITURE - OTHER SOFT SEATING",
+          "slug": "furniture-other-soft-seating",
+          "total_posts": 906,
+          "scraped": 0,
+          "remaining": 906
+        },
+        {
+          "id": 58,
+          "name": "TEA ROOM",
+          "slug": "tea-room",
+          "total_posts": 810,
+          "scraped": 0,
+          "remaining": 810
+        },
+        {
+          "id": 897,
+          "name": "DECOR SETS",
+          "slug": "decor-sets",
+          "total_posts": 738,
+          "scraped": 5,
+          "remaining": 733
+        },
+        {
+          "id": 1033,
+          "name": "Full furniture set",
+          "slug": "full-furniture-set",
+          "total_posts": 600,
+          "scraped": 0,
+          "remaining": 600
+        },
+        {
+          "id": 122,
+          "name": "BEAUTY SPA",
+          "slug": "beauty-spa",
+          "total_posts": 584,
+          "scraped": 0,
+          "remaining": 584
+        },
+        {
+          "id": 99,
+          "name": "CNC PANELS",
+          "slug": "cnc-panels",
+          "total_posts": 544,
+          "scraped": 0,
+          "remaining": 544
+        },
+        {
+          "id": 27021,
+          "name": "Medical devices",
+          "slug": "medical-devices",
+          "total_posts": 526,
+          "scraped": 0,
+          "remaining": 526
+        },
+        {
+          "id": 1215,
+          "name": "KINDERGARTEN",
+          "slug": "kindergarten",
+          "total_posts": 447,
+          "scraped": 1,
+          "remaining": 446
+        },
+        {
+          "id": 1119,
+          "name": "Sink",
+          "slug": "sink",
+          "total_posts": 429,
+          "scraped": 0,
+          "remaining": 429
+        },
+        {
+          "id": 756,
+          "name": "ARCHITECTURE - BUILDING",
+          "slug": "architecture-building",
+          "total_posts": 397,
+          "scraped": 0,
+          "remaining": 397
+        },
+        {
+          "id": 27025,
+          "name": "Transportation facilities",
+          "slug": "transportation-facilities",
+          "total_posts": 374,
+          "scraped": 0,
+          "remaining": 374
+        },
+        {
+          "id": 787,
+          "name": "FURNITURE - HALLWAY",
+          "slug": "furniture-hallway",
+          "total_posts": 321,
+          "scraped": 0,
+          "remaining": 321
+        },
+        {
+          "id": 1179,
+          "name": "Paving",
+          "slug": "paving",
+          "total_posts": 319,
+          "scraped": 0,
+          "remaining": 319
+        },
+        {
+          "id": 974,
+          "name": "MATERIAL - CERAMIC TILES",
+          "slug": "material-ceramic-tiles",
+          "total_posts": 271,
+          "scraped": 0,
+          "remaining": 271
+        },
+        {
+          "id": 818,
+          "name": "OTHER MODELS - WINDOWS",
+          "slug": "other-models-windows",
+          "total_posts": 225,
+          "scraped": 0,
+          "remaining": 225
+        },
+        {
+          "id": 1182,
+          "name": "Metal",
+          "slug": "metal",
+          "total_posts": 216,
+          "scraped": 0,
+          "remaining": 216
+        },
+        {
+          "id": 702,
+          "name": "TEXTURES - NATURE",
+          "slug": "textures-nature",
+          "total_posts": 203,
+          "scraped": 0,
+          "remaining": 203
+        },
+        {
+          "id": 63,
+          "name": "BEDROOM - NORDIC STYLE",
+          "slug": "bedroom-nordic-style",
+          "total_posts": 174,
+          "scraped": 0,
+          "remaining": 174
+        },
+        {
+          "id": 701,
+          "name": "TEXTURES \u2013 MARBLE",
+          "slug": "textures-marble",
+          "total_posts": 170,
+          "scraped": 0,
+          "remaining": 170
+        },
+        {
+          "id": 970,
+          "name": "MATERIAL - BACKGROUND",
+          "slug": "material-background",
+          "total_posts": 131,
+          "scraped": 0,
+          "remaining": 131
+        },
+        {
+          "id": 711,
+          "name": "TEXTURES - STONE",
+          "slug": "textures-stone",
+          "total_posts": 127,
+          "scraped": 0,
+          "remaining": 127
+        },
+        {
+          "id": 338,
+          "name": "TEXTURES - SOIL",
+          "slug": "textures-soil",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 863,
+          "name": "TEXTURES - MEDIEVAL",
+          "slug": "textures-medieval",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 977,
+          "name": "MATERIAL - METAL NETS",
+          "slug": "material-metal-nets",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 1193,
+          "name": "Leather",
+          "slug": "leather",
+          "total_posts": 93,
+          "scraped": 0,
+          "remaining": 93
+        },
+        {
+          "id": 948,
+          "name": "KITCHEN COUNTERS",
+          "slug": "kitchen-counters",
+          "total_posts": 70,
+          "scraped": 1,
+          "remaining": 69
+        },
+        {
+          "id": 506,
+          "name": "DECOR HELPER - CLASSIC - DETAIL",
+          "slug": "decor-helper-classic-detail",
+          "total_posts": 285,
+          "scraped": 226,
+          "remaining": 59
+        },
+        {
+          "id": 551,
+          "name": "DECOR HELPER - DEVICE - COMPUTER",
+          "slug": "decor-helper-device-computer",
+          "total_posts": 60,
+          "scraped": 1,
+          "remaining": 59
+        },
+        {
+          "id": 585,
+          "name": "DECOR HELPER - INTERIOR - RECEPTION",
+          "slug": "decor-helper-interior-reception",
+          "total_posts": 300,
+          "scraped": 241,
+          "remaining": 59
+        },
+        {
+          "id": 623,
+          "name": "DECOR HELPER - LIVINGROOM - CHAIR - LOUNGE",
+          "slug": "decor-helper-livingroom-chair-lounge",
+          "total_posts": 71,
+          "scraped": 12,
+          "remaining": 59
+        },
+        {
+          "id": 667,
+          "name": "DECOR HELPER - VEHICLE - CAR",
+          "slug": "decor-helper-vehicle-car",
+          "total_posts": 215,
+          "scraped": 156,
+          "remaining": 59
+        },
+        {
+          "id": 950,
+          "name": "BATHROOM SUPPLIES",
+          "slug": "bathroom-supplies",
+          "total_posts": 165,
+          "scraped": 106,
+          "remaining": 59
+        },
+        {
+          "id": 978,
+          "name": "MATERIAL - GLASS",
+          "slug": "material-glass",
+          "total_posts": 56,
+          "scraped": 0,
+          "remaining": 56
+        },
+        {
+          "id": 602,
+          "name": "DECOR HELPER - KITCHEN - FOOD",
+          "slug": "decor-helper-kitchen-food",
+          "total_posts": 508,
+          "scraped": 462,
+          "remaining": 46
+        },
+        {
+          "id": 281,
+          "name": "FURNITURE - POUF",
+          "slug": "furniture-pouf",
+          "total_posts": 43,
+          "scraped": 0,
+          "remaining": 43
+        },
+        {
+          "id": 480,
+          "name": "DECOR HELPER - BATHROOM - BATH CUBICLE",
+          "slug": "decor-helper-bathroom-bath-cubicle",
+          "total_posts": 41,
+          "scraped": 1,
+          "remaining": 40
+        },
+        {
+          "id": 562,
+          "name": "DECOR HELPER - EXTERIOR - BUILDING",
+          "slug": "decor-helper-exterior-building",
+          "total_posts": 280,
+          "scraped": 241,
+          "remaining": 39
+        },
+        {
+          "id": 605,
+          "name": "DECOR HELPER - KITCHEN - OVEN",
+          "slug": "decor-helper-kitchen-oven",
+          "total_posts": 54,
+          "scraped": 15,
+          "remaining": 39
+        },
+        {
+          "id": 631,
+          "name": "DECOR HELPER - LIVINGROOM - OTTOMAN",
+          "slug": "decor-helper-livingroom-ottoman",
+          "total_posts": 293,
+          "scraped": 254,
+          "remaining": 39
+        },
+        {
+          "id": 657,
+          "name": "DECOR HELPER - PLANT - FLOOR",
+          "slug": "decor-helper-plant-floor",
+          "total_posts": 615,
+          "scraped": 576,
+          "remaining": 39
+        },
+        {
+          "id": 703,
+          "name": "TEXTURES - BRUSH",
+          "slug": "textures-brush",
+          "total_posts": 36,
+          "scraped": 0,
+          "remaining": 36
+        },
+        {
+          "id": 912,
+          "name": "EVERMOTION - ARCHEXTERIORS",
+          "slug": "evermotion-archexteriors",
+          "total_posts": 36,
+          "scraped": 1,
+          "remaining": 35
+        },
+        {
+          "id": 535,
+          "name": "DECOR HELPER - DECOR - PARTITION",
+          "slug": "decor-helper-decor-partition",
+          "total_posts": 26,
+          "scraped": 1,
+          "remaining": 25
+        },
+        {
+          "id": 598,
+          "name": "DECOR HELPER - KITCHEN - COOKER HOOD",
+          "slug": "decor-helper-kitchen-cooker-hood",
+          "total_posts": 26,
+          "scraped": 1,
+          "remaining": 25
+        },
+        {
+          "id": 494,
+          "name": "DECOR HELPER - BEDROOM - TAB",
+          "slug": "decor-helper-bedroom-tab",
+          "total_posts": 23,
+          "scraped": 3,
+          "remaining": 20
+        },
+        {
+          "id": 521,
+          "name": "DECOR HELPER - CURTAIN",
+          "slug": "decor-helper-curtain",
+          "total_posts": 1034,
+          "scraped": 1014,
+          "remaining": 20
+        },
+        {
+          "id": 620,
+          "name": "DECOR HELPER - LIVINGROOM",
+          "slug": "decor-helper-livingroom",
+          "total_posts": 83,
+          "scraped": 63,
+          "remaining": 20
+        },
+        {
+          "id": 945,
+          "name": "DECORATION - PAINTING",
+          "slug": "decoration-painting",
+          "total_posts": 230,
+          "scraped": 210,
+          "remaining": 20
+        },
+        {
+          "id": 1007,
+          "name": "COFFEE SHOP - WABI SABI STYLE",
+          "slug": "coffee-shop-wabi-sabi-style",
+          "total_posts": 15,
+          "scraped": 1,
+          "remaining": 14
+        },
+        {
+          "id": 1008,
+          "name": "CLOTHES SHOP - WABI SABI STYLE",
+          "slug": "clothes-shop-wabi-sabi-style",
+          "total_posts": 13,
+          "scraped": 1,
+          "remaining": 12
+        },
+        {
+          "id": 1806,
+          "name": "Bed Child",
+          "slug": "bed-child",
+          "total_posts": 903,
+          "scraped": 894,
+          "remaining": 9
+        },
+        {
+          "id": 817,
+          "name": "OTHER MODELS - WEAPON",
+          "slug": "other-models-weapon",
+          "total_posts": 7,
+          "scraped": 0,
+          "remaining": 7
+        },
+        {
+          "id": 577,
+          "name": "DECOR HELPER - INTERIOR - HOSPITAL",
+          "slug": "decor-helper-interior-hospital",
+          "total_posts": 2,
+          "scraped": 0,
+          "remaining": 2
+        },
+        {
+          "id": 1155,
+          "name": "Musical instrument",
+          "slug": "musical-instrument",
+          "total_posts": 438,
+          "scraped": 436,
+          "remaining": 2
+        }
+      ]
+    },
+    {
+      "slice_id": 2,
+      "target_posts": 104129,
+      "categories": [
+        {
+          "id": 1044,
+          "name": "Lighting",
+          "slug": "lighting",
+          "total_posts": 56838,
+          "scraped": 0,
+          "remaining": 56838
+        },
+        {
+          "id": 66,
+          "name": "LIVING ROOM \u2013 MODERN STYLE",
+          "slug": "living-room-modern-style",
+          "total_posts": 5828,
+          "scraped": 0,
+          "remaining": 5828
+        },
+        {
+          "id": 1110,
+          "name": "Frame",
+          "slug": "frame",
+          "total_posts": 4688,
+          "scraped": 0,
+          "remaining": 4688
+        },
+        {
+          "id": 1095,
+          "name": "Bouquet",
+          "slug": "bouquet",
+          "total_posts": 4074,
+          "scraped": 0,
+          "remaining": 4074
+        },
+        {
+          "id": 27026,
+          "name": "Military weapons",
+          "slug": "military-weapons",
+          "total_posts": 3486,
+          "scraped": 0,
+          "remaining": 3486
+        },
+        {
+          "id": 782,
+          "name": "FURNITURE - AMRCHAIR",
+          "slug": "furniture-amrchair",
+          "total_posts": 2777,
+          "scraped": 0,
+          "remaining": 2777
+        },
+        {
+          "id": 1064,
+          "name": "Tableware",
+          "slug": "tableware",
+          "total_posts": 2464,
+          "scraped": 0,
+          "remaining": 2464
+        },
+        {
+          "id": 106,
+          "name": "VEHICLE - CARS",
+          "slug": "vehicle-cars",
+          "total_posts": 2151,
+          "scraped": 0,
+          "remaining": 2151
+        },
+        {
+          "id": 754,
+          "name": "3DSKY MODELS - NEW",
+          "slug": "3dsky-models-new",
+          "total_posts": 2025,
+          "scraped": 0,
+          "remaining": 2025
+        },
+        {
+          "id": 452,
+          "name": "DECORATIVE SETS",
+          "slug": "decorative-sets",
+          "total_posts": 1621,
+          "scraped": 0,
+          "remaining": 1621
+        },
+        {
+          "id": 802,
+          "name": "LIGHTING - WALL LIGHT",
+          "slug": "lighting-wall-light",
+          "total_posts": 1435,
+          "scraped": 0,
+          "remaining": 1435
+        },
+        {
+          "id": 26999,
+          "name": "Commercial Space",
+          "slug": "commercial-space",
+          "total_posts": 1423,
+          "scraped": 0,
+          "remaining": 1423
+        },
+        {
+          "id": 1146,
+          "name": "Toilet and Bidet",
+          "slug": "toilet-and-bidet",
+          "total_posts": 1280,
+          "scraped": 0,
+          "remaining": 1280
+        },
+        {
+          "id": 1021,
+          "name": "Urban environment",
+          "slug": "urban-environment",
+          "total_posts": 1149,
+          "scraped": 0,
+          "remaining": 1149
+        },
+        {
+          "id": 738,
+          "name": "BEAUTY SALON",
+          "slug": "beauty-salon",
+          "total_posts": 1060,
+          "scraped": 0,
+          "remaining": 1060
+        },
+        {
+          "id": 1151,
+          "name": "3D panel",
+          "slug": "3d-panel",
+          "total_posts": 1421,
+          "scraped": 419,
+          "remaining": 1002
+        },
+        {
+          "id": 123,
+          "name": "DECORATION - SCULPTURE",
+          "slug": "decoration-sculpture",
+          "total_posts": 922,
+          "scraped": 0,
+          "remaining": 922
+        },
+        {
+          "id": 1152,
+          "name": "Windows",
+          "slug": "windows",
+          "total_posts": 980,
+          "scraped": 79,
+          "remaining": 901
+        },
+        {
+          "id": 934,
+          "name": "FASTFOOD STORE",
+          "slug": "fastfood-store",
+          "total_posts": 812,
+          "scraped": 1,
+          "remaining": 811
+        },
+        {
+          "id": 993,
+          "name": "FURNITURE - SOFA TABLE",
+          "slug": "furniture-sofa-table",
+          "total_posts": 775,
+          "scraped": 1,
+          "remaining": 774
+        },
+        {
+          "id": 800,
+          "name": "LIGHTING - TABLE LAMP",
+          "slug": "lighting-table-lamp",
+          "total_posts": 596,
+          "scraped": 0,
+          "remaining": 596
+        },
+        {
+          "id": 323,
+          "name": "DECORATION - PLASTER 3D MODELS",
+          "slug": "decoration-plaster-3d-models",
+          "total_posts": 564,
+          "scraped": 0,
+          "remaining": 564
+        },
+        {
+          "id": 27028,
+          "name": "Fire protection facilities",
+          "slug": "fire-protection-facilities",
+          "total_posts": 537,
+          "scraped": 0,
+          "remaining": 537
+        },
+        {
+          "id": 129,
+          "name": "FURNITURE - CHILDBED",
+          "slug": "furniture-childbed",
+          "total_posts": 501,
+          "scraped": 0,
+          "remaining": 501
+        },
+        {
+          "id": 916,
+          "name": "HOME - VILLA",
+          "slug": "home-villa",
+          "total_posts": 463,
+          "scraped": 1,
+          "remaining": 462
+        },
+        {
+          "id": 840,
+          "name": "FURNITURE - SIDEBOARD & CHEST",
+          "slug": "furniture-sideboard-chest",
+          "total_posts": 427,
+          "scraped": 0,
+          "remaining": 427
+        },
+        {
+          "id": 26997,
+          "name": "chair-stool",
+          "slug": "chair-stool",
+          "total_posts": 406,
+          "scraped": 0,
+          "remaining": 406
+        },
+        {
+          "id": 798,
+          "name": "LIGHTING - SPOT LIGHT",
+          "slug": "lighting-spot-light",
+          "total_posts": 364,
+          "scraped": 0,
+          "remaining": 364
+        },
+        {
+          "id": 760,
+          "name": "ARCHITECTURE - OTHER OBJECTS",
+          "slug": "architecture-other-objects",
+          "total_posts": 338,
+          "scraped": 0,
+          "remaining": 338
+        },
+        {
+          "id": 1139,
+          "name": "Radiator",
+          "slug": "radiator",
+          "total_posts": 482,
+          "scraped": 175,
+          "remaining": 307
+        },
+        {
+          "id": 731,
+          "name": "BALCONY SCENES",
+          "slug": "balcony-scenes",
+          "total_posts": 264,
+          "scraped": 0,
+          "remaining": 264
+        },
+        {
+          "id": 935,
+          "name": "GARDERN HOME",
+          "slug": "gardern-home",
+          "total_posts": 236,
+          "scraped": 1,
+          "remaining": 235
+        },
+        {
+          "id": 814,
+          "name": "OTHER MODELS - SPORTS",
+          "slug": "other-models-sports",
+          "total_posts": 215,
+          "scraped": 0,
+          "remaining": 215
+        },
+        {
+          "id": 856,
+          "name": "PILLAR 3D MODELS",
+          "slug": "pillar-3d-models",
+          "total_posts": 199,
+          "scraped": 0,
+          "remaining": 199
+        },
+        {
+          "id": 828,
+          "name": "TECHNOLOGY - MISCELLANEOUS",
+          "slug": "technology-miscellaneous",
+          "total_posts": 178,
+          "scraped": 0,
+          "remaining": 178
+        },
+        {
+          "id": 759,
+          "name": "ARCHITECTURE - FENCE",
+          "slug": "architecture-fence",
+          "total_posts": 169,
+          "scraped": 0,
+          "remaining": 169
+        },
+        {
+          "id": 1811,
+          "name": "Other lighting",
+          "slug": "other-lighting",
+          "total_posts": 131,
+          "scraped": 0,
+          "remaining": 131
+        },
+        {
+          "id": 879,
+          "name": "MINOTTI BED COLLECTION",
+          "slug": "minotti-bed-collection",
+          "total_posts": 113,
+          "scraped": 0,
+          "remaining": 113
+        },
+        {
+          "id": 976,
+          "name": "MATERIAL - METAL",
+          "slug": "material-metal",
+          "total_posts": 113,
+          "scraped": 0,
+          "remaining": 113
+        },
+        {
+          "id": 868,
+          "name": "TEXTURES - GLASS - CRYSTALS",
+          "slug": "textures-glass-crystals",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 695,
+          "name": "LIGHTING - KITCHEN - 3DSKY",
+          "slug": "lighting-kichen-3dsky",
+          "total_posts": 99,
+          "scraped": 0,
+          "remaining": 99
+        },
+        {
+          "id": 826,
+          "name": "TECHNOLOGY - AUDIO TECH",
+          "slug": "technology-audio-tech",
+          "total_posts": 77,
+          "scraped": 0,
+          "remaining": 77
+        },
+        {
+          "id": 710,
+          "name": "TEXTURES - ROCK",
+          "slug": "textures-rock",
+          "total_posts": 75,
+          "scraped": 0,
+          "remaining": 75
+        },
+        {
+          "id": 479,
+          "name": "DECOR HELPER - BATHROOM",
+          "slug": "decor-helper-bathroom",
+          "total_posts": 294,
+          "scraped": 235,
+          "remaining": 59
+        },
+        {
+          "id": 507,
+          "name": "DECOR HELPER - CLASSIC - DOOR",
+          "slug": "decor-helper-classic-door",
+          "total_posts": 213,
+          "scraped": 154,
+          "remaining": 59
+        },
+        {
+          "id": 564,
+          "name": "DECOR HELPER - EXTERIOR - POOL",
+          "slug": "decor-helper-exterior-pool",
+          "total_posts": 108,
+          "scraped": 49,
+          "remaining": 59
+        },
+        {
+          "id": 588,
+          "name": "DECOR HELPER - INTERIOR - TECH",
+          "slug": "decor-helper-interior-tech",
+          "total_posts": 170,
+          "scraped": 111,
+          "remaining": 59
+        },
+        {
+          "id": 629,
+          "name": "DECOR HELPER - LIVINGROOM - ENTRANCE",
+          "slug": "decor-helper-livingroom-entrance",
+          "total_posts": 202,
+          "scraped": 143,
+          "remaining": 59
+        },
+        {
+          "id": 726,
+          "name": "DECOR HELPER \u2013 CLASSIC \u2013 MOULDING 3D MODELS",
+          "slug": "decor-helper-classic-moulding-3d-models",
+          "total_posts": 166,
+          "scraped": 107,
+          "remaining": 59
+        },
+        {
+          "id": 1005,
+          "name": "BEDROOM - WABI SABI STYLE",
+          "slug": "bedroom-wabi-sabi-style",
+          "total_posts": 166,
+          "scraped": 107,
+          "remaining": 59
+        },
+        {
+          "id": 706,
+          "name": "TEXTURES - GRUNGE",
+          "slug": "textures-grunge",
+          "total_posts": 55,
+          "scraped": 0,
+          "remaining": 55
+        },
+        {
+          "id": 714,
+          "name": "TEXTURES - GRAPHIC DESIGNS",
+          "slug": "textures-graphic-designs",
+          "total_posts": 42,
+          "scraped": 0,
+          "remaining": 42
+        },
+        {
+          "id": 543,
+          "name": "DECOR HELPER - DESK",
+          "slug": "decor-helper-desk",
+          "total_posts": 101,
+          "scraped": 62,
+          "remaining": 39
+        },
+        {
+          "id": 592,
+          "name": "DECOR HELPER - KID - DECOR",
+          "slug": "decor-helper-kid-decor",
+          "total_posts": 369,
+          "scraped": 330,
+          "remaining": 39
+        },
+        {
+          "id": 609,
+          "name": "DECOR HELPER - KITCHEN - TABLEWARE",
+          "slug": "decor-helper-kitchen-tableware",
+          "total_posts": 476,
+          "scraped": 437,
+          "remaining": 39
+        },
+        {
+          "id": 642,
+          "name": "DECOR HELPER - LIVINGROOM - SOFA - SINGLE",
+          "slug": "decor-helper-livingroom-sofa-single",
+          "total_posts": 285,
+          "scraped": 246,
+          "remaining": 39
+        },
+        {
+          "id": 905,
+          "name": "CORONA SCENES - BATHROOM",
+          "slug": "corona-scenes-bathroom",
+          "total_posts": 85,
+          "scraped": 46,
+          "remaining": 39
+        },
+        {
+          "id": 1813,
+          "name": "Natural",
+          "slug": "natural",
+          "total_posts": 36,
+          "scraped": 0,
+          "remaining": 36
+        },
+        {
+          "id": 515,
+          "name": "DECOR HELPER - CLASSIC - LIVINGROOM - DRAWER",
+          "slug": "decor-helper-classic-livingroom-drawer",
+          "total_posts": 34,
+          "scraped": 1,
+          "remaining": 33
+        },
+        {
+          "id": 520,
+          "name": "DECOR HELPER - CLASSIC - LIVINGROOM - TABLE",
+          "slug": "decor-helper-classic-livingroom-table",
+          "total_posts": 29,
+          "scraped": 1,
+          "remaining": 28
+        },
+        {
+          "id": 719,
+          "name": "TEXTURES - FOOD",
+          "slug": "textures-food",
+          "total_posts": 22,
+          "scraped": 0,
+          "remaining": 22
+        },
+        {
+          "id": 492,
+          "name": "DECOR HELPER - BEDROOM - DRESSING TABLE",
+          "slug": "decor-helper-bedroom-dressing-table",
+          "total_posts": 315,
+          "scraped": 295,
+          "remaining": 20
+        },
+        {
+          "id": 518,
+          "name": "DECOR HELPER - CLASSIC - LIVINGROOM - SOFA - LONG",
+          "slug": "decor-helper-classic-livingroom-sofa-long",
+          "total_posts": 245,
+          "scraped": 225,
+          "remaining": 20
+        },
+        {
+          "id": 587,
+          "name": "DECOR HELPER - INTERIOR - SPA",
+          "slug": "decor-helper-interior-spa",
+          "total_posts": 21,
+          "scraped": 1,
+          "remaining": 20
+        },
+        {
+          "id": 940,
+          "name": "COSMETIC",
+          "slug": "cosmetic",
+          "total_posts": 40,
+          "scraped": 20,
+          "remaining": 20
+        },
+        {
+          "id": 668,
+          "name": "DECOR HELPER - VEHICLE - MOTORBIKE",
+          "slug": "decor-helper-vehicle-motorbike",
+          "total_posts": 16,
+          "scraped": 1,
+          "remaining": 15
+        },
+        {
+          "id": 666,
+          "name": "DECOR HELPER - VEHICLE - BIKE",
+          "slug": "decor-helper-vehicle-bike",
+          "total_posts": 12,
+          "scraped": 1,
+          "remaining": 11
+        },
+        {
+          "id": 559,
+          "name": "DECOR HELPER - DOOR - SLIDE",
+          "slug": "decor-helper-door-slide",
+          "total_posts": 11,
+          "scraped": 1,
+          "remaining": 10
+        },
+        {
+          "id": 590,
+          "name": "DECOR HELPER - INTERIOR - WORKSHOP",
+          "slug": "decor-helper-interior-workshop",
+          "total_posts": 6,
+          "scraped": 1,
+          "remaining": 5
+        },
+        {
+          "id": 600,
+          "name": "DECOR HELPER - KITCHEN - DISH WASHER",
+          "slug": "decor-helper-kitchen-dish-washer",
+          "total_posts": 6,
+          "scraped": 1,
+          "remaining": 5
+        }
+      ]
+    },
+    {
+      "slice_id": 3,
+      "target_posts": 104129,
+      "categories": [
+        {
+          "id": 1045,
+          "name": "Pendant light",
+          "slug": "pendant-light",
+          "total_posts": 27253,
+          "scraped": 0,
+          "remaining": 27253
+        },
+        {
+          "id": 27006,
+          "name": "Table 3dsky",
+          "slug": "table-3dsky",
+          "total_posts": 12773,
+          "scraped": 0,
+          "remaining": 12773
+        },
+        {
+          "id": 27000,
+          "name": "Sofa 3dsky",
+          "slug": "sofa-3dsky",
+          "total_posts": 9434,
+          "scraped": 0,
+          "remaining": 9434
+        },
+        {
+          "id": 1024,
+          "name": "Other Models",
+          "slug": "other-models",
+          "total_posts": 18354,
+          "scraped": 11111,
+          "remaining": 7243
+        },
+        {
+          "id": 764,
+          "name": "BATHROOM - ACCESSORIES",
+          "slug": "bathroom-accessories",
+          "total_posts": 5856,
+          "scraped": 20,
+          "remaining": 5836
+        },
+        {
+          "id": 1093,
+          "name": "Wardrobe & Display cabinets",
+          "slug": "wardrobe-display-cabinets",
+          "total_posts": 4746,
+          "scraped": 0,
+          "remaining": 4746
+        },
+        {
+          "id": 744,
+          "name": "3DS MAX FILES",
+          "slug": "3ds-max-files",
+          "total_posts": 4219,
+          "scraped": 0,
+          "remaining": 4219
+        },
+        {
+          "id": 776,
+          "name": "DECORATION - DECORATIVE SET",
+          "slug": "decoration-decorative-set",
+          "total_posts": 3335,
+          "scraped": 0,
+          "remaining": 3335
+        },
+        {
+          "id": 797,
+          "name": "LIGHTING - PENDANT LIGHT",
+          "slug": "lighting-pendant-light",
+          "total_posts": 2895,
+          "scraped": 0,
+          "remaining": 2895
+        },
+        {
+          "id": 20,
+          "name": "OFFICE SPACE",
+          "slug": "office-space",
+          "total_posts": 2365,
+          "scraped": 0,
+          "remaining": 2365
+        },
+        {
+          "id": 456,
+          "name": "CHILDROOM 3D MODELS",
+          "slug": "childroom-3d-models",
+          "total_posts": 2252,
+          "scraped": 0,
+          "remaining": 2252
+        },
+        {
+          "id": 819,
+          "name": "PLANTS - BOUQUET",
+          "slug": "plants-bouquet",
+          "total_posts": 1855,
+          "scraped": 0,
+          "remaining": 1855
+        },
+        {
+          "id": 896,
+          "name": "FURNITURE - CLASSIC 3D MODELS",
+          "slug": "furniture-classic-3d-models",
+          "total_posts": 1703,
+          "scraped": 0,
+          "remaining": 1703
+        },
+        {
+          "id": 27034,
+          "name": "Office Space 3D",
+          "slug": "office-space-3d",
+          "total_posts": 1536,
+          "scraped": 0,
+          "remaining": 1536
+        },
+        {
+          "id": 1126,
+          "name": "Shop",
+          "slug": "shop",
+          "total_posts": 1444,
+          "scraped": 84,
+          "remaining": 1360
+        },
+        {
+          "id": 1142,
+          "name": "Sports",
+          "slug": "sports",
+          "total_posts": 1407,
+          "scraped": 84,
+          "remaining": 1323
+        },
+        {
+          "id": 848,
+          "name": "PLANTS - OTHER",
+          "slug": "plants-other",
+          "total_posts": 1147,
+          "scraped": 0,
+          "remaining": 1147
+        },
+        {
+          "id": 796,
+          "name": "LIGHTING - FLOOR LAMP",
+          "slug": "lighting-floor-lamp",
+          "total_posts": 1045,
+          "scraped": 20,
+          "remaining": 1025
+        },
+        {
+          "id": 1048,
+          "name": "Household appliance",
+          "slug": "household-appliance",
+          "total_posts": 997,
+          "scraped": 0,
+          "remaining": 997
+        },
+        {
+          "id": 27008,
+          "name": "Sports And Medical Care",
+          "slug": "sports-and-medical-care",
+          "total_posts": 943,
+          "scraped": 0,
+          "remaining": 943
+        },
+        {
+          "id": 780,
+          "name": "DECORATION - VASE",
+          "slug": "decoration-vase",
+          "total_posts": 879,
+          "scraped": 0,
+          "remaining": 879
+        },
+        {
+          "id": 423,
+          "name": "BATHROOM 3D MODELS",
+          "slug": "bathroom-3d-models",
+          "total_posts": 816,
+          "scraped": 0,
+          "remaining": 816
+        },
+        {
+          "id": 1075,
+          "name": "Facade element",
+          "slug": "facade-element",
+          "total_posts": 759,
+          "scraped": 0,
+          "remaining": 759
+        },
+        {
+          "id": 785,
+          "name": "FURNITURE - DESK",
+          "slug": "furniture-desk",
+          "total_posts": 598,
+          "scraped": 0,
+          "remaining": 598
+        },
+        {
+          "id": 882,
+          "name": "EXTERIOR BUILDING",
+          "slug": "exterior-building",
+          "total_posts": 584,
+          "scraped": 1,
+          "remaining": 583
+        },
+        {
+          "id": 1102,
+          "name": "Grass",
+          "slug": "grass",
+          "total_posts": 533,
+          "scraped": 0,
+          "remaining": 533
+        },
+        {
+          "id": 829,
+          "name": "TECHNOLOGY - PC & OTHER ELECTRONICS",
+          "slug": "technology-pc-other-electronics",
+          "total_posts": 494,
+          "scraped": 0,
+          "remaining": 494
+        },
+        {
+          "id": 699,
+          "name": "LIVING ROOM - WABI SABI STYLE",
+          "slug": "living-room-wabi-sabi-style",
+          "total_posts": 478,
+          "scraped": 0,
+          "remaining": 478
+        },
+        {
+          "id": 771,
+          "name": "BATHROOM - WASH BASIN",
+          "slug": "bathroom-wash-basin",
+          "total_posts": 419,
+          "scraped": 0,
+          "remaining": 419
+        },
+        {
+          "id": 741,
+          "name": "DECORATION \u2013 Accessories",
+          "slug": "decoration-accessories",
+          "total_posts": 390,
+          "scraped": 0,
+          "remaining": 390
+        },
+        {
+          "id": 261,
+          "name": "DECORATION - PILLOWS",
+          "slug": "decoration-pillows",
+          "total_posts": 376,
+          "scraped": 0,
+          "remaining": 376
+        },
+        {
+          "id": 450,
+          "name": "DECORATION - VASE 3D MODELS",
+          "slug": "decoration-vase-3d-models",
+          "total_posts": 340,
+          "scraped": 0,
+          "remaining": 340
+        },
+        {
+          "id": 330,
+          "name": "TEXTURES - FABRICS",
+          "slug": "textures-fabrics",
+          "total_posts": 300,
+          "scraped": 0,
+          "remaining": 300
+        },
+        {
+          "id": 792,
+          "name": "FURNITURE - RACK",
+          "slug": "furniture-rack",
+          "total_posts": 292,
+          "scraped": 0,
+          "remaining": 292
+        },
+        {
+          "id": 26963,
+          "name": "LIVING ROOM - ITALIAN STYLE",
+          "slug": "living-room-italian-style",
+          "total_posts": 221,
+          "scraped": 0,
+          "remaining": 221
+        },
+        {
+          "id": 812,
+          "name": "OTHER MODELS - RESTAURANT",
+          "slug": "other-models-restaurant",
+          "total_posts": 210,
+          "scraped": 0,
+          "remaining": 210
+        },
+        {
+          "id": 809,
+          "name": "OTHER MODELS - MISCELLANEOUS",
+          "slug": "other-models-miscellaneous",
+          "total_posts": 190,
+          "scraped": 0,
+          "remaining": 190
+        },
+        {
+          "id": 957,
+          "name": "MATERIAL - MARBLE",
+          "slug": "material-marble",
+          "total_posts": 188,
+          "scraped": 0,
+          "remaining": 188
+        },
+        {
+          "id": 972,
+          "name": "MATERIAL - GRANITE FOR EXTERIOR",
+          "slug": "material-granite-for-exterior",
+          "total_posts": 150,
+          "scraped": 0,
+          "remaining": 150
+        },
+        {
+          "id": 1812,
+          "name": "Outdoor light",
+          "slug": "outdoor-light",
+          "total_posts": 138,
+          "scraped": 0,
+          "remaining": 138
+        },
+        {
+          "id": 328,
+          "name": "CGAXIS",
+          "slug": "cgaxis",
+          "total_posts": 128,
+          "scraped": 0,
+          "remaining": 128
+        },
+        {
+          "id": 799,
+          "name": "LIGHTING - STREET LIGHT",
+          "slug": "lighting-street-light",
+          "total_posts": 103,
+          "scraped": 0,
+          "remaining": 103
+        },
+        {
+          "id": 350,
+          "name": "TEXTURES - ASPHALT",
+          "slug": "textures-asphalt",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 892,
+          "name": "TEXTURES - PARQUETS",
+          "slug": "textures-parquets",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 781,
+          "name": "DECORATION - WATCHES & CLOCKS",
+          "slug": "decoration-watches-clocks",
+          "total_posts": 97,
+          "scraped": 0,
+          "remaining": 97
+        },
+        {
+          "id": 453,
+          "name": "FURNITURE - PHONG THO",
+          "slug": "furniture-phong-tho",
+          "total_posts": 63,
+          "scraped": 0,
+          "remaining": 63
+        },
+        {
+          "id": 487,
+          "name": "DECOR HELPER - BED - HEAD",
+          "slug": "decor-helper-bed-head",
+          "total_posts": 140,
+          "scraped": 81,
+          "remaining": 59
+        },
+        {
+          "id": 542,
+          "name": "DECOR HELPER - DECOR - WEDDING",
+          "slug": "decor-helper-decor-wedding",
+          "total_posts": 238,
+          "scraped": 179,
+          "remaining": 59
+        },
+        {
+          "id": 575,
+          "name": "DECOR HELPER - INTERIOR - GYM",
+          "slug": "decor-helper-interior-gym",
+          "total_posts": 204,
+          "scraped": 145,
+          "remaining": 59
+        },
+        {
+          "id": 616,
+          "name": "DECOR HELPER - LIGHT - NIGHT LAMP",
+          "slug": "decor-helper-light-night-lamp",
+          "total_posts": 374,
+          "scraped": 315,
+          "remaining": 59
+        },
+        {
+          "id": 646,
+          "name": "DECOR HELPER - LIVINGROOM - TEA TABLE",
+          "slug": "decor-helper-livingroom-tea-table",
+          "total_posts": 448,
+          "scraped": 389,
+          "remaining": 59
+        },
+        {
+          "id": 921,
+          "name": "BARBER SHOP",
+          "slug": "barber-shop",
+          "total_posts": 97,
+          "scraped": 38,
+          "remaining": 59
+        },
+        {
+          "id": 26960,
+          "name": "BEDROOM - MINIMALIST STYLE",
+          "slug": "bedroom-minimalist-style",
+          "total_posts": 191,
+          "scraped": 132,
+          "remaining": 59
+        },
+        {
+          "id": 26958,
+          "name": "LIVING ROOM - JAPANESE STYLE",
+          "slug": "living-room-japanese-style",
+          "total_posts": 46,
+          "scraped": 1,
+          "remaining": 45
+        },
+        {
+          "id": 697,
+          "name": "MUSICAL INSTRUMENT 3DMODELS",
+          "slug": "musical-instrument-3dmodels",
+          "total_posts": 44,
+          "scraped": 0,
+          "remaining": 44
+        },
+        {
+          "id": 509,
+          "name": "DECOR HELPER - CLASSIC - KITCHEN - TABLE SET",
+          "slug": "decor-helper-classic-kitchen-table-set",
+          "total_posts": 45,
+          "scraped": 6,
+          "remaining": 39
+        },
+        {
+          "id": 553,
+          "name": "DECOR HELPER - DEVICE - SPEAKER",
+          "slug": "decor-helper-device-speaker",
+          "total_posts": 180,
+          "scraped": 141,
+          "remaining": 39
+        },
+        {
+          "id": 603,
+          "name": "DECOR HELPER - KITCHEN - FRIDGE",
+          "slug": "decor-helper-kitchen-fridge",
+          "total_posts": 119,
+          "scraped": 80,
+          "remaining": 39
+        },
+        {
+          "id": 621,
+          "name": "DECOR HELPER - LIVINGROOM - CHAIR",
+          "slug": "decor-helper-livingroom-chair",
+          "total_posts": 1287,
+          "scraped": 1248,
+          "remaining": 39
+        },
+        {
+          "id": 655,
+          "name": "DECOR HELPER - PLANT - EXTERIOR",
+          "slug": "decor-helper-plant-exterior",
+          "total_posts": 209,
+          "scraped": 170,
+          "remaining": 39
+        },
+        {
+          "id": 26973,
+          "name": "DECORATION FOR PET",
+          "slug": "decoration-for-pet",
+          "total_posts": 80,
+          "scraped": 41,
+          "remaining": 39
+        },
+        {
+          "id": 570,
+          "name": "DECOR HELPER - INTERIOR - COSMETIC",
+          "slug": "decor-helper-interior-cosmetic",
+          "total_posts": 31,
+          "scraped": 1,
+          "remaining": 30
+        },
+        {
+          "id": 718,
+          "name": "TEXTURES - RUST",
+          "slug": "textures-rust",
+          "total_posts": 30,
+          "scraped": 0,
+          "remaining": 30
+        },
+        {
+          "id": 478,
+          "name": "DECOR HELPER - ANIMAL",
+          "slug": "decor-helper-animal",
+          "total_posts": 168,
+          "scraped": 148,
+          "remaining": 20
+        },
+        {
+          "id": 484,
+          "name": "DECOR HELPER - BED",
+          "slug": "decor-helper-bed",
+          "total_posts": 1788,
+          "scraped": 1768,
+          "remaining": 20
+        },
+        {
+          "id": 503,
+          "name": "DECOR HELPER - CLASSIC - DECOR",
+          "slug": "decor-helper-classic-decor",
+          "total_posts": 165,
+          "scraped": 145,
+          "remaining": 20
+        },
+        {
+          "id": 531,
+          "name": "DECOR HELPER - DECOR - FRAME - GLASS",
+          "slug": "decor-helper-decor-frame-glass",
+          "total_posts": 21,
+          "scraped": 1,
+          "remaining": 20
+        },
+        {
+          "id": 725,
+          "name": "DECOR HELPER \u2013 LIVINGROOM \u2013 FISH TANK",
+          "slug": "decor-helper-livingroom-fish-tank",
+          "total_posts": 56,
+          "scraped": 36,
+          "remaining": 20
+        },
+        {
+          "id": 532,
+          "name": "DECOR HELPER - DECOR - GAME",
+          "slug": "decor-helper-decor-game",
+          "total_posts": 16,
+          "scraped": 0,
+          "remaining": 16
+        },
+        {
+          "id": 512,
+          "name": "DECOR HELPER - CLASSIC - LIGHT - NIGHT LAMP",
+          "slug": "decor-helper-classic-light-night-lamp",
+          "total_posts": 12,
+          "scraped": 0,
+          "remaining": 12
+        },
+        {
+          "id": 958,
+          "name": "MATERIAL - GROUND - STONE",
+          "slug": "material-ground-stone",
+          "total_posts": 10,
+          "scraped": 0,
+          "remaining": 10
+        },
+        {
+          "id": 516,
+          "name": "DECOR HELPER - CLASSIC - LIVINGROOM - SIDEBOARD",
+          "slug": "decor-helper-classic-livingroom-sideboard",
+          "total_posts": 7,
+          "scraped": 1,
+          "remaining": 6
+        },
+        {
+          "id": 652,
+          "name": "DECOR HELPER - MATERIAL - LEATHER",
+          "slug": "decor-helper-material-leather",
+          "total_posts": 5,
+          "scraped": 1,
+          "remaining": 4
+        }
+      ]
+    },
+    {
+      "slice_id": 4,
+      "target_posts": 104130,
+      "categories": [
+        {
+          "id": 1034,
+          "name": "Sofa",
+          "slug": "sofa",
+          "total_posts": 23738,
+          "scraped": 0,
+          "remaining": 23738
+        },
+        {
+          "id": 27010,
+          "name": "Chair 3dsky",
+          "slug": "chair-3dsky",
+          "total_posts": 13728,
+          "scraped": 0,
+          "remaining": 13728
+        },
+        {
+          "id": 1037,
+          "name": "Bed",
+          "slug": "bed",
+          "total_posts": 15167,
+          "scraped": 5420,
+          "remaining": 9747
+        },
+        {
+          "id": 27005,
+          "name": "Landscape",
+          "slug": "landscape",
+          "total_posts": 8633,
+          "scraped": 0,
+          "remaining": 8633
+        },
+        {
+          "id": 1206,
+          "name": "Wall covering",
+          "slug": "wall-covering",
+          "total_posts": 5944,
+          "scraped": 0,
+          "remaining": 5944
+        },
+        {
+          "id": 105,
+          "name": "DECORATION - CEILING LIGHT",
+          "slug": "decoration-ceiling-light",
+          "total_posts": 5774,
+          "scraped": 0,
+          "remaining": 5774
+        },
+        {
+          "id": 901,
+          "name": "KITCHEN - APPLIANCE",
+          "slug": "kitchen-appliance",
+          "total_posts": 3811,
+          "scraped": 0,
+          "remaining": 3811
+        },
+        {
+          "id": 1160,
+          "name": "Tile",
+          "slug": "tile",
+          "total_posts": 3567,
+          "scraped": 0,
+          "remaining": 3567
+        },
+        {
+          "id": 95,
+          "name": "FURNITURE - TABLE",
+          "slug": "furniture-table",
+          "total_posts": 2726,
+          "scraped": 0,
+          "remaining": 2726
+        },
+        {
+          "id": 1058,
+          "name": "Wash basin",
+          "slug": "wash-basin",
+          "total_posts": 2554,
+          "scraped": 0,
+          "remaining": 2554
+        },
+        {
+          "id": 27033,
+          "name": "Other Equipment",
+          "slug": "other-equipment",
+          "total_posts": 2119,
+          "scraped": 0,
+          "remaining": 2119
+        },
+        {
+          "id": 1163,
+          "name": "Bathtub",
+          "slug": "bathtub",
+          "total_posts": 1911,
+          "scraped": 0,
+          "remaining": 1911
+        },
+        {
+          "id": 71,
+          "name": "LIVING ROOM \u2013 OTHER STYLE",
+          "slug": "living-room-other-style",
+          "total_posts": 1634,
+          "scraped": 0,
+          "remaining": 1634
+        },
+        {
+          "id": 461,
+          "name": "FURNITURE - TV SHELFS",
+          "slug": "furniture-tv-shelfs",
+          "total_posts": 1551,
+          "scraped": 0,
+          "remaining": 1551
+        },
+        {
+          "id": 27027,
+          "name": "Industrial equipment",
+          "slug": "industrial-equipment",
+          "total_posts": 1396,
+          "scraped": 0,
+          "remaining": 1396
+        },
+        {
+          "id": 9,
+          "name": "LIVING ROOM SETS",
+          "slug": "living-room-sets",
+          "total_posts": 1195,
+          "scraped": 0,
+          "remaining": 1195
+        },
+        {
+          "id": 1203,
+          "name": "Fabric",
+          "slug": "fabric",
+          "total_posts": 1193,
+          "scraped": 0,
+          "remaining": 1193
+        },
+        {
+          "id": 27019,
+          "name": "Brand",
+          "slug": "brand",
+          "total_posts": 1107,
+          "scraped": 0,
+          "remaining": 1107
+        },
+        {
+          "id": 1069,
+          "name": "Dressing table",
+          "slug": "dressing-table",
+          "total_posts": 969,
+          "scraped": 0,
+          "remaining": 969
+        },
+        {
+          "id": 772,
+          "name": "DECORATION - 3D PANEL",
+          "slug": "decoration-3d-panel",
+          "total_posts": 945,
+          "scraped": 0,
+          "remaining": 945
+        },
+        {
+          "id": 767,
+          "name": "BATHROOM - FAUCET",
+          "slug": "bathroom-faucet",
+          "total_posts": 896,
+          "scraped": 20,
+          "remaining": 876
+        },
+        {
+          "id": 793,
+          "name": "FURNITURE - TABLE CHAIR",
+          "slug": "furniture-table-chair",
+          "total_posts": 826,
+          "scraped": 0,
+          "remaining": 826
+        },
+        {
+          "id": 594,
+          "name": "DECOR HELPER - KITCHEN",
+          "slug": "decor-helper-kitchen",
+          "total_posts": 672,
+          "scraped": 0,
+          "remaining": 672
+        },
+        {
+          "id": 813,
+          "name": "OTHER MODELS - SHOP",
+          "slug": "other-models-shop",
+          "total_posts": 662,
+          "scraped": 0,
+          "remaining": 662
+        },
+        {
+          "id": 583,
+          "name": "DECOR HELPER - INTERIOR - OFFICE",
+          "slug": "decor-helper-interior-office",
+          "total_posts": 583,
+          "scraped": 0,
+          "remaining": 583
+        },
+        {
+          "id": 735,
+          "name": "KARAOKE",
+          "slug": "karaoke",
+          "total_posts": 539,
+          "scraped": 0,
+          "remaining": 539
+        },
+        {
+          "id": 67,
+          "name": "LIVING ROOM \u2013 CHINESE STYLE",
+          "slug": "living-room-chinese-style",
+          "total_posts": 524,
+          "scraped": 0,
+          "remaining": 524
+        },
+        {
+          "id": 430,
+          "name": "RANDOM - PRO SCENES",
+          "slug": "random-pro-scenes",
+          "total_posts": 439,
+          "scraped": 0,
+          "remaining": 439
+        },
+        {
+          "id": 816,
+          "name": "OTHER MODELS - TRANSPORTS",
+          "slug": "other-models-transports",
+          "total_posts": 439,
+          "scraped": 0,
+          "remaining": 439
+        },
+        {
+          "id": 1128,
+          "name": "Footwear",
+          "slug": "footwear",
+          "total_posts": 383,
+          "scraped": 0,
+          "remaining": 383
+        },
+        {
+          "id": 1784,
+          "name": "RELIEF",
+          "slug": "relief",
+          "total_posts": 383,
+          "scraped": 0,
+          "remaining": 383
+        },
+        {
+          "id": 26959,
+          "name": "LIVING ROOM - MINIMALIST STYLE",
+          "slug": "living-room-minimalist-style",
+          "total_posts": 335,
+          "scraped": 1,
+          "remaining": 334
+        },
+        {
+          "id": 766,
+          "name": "BATHROOM - BATHTUB",
+          "slug": "bathroom-bathtub",
+          "total_posts": 315,
+          "scraped": 0,
+          "remaining": 315
+        },
+        {
+          "id": 321,
+          "name": "TEXTURES - CONCRETE",
+          "slug": "textures-concrete",
+          "total_posts": 257,
+          "scraped": 0,
+          "remaining": 257
+        },
+        {
+          "id": 773,
+          "name": "DECORATION - BOOKS",
+          "slug": "decoration-books",
+          "total_posts": 245,
+          "scraped": 0,
+          "remaining": 245
+        },
+        {
+          "id": 965,
+          "name": "MATERIAL - OFFICE CARPETS",
+          "slug": "material-office-carpets",
+          "total_posts": 210,
+          "scraped": 0,
+          "remaining": 210
+        },
+        {
+          "id": 836,
+          "name": "Scandinavian Architecture",
+          "slug": "scandinavian-architecture",
+          "total_posts": 190,
+          "scraped": 0,
+          "remaining": 190
+        },
+        {
+          "id": 27031,
+          "name": "Hairdressing equipment",
+          "slug": "hairdressing-equipment",
+          "total_posts": 188,
+          "scraped": 0,
+          "remaining": 188
+        },
+        {
+          "id": 707,
+          "name": "TEXTURES - METAL",
+          "slug": "textures-metal",
+          "total_posts": 149,
+          "scraped": 0,
+          "remaining": 149
+        },
+        {
+          "id": 951,
+          "name": "ELECTRICAL APPLIANCES",
+          "slug": "electrical-appliances",
+          "total_posts": 145,
+          "scraped": 1,
+          "remaining": 144
+        },
+        {
+          "id": 342,
+          "name": "TEXTURES - LEATHER",
+          "slug": "textures-leather",
+          "total_posts": 116,
+          "scraped": 0,
+          "remaining": 116
+        },
+        {
+          "id": 700,
+          "name": "ARCHITECTURE - EXTERIOR",
+          "slug": "architecture-exterior",
+          "total_posts": 109,
+          "scraped": 0,
+          "remaining": 109
+        },
+        {
+          "id": 862,
+          "name": "TEXTURES - ROADS - TRACKS",
+          "slug": "textures-roads-tracks",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 869,
+          "name": "TEXTURES - PAPER",
+          "slug": "textures-paper",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 64,
+          "name": "BEDROOM - AMERICAN STYLE",
+          "slug": "bedroom-american-style",
+          "total_posts": 94,
+          "scraped": 0,
+          "remaining": 94
+        },
+        {
+          "id": 1084,
+          "name": "Doors",
+          "slug": "doors",
+          "total_posts": 4879,
+          "scraped": 4812,
+          "remaining": 67
+        },
+        {
+          "id": 491,
+          "name": "DECOR HELPER - BEDROOM - CLOTHE - BAG",
+          "slug": "decor-helper-bedroom-clothe-bag",
+          "total_posts": 187,
+          "scraped": 128,
+          "remaining": 59
+        },
+        {
+          "id": 549,
+          "name": "DECOR HELPER - DEVICE",
+          "slug": "decor-helper-device",
+          "total_posts": 167,
+          "scraped": 108,
+          "remaining": 59
+        },
+        {
+          "id": 582,
+          "name": "DECOR HELPER - INTERIOR - MAROCCO",
+          "slug": "decor-helper-interior-marocco",
+          "total_posts": 140,
+          "scraped": 81,
+          "remaining": 59
+        },
+        {
+          "id": 619,
+          "name": "DECOR HELPER - LIVING ROOM - ARMCHAIRS",
+          "slug": "decor-helper-living-room-armchairs",
+          "total_posts": 1946,
+          "scraped": 1887,
+          "remaining": 59
+        },
+        {
+          "id": 665,
+          "name": "DECOR HELPER - VEHICLE",
+          "slug": "decor-helper-vehicle",
+          "total_posts": 105,
+          "scraped": 46,
+          "remaining": 59
+        },
+        {
+          "id": 923,
+          "name": "CLOTHING STORE",
+          "slug": "clothing-store",
+          "total_posts": 1029,
+          "scraped": 970,
+          "remaining": 59
+        },
+        {
+          "id": 810,
+          "name": "OTHER MODELS - MUSICAL INSTRUSMENT",
+          "slug": "other-models-musical-instrusment",
+          "total_posts": 56,
+          "scraped": 0,
+          "remaining": 56
+        },
+        {
+          "id": 911,
+          "name": "EVERMOTION - ARCHINTERIORS",
+          "slug": "evermotion-archinteriors",
+          "total_posts": 52,
+          "scraped": 1,
+          "remaining": 51
+        },
+        {
+          "id": 550,
+          "name": "DECOR HELPER - DEVICE - AIR CONDITIONER",
+          "slug": "decor-helper-device-air-conditioner",
+          "total_posts": 43,
+          "scraped": 1,
+          "remaining": 42
+        },
+        {
+          "id": 545,
+          "name": "DECOR HELPER - DETAIL - CEILING",
+          "slug": "decor-helper-detail-ceiling",
+          "total_posts": 243,
+          "scraped": 204,
+          "remaining": 39
+        },
+        {
+          "id": 563,
+          "name": "DECOR HELPER - EXTERIOR - HOUSE",
+          "slug": "decor-helper-exterior-house",
+          "total_posts": 49,
+          "scraped": 10,
+          "remaining": 39
+        },
+        {
+          "id": 615,
+          "name": "DECOR HELPER - LIGHT - LAMP",
+          "slug": "decor-helper-light-lamp",
+          "total_posts": 779,
+          "scraped": 740,
+          "remaining": 39
+        },
+        {
+          "id": 635,
+          "name": "DECOR HELPER - LIVINGROOM - SIDEBOARD - A",
+          "slug": "decor-helper-livingroom-sideboard-a",
+          "total_posts": 198,
+          "scraped": 159,
+          "remaining": 39
+        },
+        {
+          "id": 954,
+          "name": "CORONA SCENES - DINING ROOM",
+          "slug": "corona-scenes-dining-room",
+          "total_posts": 50,
+          "scraped": 11,
+          "remaining": 39
+        },
+        {
+          "id": 956,
+          "name": "CORONA SCENES - KITCHEN",
+          "slug": "corona-scenes-kitchen",
+          "total_posts": 37,
+          "scraped": 1,
+          "remaining": 36
+        },
+        {
+          "id": 811,
+          "name": "OTHER MODELS - RADIRIOR",
+          "slug": "other-models-radirior",
+          "total_posts": 32,
+          "scraped": 0,
+          "remaining": 32
+        },
+        {
+          "id": 924,
+          "name": "FLOWER SHOP",
+          "slug": "flower-shop",
+          "total_posts": 30,
+          "scraped": 1,
+          "remaining": 29
+        },
+        {
+          "id": 53,
+          "name": "DECOR HELPER",
+          "slug": "decor-helper",
+          "total_posts": 443,
+          "scraped": 423,
+          "remaining": 20
+        },
+        {
+          "id": 485,
+          "name": "DECOR HELPER - BED - CAPONY",
+          "slug": "decor-helper-bed-capony",
+          "total_posts": 763,
+          "scraped": 743,
+          "remaining": 20
+        },
+        {
+          "id": 501,
+          "name": "DECOR HELPER - CLASSIC - BED",
+          "slug": "decor-helper-classic-bed",
+          "total_posts": 327,
+          "scraped": 307,
+          "remaining": 20
+        },
+        {
+          "id": 541,
+          "name": "DECOR HELPER - DECOR - WALL",
+          "slug": "decor-helper-decor-wall",
+          "total_posts": 585,
+          "scraped": 565,
+          "remaining": 20
+        },
+        {
+          "id": 663,
+          "name": "DECOR HELPER - STAIR",
+          "slug": "decor-helper-stair",
+          "total_posts": 230,
+          "scraped": 210,
+          "remaining": 20
+        },
+        {
+          "id": 523,
+          "name": "DECOR HELPER - CURTAIN - SHUTTER",
+          "slug": "decor-helper-curtain-shutter",
+          "total_posts": 15,
+          "scraped": 0,
+          "remaining": 15
+        },
+        {
+          "id": 604,
+          "name": "DECOR HELPER - KITCHEN - MICROWAVE",
+          "slug": "decor-helper-kitchen-microwave",
+          "total_posts": 14,
+          "scraped": 1,
+          "remaining": 13
+        },
+        {
+          "id": 952,
+          "name": "CORONA SCENES - APARTMENT",
+          "slug": "corona-scenes-apartment",
+          "total_posts": 10,
+          "scraped": 1,
+          "remaining": 9
+        },
+        {
+          "id": 561,
+          "name": "DECOR HELPER - EXTERIOR - BEACH",
+          "slug": "decor-helper-exterior-beach",
+          "total_posts": 7,
+          "scraped": 0,
+          "remaining": 7
+        },
+        {
+          "id": 566,
+          "name": "DECOR HELPER - INTERIOR - BAKERY",
+          "slug": "decor-helper-interior-bakery",
+          "total_posts": 4,
+          "scraped": 1,
+          "remaining": 3
+        },
+        {
+          "id": 1159,
+          "name": "Materials",
+          "slug": "materials",
+          "total_posts": 7230,
+          "scraped": 7228,
+          "remaining": 2
+        }
+      ]
+    },
+    {
+      "slice_id": 5,
+      "target_posts": 104129,
+      "categories": [
+        {
+          "id": 27004,
+          "name": "Decorations",
+          "slug": "decorations",
+          "total_posts": 22331,
+          "scraped": 0,
+          "remaining": 22331
+        },
+        {
+          "id": 1027,
+          "name": "Kitchen",
+          "slug": "kitchen",
+          "total_posts": 14394,
+          "scraped": 0,
+          "remaining": 14394
+        },
+        {
+          "id": 27011,
+          "name": "Member",
+          "slug": "member",
+          "total_posts": 10941,
+          "scraped": 6,
+          "remaining": 10935
+        },
+        {
+          "id": 1032,
+          "name": "Childroom",
+          "slug": "childroom",
+          "total_posts": 7989,
+          "scraped": 0,
+          "remaining": 7989
+        },
+        {
+          "id": 1042,
+          "name": "Other soft seating",
+          "slug": "other-soft-seating",
+          "total_posts": 6449,
+          "scraped": 0,
+          "remaining": 6449
+        },
+        {
+          "id": 1091,
+          "name": "Floor lamp",
+          "slug": "floor-lamp",
+          "total_posts": 5015,
+          "scraped": 0,
+          "remaining": 5015
+        },
+        {
+          "id": 842,
+          "name": "3DSKY MODELS PRO",
+          "slug": "3dsky-models-pro",
+          "total_posts": 4326,
+          "scraped": 0,
+          "remaining": 4326
+        },
+        {
+          "id": 94,
+          "name": "3DSKY PRO MODELS",
+          "slug": "3dsky-pro-models",
+          "total_posts": 3424,
+          "scraped": 0,
+          "remaining": 3424
+        },
+        {
+          "id": 8,
+          "name": "CHILDROOM SETS",
+          "slug": "child-room-sets",
+          "total_posts": 2822,
+          "scraped": 0,
+          "remaining": 2822
+        },
+        {
+          "id": 1099,
+          "name": "Faucet",
+          "slug": "faucet",
+          "total_posts": 2468,
+          "scraped": 0,
+          "remaining": 2468
+        },
+        {
+          "id": 841,
+          "name": "LIGHTING - CEILING LIGHT",
+          "slug": "lighting-ceiling-light",
+          "total_posts": 2208,
+          "scraped": 0,
+          "remaining": 2208
+        },
+        {
+          "id": 26969,
+          "name": "Other Furniture",
+          "slug": "other-furniture",
+          "total_posts": 1841,
+          "scraped": 0,
+          "remaining": 1841
+        },
+        {
+          "id": 1100,
+          "name": "Console",
+          "slug": "console",
+          "total_posts": 1726,
+          "scraped": 0,
+          "remaining": 1726
+        },
+        {
+          "id": 27035,
+          "name": "Electrical Appliances 3D",
+          "slug": "electrical-appliances-3d",
+          "total_posts": 1472,
+          "scraped": 0,
+          "remaining": 1472
+        },
+        {
+          "id": 168,
+          "name": "DECORATION - OTHER MODELS",
+          "slug": "decoration-other-models",
+          "total_posts": 1408,
+          "scraped": 0,
+          "remaining": 1408
+        },
+        {
+          "id": 1196,
+          "name": "Hallway",
+          "slug": "hallway",
+          "total_posts": 1288,
+          "scraped": 0,
+          "remaining": 1288
+        },
+        {
+          "id": 119,
+          "name": "OTHER HOME SPACE",
+          "slug": "other-home-space",
+          "total_posts": 1148,
+          "scraped": 0,
+          "remaining": 1148
+        },
+        {
+          "id": 850,
+          "name": "INDOCHINE - 3D MODELS",
+          "slug": "indochine-3d-models",
+          "total_posts": 1045,
+          "scraped": 0,
+          "remaining": 1045
+        },
+        {
+          "id": 825,
+          "name": "PLANTS - TREE",
+          "slug": "plants-tree",
+          "total_posts": 1019,
+          "scraped": 0,
+          "remaining": 1019
+        },
+        {
+          "id": 27023,
+          "name": "Music and Art",
+          "slug": "music-and-art",
+          "total_posts": 917,
+          "scraped": 0,
+          "remaining": 917
+        },
+        {
+          "id": 696,
+          "name": "LIGHTING - 3DMODEL - MODERN STYLE",
+          "slug": "lighting-3dmodel-modern-style",
+          "total_posts": 899,
+          "scraped": 0,
+          "remaining": 899
+        },
+        {
+          "id": 777,
+          "name": "DECORATION - FRAME",
+          "slug": "decoration-frame",
+          "total_posts": 812,
+          "scraped": 0,
+          "remaining": 812
+        },
+        {
+          "id": 878,
+          "name": "3DS MAX - ANIMATION",
+          "slug": "3ds-max-animation",
+          "total_posts": 710,
+          "scraped": 0,
+          "remaining": 710
+        },
+        {
+          "id": 1104,
+          "name": "Miscellaneous",
+          "slug": "miscellaneous",
+          "total_posts": 4979,
+          "scraped": 4364,
+          "remaining": 615
+        },
+        {
+          "id": 1113,
+          "name": "Shower",
+          "slug": "shower",
+          "total_posts": 586,
+          "scraped": 0,
+          "remaining": 586
+        },
+        {
+          "id": 873,
+          "name": "TEA TABLE",
+          "slug": "tea-table",
+          "total_posts": 554,
+          "scraped": 0,
+          "remaining": 554
+        },
+        {
+          "id": 133,
+          "name": "PRO SCENES",
+          "slug": "pro-scenes-random-models",
+          "total_posts": 520,
+          "scraped": 0,
+          "remaining": 520
+        },
+        {
+          "id": 1786,
+          "name": "HOMESTAY",
+          "slug": "homestay",
+          "total_posts": 449,
+          "scraped": 1,
+          "remaining": 448
+        },
+        {
+          "id": 69,
+          "name": "LIVING ROOM \u2013 NORDIC STYLE",
+          "slug": "living-room-nordic-style",
+          "total_posts": 427,
+          "scraped": 0,
+          "remaining": 427
+        },
+        {
+          "id": 815,
+          "name": "OTHER MODELS - STAIRCASE",
+          "slug": "other-models-staircase",
+          "total_posts": 399,
+          "scraped": 0,
+          "remaining": 399
+        },
+        {
+          "id": 1149,
+          "name": "Barbecue and grill",
+          "slug": "barbecue-and-grill",
+          "total_posts": 371,
+          "scraped": 0,
+          "remaining": 371
+        },
+        {
+          "id": 1809,
+          "name": "Wardrobe Child",
+          "slug": "wardrobe-child",
+          "total_posts": 336,
+          "scraped": 0,
+          "remaining": 336
+        },
+        {
+          "id": 1218,
+          "name": "EXHIBITION ROOM",
+          "slug": "exhibition-room",
+          "total_posts": 311,
+          "scraped": 1,
+          "remaining": 310
+        },
+        {
+          "id": 694,
+          "name": "BEDROOM BENCH 3DSKY",
+          "slug": "bedroom-bench-3dsky",
+          "total_posts": 258,
+          "scraped": 0,
+          "remaining": 258
+        },
+        {
+          "id": 352,
+          "name": "TEXTURES - BRICK",
+          "slug": "textures-brick",
+          "total_posts": 249,
+          "scraped": 0,
+          "remaining": 249
+        },
+        {
+          "id": 279,
+          "name": "FURNITURE - OTTOMAN",
+          "slug": "furniture-ottoman",
+          "total_posts": 207,
+          "scraped": 0,
+          "remaining": 207
+        },
+        {
+          "id": 333,
+          "name": "TEXTURES - METALS",
+          "slug": "textures-metals",
+          "total_posts": 198,
+          "scraped": 0,
+          "remaining": 198
+        },
+        {
+          "id": 757,
+          "name": "ARCHITECTURE - ENVIROMENT",
+          "slug": "architecture-enviroment",
+          "total_posts": 179,
+          "scraped": 0,
+          "remaining": 179
+        },
+        {
+          "id": 26962,
+          "name": "LIVING ROOM - FRENCH STYLE",
+          "slug": "living-room-french-style",
+          "total_posts": 163,
+          "scraped": 1,
+          "remaining": 162
+        },
+        {
+          "id": 758,
+          "name": "ARCHITECTURE - FACADE ELEMENT",
+          "slug": "architecture-facade-element",
+          "total_posts": 133,
+          "scraped": 0,
+          "remaining": 133
+        },
+        {
+          "id": 1,
+          "name": "NSFW",
+          "slug": "nsfw",
+          "total_posts": 127,
+          "scraped": 0,
+          "remaining": 127
+        },
+        {
+          "id": 1204,
+          "name": "Panorama",
+          "slug": "panorama",
+          "total_posts": 101,
+          "scraped": 0,
+          "remaining": 101
+        },
+        {
+          "id": 864,
+          "name": "TEXTURES - MILITARY",
+          "slug": "textures-military",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 895,
+          "name": "TEXTURES - ORGANIC",
+          "slug": "textures-organic",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 761,
+          "name": "ARCHITECTURE - PAVING",
+          "slug": "architecture-paving",
+          "total_posts": 89,
+          "scraped": 0,
+          "remaining": 89
+        },
+        {
+          "id": 804,
+          "name": "OTHER MODELS - BEAUTY SALON",
+          "slug": "other-models-beauty-salon",
+          "total_posts": 69,
+          "scraped": 0,
+          "remaining": 69
+        },
+        {
+          "id": 486,
+          "name": "DECOR HELPER - BED - CIRCLE",
+          "slug": "decor-helper-bed-circle",
+          "total_posts": 152,
+          "scraped": 93,
+          "remaining": 59
+        },
+        {
+          "id": 527,
+          "name": "DECOR HELPER - DECOR - CLOCK - WATCH",
+          "slug": "decor-helper-decor-clock-watch",
+          "total_posts": 130,
+          "scraped": 71,
+          "remaining": 59
+        },
+        {
+          "id": 569,
+          "name": "DECOR HELPER - INTERIOR - COFFEE",
+          "slug": "decor-helper-interior-coffee",
+          "total_posts": 268,
+          "scraped": 209,
+          "remaining": 59
+        },
+        {
+          "id": 595,
+          "name": "DECOR HELPER - KITCHEN - ACCESSORIES",
+          "slug": "decor-helper-kitchen-accessories",
+          "total_posts": 452,
+          "scraped": 393,
+          "remaining": 59
+        },
+        {
+          "id": 641,
+          "name": "DECOR HELPER - LIVINGROOM - SOFA - SECTIONAL",
+          "slug": "decor-helper-livingroom-sofa-sectional",
+          "total_posts": 700,
+          "scraped": 641,
+          "remaining": 59
+        },
+        {
+          "id": 900,
+          "name": "CHILDREN - TOYS",
+          "slug": "children-toys",
+          "total_posts": 103,
+          "scraped": 44,
+          "remaining": 59
+        },
+        {
+          "id": 1788,
+          "name": "COURTYARD",
+          "slug": "courtyard",
+          "total_posts": 237,
+          "scraped": 178,
+          "remaining": 59
+        },
+        {
+          "id": 717,
+          "name": "TEXTURES - PLASTER",
+          "slug": "textures-plaster",
+          "total_posts": 48,
+          "scraped": 0,
+          "remaining": 48
+        },
+        {
+          "id": 659,
+          "name": "DECOR HELPER - PLANT - HANGING",
+          "slug": "decor-helper-plant-hanging",
+          "total_posts": 44,
+          "scraped": 1,
+          "remaining": 43
+        },
+        {
+          "id": 539,
+          "name": "DECOR HELPER - DECOR - VASE",
+          "slug": "decor-helper-decor-vase",
+          "total_posts": 741,
+          "scraped": 702,
+          "remaining": 39
+        },
+        {
+          "id": 554,
+          "name": "DECOR HELPER - DEVICE - TV",
+          "slug": "decor-helper-device-tv",
+          "total_posts": 72,
+          "scraped": 33,
+          "remaining": 39
+        },
+        {
+          "id": 608,
+          "name": "DECOR HELPER - KITCHEN - TABLE SET - CIRCLE",
+          "slug": "decor-helper-kitchen-table-set-circle",
+          "total_posts": 188,
+          "scraped": 149,
+          "remaining": 39
+        },
+        {
+          "id": 625,
+          "name": "DECOR HELPER - LIVINGROOM - CONSOLE TABLE",
+          "slug": "decor-helper-livingroom-console-table",
+          "total_posts": 294,
+          "scraped": 255,
+          "remaining": 39
+        },
+        {
+          "id": 904,
+          "name": "CORONA SCENES - BEDROOM",
+          "slug": "corona-scenes-bedroom",
+          "total_posts": 707,
+          "scraped": 668,
+          "remaining": 39
+        },
+        {
+          "id": 572,
+          "name": "DECOR HELPER - INTERIOR - FASHION",
+          "slug": "decor-helper-interior-fashion",
+          "total_posts": 38,
+          "scraped": 1,
+          "remaining": 37
+        },
+        {
+          "id": 481,
+          "name": "DECOR HELPER - BATHROOM - BATHTUB",
+          "slug": "decor-helper-bathroom-bathtub",
+          "total_posts": 32,
+          "scraped": 1,
+          "remaining": 31
+        },
+        {
+          "id": 734,
+          "name": "INTERNET COFFEE",
+          "slug": "internet-coffee",
+          "total_posts": 29,
+          "scraped": 0,
+          "remaining": 29
+        },
+        {
+          "id": 720,
+          "name": "TEXTURES - CARPET",
+          "slug": "textures-carpet",
+          "total_posts": 25,
+          "scraped": 0,
+          "remaining": 25
+        },
+        {
+          "id": 498,
+          "name": "DECOR HELPER - CARPET",
+          "slug": "decor-helper-carpet",
+          "total_posts": 350,
+          "scraped": 330,
+          "remaining": 20
+        },
+        {
+          "id": 528,
+          "name": "DECOR HELPER - DECOR - FIREPLACE",
+          "slug": "decor-helper-decor-fireplace",
+          "total_posts": 187,
+          "scraped": 167,
+          "remaining": 20
+        },
+        {
+          "id": 636,
+          "name": "DECOR HELPER - LIVINGROOM - SOFA",
+          "slug": "decor-helper-livingroom-sofa",
+          "total_posts": 1971,
+          "scraped": 1951,
+          "remaining": 20
+        },
+        {
+          "id": 548,
+          "name": "DECOR HELPER - DETAIL - PLUG",
+          "slug": "decor-helper-detail-plug",
+          "total_posts": 20,
+          "scraped": 1,
+          "remaining": 19
+        },
+        {
+          "id": 628,
+          "name": "DECOR HELPER - LIVINGROOM - END TABLE",
+          "slug": "decor-helper-livingroom-end-table",
+          "total_posts": 14,
+          "scraped": 0,
+          "remaining": 14
+        },
+        {
+          "id": 511,
+          "name": "DECOR HELPER - CLASSIC - LIGHT - FLOOR",
+          "slug": "decor-helper-classic-light-floor",
+          "total_posts": 11,
+          "scraped": 0,
+          "remaining": 11
+        },
+        {
+          "id": 716,
+          "name": "TEXTURES - ICE",
+          "slug": "textures-ice",
+          "total_posts": 10,
+          "scraped": 0,
+          "remaining": 10
+        },
+        {
+          "id": 649,
+          "name": "DECOR HELPER - MATERIAL - EXTERIOR",
+          "slug": "decor-helper-material-exterior",
+          "total_posts": 6,
+          "scraped": 0,
+          "remaining": 6
+        },
+        {
+          "id": 647,
+          "name": "DECOR HELPER - MAP - HDRI",
+          "slug": "decor-helper-map-hdri",
+          "total_posts": 4,
+          "scraped": 0,
+          "remaining": 4
+        }
+      ]
+    },
+    {
+      "slice_id": 6,
+      "target_posts": 104130,
+      "categories": [
+        {
+          "id": 1055,
+          "name": "Arm chair",
+          "slug": "arm-chair",
+          "total_posts": 22287,
+          "scraped": 0,
+          "remaining": 22287
+        },
+        {
+          "id": 1026,
+          "name": "Table",
+          "slug": "table",
+          "total_posts": 15389,
+          "scraped": 0,
+          "remaining": 15389
+        },
+        {
+          "id": 1106,
+          "name": "Wall light",
+          "slug": "wall-light",
+          "total_posts": 9640,
+          "scraped": 0,
+          "remaining": 9640
+        },
+        {
+          "id": 1067,
+          "name": "Table + Chair",
+          "slug": "table-chair",
+          "total_posts": 8048,
+          "scraped": 0,
+          "remaining": 8048
+        },
+        {
+          "id": 27015,
+          "name": "Office Furniture 3dsky",
+          "slug": "office-furniture-3dsky",
+          "total_posts": 6744,
+          "scraped": 0,
+          "remaining": 6744
+        },
+        {
+          "id": 104,
+          "name": "FURNITURE - CHAIR & ARMCHAIR",
+          "slug": "furniture-chair-armchair",
+          "total_posts": 4937,
+          "scraped": 0,
+          "remaining": 4937
+        },
+        {
+          "id": 1040,
+          "name": "Other",
+          "slug": "other",
+          "total_posts": 4554,
+          "scraped": 0,
+          "remaining": 4554
+        },
+        {
+          "id": 1137,
+          "name": "Decorative plaster",
+          "slug": "decorative-plaster",
+          "total_posts": 3180,
+          "scraped": 0,
+          "remaining": 3180
+        },
+        {
+          "id": 1086,
+          "name": "Mirror",
+          "slug": "mirror",
+          "total_posts": 3043,
+          "scraped": 0,
+          "remaining": 3043
+        },
+        {
+          "id": 1190,
+          "name": "Floor coverings",
+          "slug": "floor-coverings",
+          "total_posts": 2332,
+          "scraped": 0,
+          "remaining": 2332
+        },
+        {
+          "id": 1209,
+          "name": "Plant",
+          "slug": "plant",
+          "total_posts": 2196,
+          "scraped": 0,
+          "remaining": 2196
+        },
+        {
+          "id": 27032,
+          "name": "Public facilities",
+          "slug": "public-facilities",
+          "total_posts": 1896,
+          "scraped": 0,
+          "remaining": 1896
+        },
+        {
+          "id": 27009,
+          "name": "Architecture 3dsky",
+          "slug": "architecture-3dsky",
+          "total_posts": 1666,
+          "scraped": 0,
+          "remaining": 1666
+        },
+        {
+          "id": 1118,
+          "name": "Vase",
+          "slug": "vase",
+          "total_posts": 1513,
+          "scraped": 0,
+          "remaining": 1513
+        },
+        {
+          "id": 121,
+          "name": "PUBLIC COMMERCE SPACE",
+          "slug": "public-commerce-space",
+          "total_posts": 1407,
+          "scraped": 0,
+          "remaining": 1407
+        },
+        {
+          "id": 1130,
+          "name": "Ceiling lamp",
+          "slug": "ceiling-lamp",
+          "total_posts": 1236,
+          "scraped": 0,
+          "remaining": 1236
+        },
+        {
+          "id": 21,
+          "name": "HOTEL, CLUB, BAR",
+          "slug": "hotel-club-bar",
+          "total_posts": 1155,
+          "scraped": 0,
+          "remaining": 1155
+        },
+        {
+          "id": 1123,
+          "name": "Bush",
+          "slug": "bush",
+          "total_posts": 1098,
+          "scraped": 0,
+          "remaining": 1098
+        },
+        {
+          "id": 824,
+          "name": "PLANTS - OUTDOOR",
+          "slug": "plants-outdoor",
+          "total_posts": 969,
+          "scraped": 0,
+          "remaining": 969
+        },
+        {
+          "id": 354,
+          "name": "EXTERIOR - SCENES",
+          "slug": "exterior-scenes",
+          "total_posts": 956,
+          "scraped": 1,
+          "remaining": 955
+        },
+        {
+          "id": 1186,
+          "name": "Fitowall",
+          "slug": "fitowall",
+          "total_posts": 873,
+          "scraped": 0,
+          "remaining": 873
+        },
+        {
+          "id": 25,
+          "name": "HUMAN 3D",
+          "slug": "human-3d",
+          "total_posts": 862,
+          "scraped": 0,
+          "remaining": 862
+        },
+        {
+          "id": 1167,
+          "name": "Technical lighting",
+          "slug": "technical-lighting",
+          "total_posts": 670,
+          "scraped": 0,
+          "remaining": 670
+        },
+        {
+          "id": 1080,
+          "name": "Wardrobe",
+          "slug": "wardrobe",
+          "total_posts": 606,
+          "scraped": 0,
+          "remaining": 606
+        },
+        {
+          "id": 68,
+          "name": "LIVING ROOM \u2013 EUROPEAN STYLE",
+          "slug": "living-room-european-style",
+          "total_posts": 589,
+          "scraped": 0,
+          "remaining": 589
+        },
+        {
+          "id": 27029,
+          "name": "Machine intelligence",
+          "slug": "machine-intelligence",
+          "total_posts": 560,
+          "scraped": 0,
+          "remaining": 560
+        },
+        {
+          "id": 774,
+          "name": "DECORATION - CLOTHES",
+          "slug": "decoration-clothes",
+          "total_posts": 515,
+          "scraped": 0,
+          "remaining": 515
+        },
+        {
+          "id": 740,
+          "name": "HOSPITAL CLINIC",
+          "slug": "hospital-clinic",
+          "total_posts": 452,
+          "scraped": 0,
+          "remaining": 452
+        },
+        {
+          "id": 942,
+          "name": "FURNITURE - BEDSIDE TABLE",
+          "slug": "furniture-bedside-table",
+          "total_posts": 421,
+          "scraped": 0,
+          "remaining": 421
+        },
+        {
+          "id": 26975,
+          "name": "HEADBOARD",
+          "slug": "headboard",
+          "total_posts": 416,
+          "scraped": 1,
+          "remaining": 415
+        },
+        {
+          "id": 769,
+          "name": "BATHROOM - TOILET & BIDET",
+          "slug": "bathroom-toilet-bidet",
+          "total_posts": 357,
+          "scraped": 0,
+          "remaining": 357
+        },
+        {
+          "id": 778,
+          "name": "DECORATION - MIRROR",
+          "slug": "decoration-mirror",
+          "total_posts": 349,
+          "scraped": 0,
+          "remaining": 349
+        },
+        {
+          "id": 967,
+          "name": "MATERIAL - FABRIC",
+          "slug": "material-fabric",
+          "total_posts": 296,
+          "scraped": 0,
+          "remaining": 296
+        },
+        {
+          "id": 801,
+          "name": "LIGHTING - TECHNICAL LIGHTING",
+          "slug": "lighting-technical-lighting",
+          "total_posts": 267,
+          "scraped": 0,
+          "remaining": 267
+        },
+        {
+          "id": 1192,
+          "name": "Neon",
+          "slug": "neon",
+          "total_posts": 227,
+          "scraped": 0,
+          "remaining": 227
+        },
+        {
+          "id": 821,
+          "name": "PLANTS - FITOWALL",
+          "slug": "plants-fitowall",
+          "total_posts": 217,
+          "scraped": 0,
+          "remaining": 217
+        },
+        {
+          "id": 861,
+          "name": "TEXTURES - ROOFS",
+          "slug": "textures-roofs",
+          "total_posts": 200,
+          "scraped": 0,
+          "remaining": 200
+        },
+        {
+          "id": 343,
+          "name": "TEXTURES - TILES",
+          "slug": "textures-tiles",
+          "total_posts": 185,
+          "scraped": 0,
+          "remaining": 185
+        },
+        {
+          "id": 728,
+          "name": "ARABIC \u2013 3D MODELS",
+          "slug": "arabic-3d-models",
+          "total_posts": 153,
+          "scraped": 0,
+          "remaining": 153
+        },
+        {
+          "id": 1808,
+          "name": "Table Chair Child",
+          "slug": "table-chair-child",
+          "total_posts": 137,
+          "scraped": 0,
+          "remaining": 137
+        },
+        {
+          "id": 26977,
+          "name": "LABORATORY",
+          "slug": "laboratory",
+          "total_posts": 128,
+          "scraped": 0,
+          "remaining": 128
+        },
+        {
+          "id": 755,
+          "name": "ARCHITECTURE - BABECUE & GRILL",
+          "slug": "architecture-babecue-grill",
+          "total_posts": 101,
+          "scraped": 0,
+          "remaining": 101
+        },
+        {
+          "id": 349,
+          "name": "TEXTURES - SNOW",
+          "slug": "textures-snow",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 893,
+          "name": "TEXTURES - FENCES",
+          "slug": "textures-fences",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 1015,
+          "name": "MATERIAL - GRASS",
+          "slug": "material-grass",
+          "total_posts": 99,
+          "scraped": 0,
+          "remaining": 99
+        },
+        {
+          "id": 713,
+          "name": "TEXTURES - FABRIC",
+          "slug": "textures-fabric",
+          "total_posts": 60,
+          "scraped": 0,
+          "remaining": 60
+        },
+        {
+          "id": 483,
+          "name": "DECOR HELPER - BATHROOM - TOILET",
+          "slug": "decor-helper-bathroom-toilet",
+          "total_posts": 279,
+          "scraped": 220,
+          "remaining": 59
+        },
+        {
+          "id": 537,
+          "name": "DECOR HELPER - DECOR - SCULPTURE",
+          "slug": "decor-helper-decor-sculpture",
+          "total_posts": 683,
+          "scraped": 624,
+          "remaining": 59
+        },
+        {
+          "id": 568,
+          "name": "DECOR HELPER - INTERIOR - BAR",
+          "slug": "decor-helper-interior-bar",
+          "total_posts": 450,
+          "scraped": 391,
+          "remaining": 59
+        },
+        {
+          "id": 610,
+          "name": "DECOR HELPER - LIGHT",
+          "slug": "decor-helper-light",
+          "total_posts": 1221,
+          "scraped": 1162,
+          "remaining": 59
+        },
+        {
+          "id": 637,
+          "name": "DECOR HELPER - LIVINGROOM - SOFA - BLOCKS",
+          "slug": "decor-helper-livingroom-sofa-blocks",
+          "total_posts": 522,
+          "scraped": 463,
+          "remaining": 59
+        },
+        {
+          "id": 914,
+          "name": "3D SCENES - APARTMENT",
+          "slug": "3d-scenes-apartment",
+          "total_posts": 505,
+          "scraped": 446,
+          "remaining": 59
+        },
+        {
+          "id": 1200,
+          "name": "Creature",
+          "slug": "creature",
+          "total_posts": 720,
+          "scraped": 661,
+          "remaining": 59
+        },
+        {
+          "id": 831,
+          "name": "TECHNOLOGY - TV",
+          "slug": "technology-tv",
+          "total_posts": 47,
+          "scraped": 0,
+          "remaining": 47
+        },
+        {
+          "id": 622,
+          "name": "DECOR HELPER - LIVINGROOM - CHAIR - HAMMOCK",
+          "slug": "decor-helper-livingroom-chair-hammock",
+          "total_posts": 44,
+          "scraped": 1,
+          "remaining": 43
+        },
+        {
+          "id": 830,
+          "name": "TECHNOLOGY - PHONES",
+          "slug": "technology-phones",
+          "total_posts": 42,
+          "scraped": 0,
+          "remaining": 42
+        },
+        {
+          "id": 599,
+          "name": "DECOR HELPER - KITCHEN - DEVICE",
+          "slug": "decor-helper-kitchen-device",
+          "total_posts": 181,
+          "scraped": 142,
+          "remaining": 39
+        },
+        {
+          "id": 618,
+          "name": "DECOR HELPER - LIGHT - WALL",
+          "slug": "decor-helper-light-wall",
+          "total_posts": 940,
+          "scraped": 901,
+          "remaining": 39
+        },
+        {
+          "id": 651,
+          "name": "DECOR HELPER - MATERIAL - FLOOR - WOOD",
+          "slug": "decor-helper-material-floor-wood",
+          "total_posts": 127,
+          "scraped": 88,
+          "remaining": 39
+        },
+        {
+          "id": 1217,
+          "name": "CORONA SCENES - RESTAURANT",
+          "slug": "corona-scenes-restaurant",
+          "total_posts": 106,
+          "scraped": 67,
+          "remaining": 39
+        },
+        {
+          "id": 643,
+          "name": "DECOR HELPER - LIVINGROOM - SOFA - WOOD",
+          "slug": "decor-helper-livingroom-sofa-wood",
+          "total_posts": 36,
+          "scraped": 1,
+          "remaining": 35
+        },
+        {
+          "id": 926,
+          "name": "JEWELRY SHOP",
+          "slug": "jewelry-shop",
+          "total_posts": 35,
+          "scraped": 1,
+          "remaining": 34
+        },
+        {
+          "id": 546,
+          "name": "DECOR HELPER - DETAIL - HANDLE",
+          "slug": "decor-helper-detail-handle",
+          "total_posts": 28,
+          "scraped": 1,
+          "remaining": 27
+        },
+        {
+          "id": 664,
+          "name": "DECOR HELPER - STAIR - ELEVATOR",
+          "slug": "decor-helper-stair-elevator",
+          "total_posts": 25,
+          "scraped": 1,
+          "remaining": 24
+        },
+        {
+          "id": 495,
+          "name": "DECOR HELPER - BEDROOM - WARDROBE",
+          "slug": "decor-helper-bedroom-wardrobe",
+          "total_posts": 1636,
+          "scraped": 1616,
+          "remaining": 20
+        },
+        {
+          "id": 529,
+          "name": "DECOR HELPER - DECOR - FLOWER",
+          "slug": "decor-helper-decor-flower",
+          "total_posts": 333,
+          "scraped": 313,
+          "remaining": 20
+        },
+        {
+          "id": 633,
+          "name": "DECOR HELPER - LIVINGROOM - RATTAN",
+          "slug": "decor-helper-livingroom-rattan",
+          "total_posts": 112,
+          "scraped": 92,
+          "remaining": 20
+        },
+        {
+          "id": 26978,
+          "name": "CONTAINER COFFEE",
+          "slug": "container-coffee",
+          "total_posts": 128,
+          "scraped": 109,
+          "remaining": 19
+        },
+        {
+          "id": 1212,
+          "name": "Liquid",
+          "slug": "liquid",
+          "total_posts": 15,
+          "scraped": 0,
+          "remaining": 15
+        },
+        {
+          "id": 995,
+          "name": "WABI SABI - DESK",
+          "slug": "wabi-sabi-desk",
+          "total_posts": 14,
+          "scraped": 3,
+          "remaining": 11
+        },
+        {
+          "id": 953,
+          "name": "CORONA SCENES - BALCONY GARDEN",
+          "slug": "corona-scenes-balcony-garden",
+          "total_posts": 10,
+          "scraped": 1,
+          "remaining": 9
+        },
+        {
+          "id": 500,
+          "name": "DECOR HELPER - CARPET - OFFICE",
+          "slug": "decor-helper-carpet-office",
+          "total_posts": 6,
+          "scraped": 0,
+          "remaining": 6
+        },
+        {
+          "id": 504,
+          "name": "DECOR HELPER - CLASSIC - DECOR - FRAME",
+          "slug": "decor-helper-classic-decor-frame",
+          "total_posts": 3,
+          "scraped": 0,
+          "remaining": 3
+        },
+        {
+          "id": 662,
+          "name": "DECOR HELPER - SCRIPTS",
+          "slug": "decor-helper-scripts",
+          "total_posts": 1,
+          "scraped": 0,
+          "remaining": 1
+        },
+        {
+          "id": 1030,
+          "name": "Audio tech",
+          "slug": "audio-tech",
+          "total_posts": 816,
+          "scraped": 815,
+          "remaining": 1
+        }
+      ]
+    },
+    {
+      "slice_id": 7,
+      "target_posts": 104130,
+      "categories": [
+        {
+          "id": 26998,
+          "name": "Home Improvement",
+          "slug": "home-improvement",
+          "total_posts": 22066,
+          "scraped": 0,
+          "remaining": 22066
+        },
+        {
+          "id": 27002,
+          "name": "Cabinet",
+          "slug": "cabinet",
+          "total_posts": 16451,
+          "scraped": 0,
+          "remaining": 16451
+        },
+        {
+          "id": 27017,
+          "name": "Bedding",
+          "slug": "bedding",
+          "total_posts": 9495,
+          "scraped": 0,
+          "remaining": 9495
+        },
+        {
+          "id": 1020,
+          "name": "Architecture",
+          "slug": "architecture",
+          "total_posts": 7799,
+          "scraped": 0,
+          "remaining": 7799
+        },
+        {
+          "id": 1125,
+          "name": "Indoor",
+          "slug": "indoor",
+          "total_posts": 6156,
+          "scraped": 0,
+          "remaining": 6156
+        },
+        {
+          "id": 1063,
+          "name": "Table lamp",
+          "slug": "table-lamp",
+          "total_posts": 5692,
+          "scraped": 0,
+          "remaining": 5692
+        },
+        {
+          "id": 899,
+          "name": "FURNITURE - MODERN SOFA",
+          "slug": "furniture-modern-sofa",
+          "total_posts": 3790,
+          "scraped": 1,
+          "remaining": 3789
+        },
+        {
+          "id": 1029,
+          "name": "Technology",
+          "slug": "technology",
+          "total_posts": 4702,
+          "scraped": 1302,
+          "remaining": 3400
+        },
+        {
+          "id": 1025,
+          "name": "Transport",
+          "slug": "transport",
+          "total_posts": 2920,
+          "scraped": 29,
+          "remaining": 2891
+        },
+        {
+          "id": 1188,
+          "name": "TV Wall",
+          "slug": "tv-wall",
+          "total_posts": 2365,
+          "scraped": 0,
+          "remaining": 2365
+        },
+        {
+          "id": 19,
+          "name": "RESTAURANT & COFFEE SHOP",
+          "slug": "restaurant-coffee-shop",
+          "total_posts": 2228,
+          "scraped": 0,
+          "remaining": 2228
+        },
+        {
+          "id": 413,
+          "name": "DECORATION - OTHER",
+          "slug": "decoration-other",
+          "total_posts": 2021,
+          "scraped": 0,
+          "remaining": 2021
+        },
+        {
+          "id": 779,
+          "name": "DECORATION - OTHER DECORATIVE OBJECTS",
+          "slug": "decoration-other-decorative-objects",
+          "total_posts": 1591,
+          "scraped": 0,
+          "remaining": 1591
+        },
+        {
+          "id": 1131,
+          "name": "Clothes",
+          "slug": "clothes",
+          "total_posts": 1437,
+          "scraped": 0,
+          "remaining": 1437
+        },
+        {
+          "id": 1184,
+          "name": "Rack",
+          "slug": "rack",
+          "total_posts": 1430,
+          "scraped": 0,
+          "remaining": 1430
+        },
+        {
+          "id": 788,
+          "name": "FURNITURE - OFFICE FURNITURE",
+          "slug": "furniture-office-furniture",
+          "total_posts": 1257,
+          "scraped": 0,
+          "remaining": 1257
+        },
+        {
+          "id": 422,
+          "name": "DECORATION - CARPETS",
+          "slug": "decoration-carpets",
+          "total_posts": 1152,
+          "scraped": 0,
+          "remaining": 1152
+        },
+        {
+          "id": 1805,
+          "name": "Other Architecture",
+          "slug": "other-architecture",
+          "total_posts": 1117,
+          "scraped": 0,
+          "remaining": 1117
+        },
+        {
+          "id": 1082,
+          "name": "Spot light",
+          "slug": "spot-light",
+          "total_posts": 962,
+          "scraped": 0,
+          "remaining": 962
+        },
+        {
+          "id": 617,
+          "name": "DECOR HELPER - LIGHT - SPOT",
+          "slug": "decor-helper-light-spot",
+          "total_posts": 940,
+          "scraped": 0,
+          "remaining": 940
+        },
+        {
+          "id": 1141,
+          "name": "Staircase",
+          "slug": "staircase",
+          "total_posts": 932,
+          "scraped": 38,
+          "remaining": 894
+        },
+        {
+          "id": 807,
+          "name": "OTHER MODELS - DOORS",
+          "slug": "other-models-doors",
+          "total_posts": 801,
+          "scraped": 0,
+          "remaining": 801
+        },
+        {
+          "id": 131,
+          "name": "RANDOM MODELS",
+          "slug": "random-models",
+          "total_posts": 790,
+          "scraped": 0,
+          "remaining": 790
+        },
+        {
+          "id": 1053,
+          "name": "Environment elements",
+          "slug": "environment-elements",
+          "total_posts": 592,
+          "scraped": 0,
+          "remaining": 592
+        },
+        {
+          "id": 1181,
+          "name": "Books",
+          "slug": "books",
+          "total_posts": 564,
+          "scraped": 0,
+          "remaining": 564
+        },
+        {
+          "id": 1117,
+          "name": "Towel rail",
+          "slug": "towel-rail",
+          "total_posts": 532,
+          "scraped": 0,
+          "remaining": 532
+        },
+        {
+          "id": 61,
+          "name": "BEDROOM - CHINESE STYLE",
+          "slug": "bedroom-chinese-style",
+          "total_posts": 490,
+          "scraped": 0,
+          "remaining": 490
+        },
+        {
+          "id": 775,
+          "name": "DECORATION - DECORATIVE PLASTER",
+          "slug": "decoration-decorative-plaster",
+          "total_posts": 484,
+          "scraped": 0,
+          "remaining": 484
+        },
+        {
+          "id": 881,
+          "name": "MANAGER OFFICE ROOM",
+          "slug": "manager-office-room",
+          "total_posts": 415,
+          "scraped": 0,
+          "remaining": 415
+        },
+        {
+          "id": 925,
+          "name": "GYM AND YOGA",
+          "slug": "gym-and-yoga",
+          "total_posts": 391,
+          "scraped": 1,
+          "remaining": 390
+        },
+        {
+          "id": 124,
+          "name": "DECORATION - PENDANTS LIGHTING",
+          "slug": "decoration-pendants-lighting",
+          "total_posts": 374,
+          "scraped": 0,
+          "remaining": 374
+        },
+        {
+          "id": 1211,
+          "name": "Brick",
+          "slug": "brick",
+          "total_posts": 344,
+          "scraped": 0,
+          "remaining": 344
+        },
+        {
+          "id": 407,
+          "name": "TECHNOLOGY 3D MODELS",
+          "slug": "technology-3d-models",
+          "total_posts": 300,
+          "scraped": 0,
+          "remaining": 300
+        },
+        {
+          "id": 876,
+          "name": "ROCK 3D MODELS",
+          "slug": "rock-3d-models",
+          "total_posts": 285,
+          "scraped": 0,
+          "remaining": 285
+        },
+        {
+          "id": 314,
+          "name": "DECORATION - STAIR 3D MODELS",
+          "slug": "decoration-stair-3d-models",
+          "total_posts": 222,
+          "scraped": 0,
+          "remaining": 222
+        },
+        {
+          "id": 808,
+          "name": "OTHER MODELS - FIREPLACE",
+          "slug": "other-models-fireplace",
+          "total_posts": 211,
+          "scraped": 0,
+          "remaining": 211
+        },
+        {
+          "id": 70,
+          "name": "LIVING ROOM \u2013 AMERICAN STYLE",
+          "slug": "living-room-american-style",
+          "total_posts": 196,
+          "scraped": 0,
+          "remaining": 196
+        },
+        {
+          "id": 763,
+          "name": "ARCHITECTURE - URBAN ENVIRONMEN",
+          "slug": "architecture-urban-environmen",
+          "total_posts": 185,
+          "scraped": 0,
+          "remaining": 185
+        },
+        {
+          "id": 762,
+          "name": "ARCHITECTURE - PLAYGROUND",
+          "slug": "architecture-playground",
+          "total_posts": 147,
+          "scraped": 0,
+          "remaining": 147
+        },
+        {
+          "id": 673,
+          "name": "TEXTURES - CITY STREET",
+          "slug": "textures-city-street",
+          "total_posts": 144,
+          "scraped": 0,
+          "remaining": 144
+        },
+        {
+          "id": 805,
+          "name": "OTHER MODELS - BILLIARDS",
+          "slug": "other-models-billiards",
+          "total_posts": 120,
+          "scraped": 0,
+          "remaining": 120
+        },
+        {
+          "id": 1781,
+          "name": "GARAGE",
+          "slug": "garage",
+          "total_posts": 109,
+          "scraped": 0,
+          "remaining": 109
+        },
+        {
+          "id": 867,
+          "name": "TEXTURES - CLAY",
+          "slug": "textures-clay",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 969,
+          "name": "MATERIAL - ARCYLIC",
+          "slug": "material-arcylic",
+          "total_posts": 100,
+          "scraped": 1,
+          "remaining": 99
+        },
+        {
+          "id": 653,
+          "name": "DECOR HELPER - MATERIAL - WALL",
+          "slug": "decor-helper-material-wall",
+          "total_posts": 79,
+          "scraped": 0,
+          "remaining": 79
+        },
+        {
+          "id": 739,
+          "name": "PUBLIC RESTROOM",
+          "slug": "public-restroom",
+          "total_posts": 73,
+          "scraped": 0,
+          "remaining": 73
+        },
+        {
+          "id": 65,
+          "name": "BEDROOM - OTHER STYLE",
+          "slug": "bedroom-other-style",
+          "total_posts": 214,
+          "scraped": 155,
+          "remaining": 59
+        },
+        {
+          "id": 519,
+          "name": "DECOR HELPER - CLASSIC - LIVINGROOM - SOFA - SINGLE",
+          "slug": "decor-helper-classic-livingroom-sofa-single",
+          "total_posts": 69,
+          "scraped": 10,
+          "remaining": 59
+        },
+        {
+          "id": 556,
+          "name": "DECOR HELPER - DOOR",
+          "slug": "decor-helper-door",
+          "total_posts": 614,
+          "scraped": 555,
+          "remaining": 59
+        },
+        {
+          "id": 589,
+          "name": "DECOR HELPER - INTERIOR - WINE SHOP",
+          "slug": "decor-helper-interior-wine-shop",
+          "total_posts": 474,
+          "scraped": 415,
+          "remaining": 59
+        },
+        {
+          "id": 624,
+          "name": "DECOR HELPER - LIVINGROOM - CHAIR - STOOL",
+          "slug": "decor-helper-livingroom-chair-stool",
+          "total_posts": 1503,
+          "scraped": 1444,
+          "remaining": 59
+        },
+        {
+          "id": 742,
+          "name": "DECOR HELPER \u2013 LAMP - CHANDELIER",
+          "slug": "decor-helper-lamp-chandelier",
+          "total_posts": 2193,
+          "scraped": 2134,
+          "remaining": 59
+        },
+        {
+          "id": 955,
+          "name": "CORONA SCENES - DRESSING ROOM",
+          "slug": "corona-scenes-dressing-room",
+          "total_posts": 295,
+          "scraped": 236,
+          "remaining": 59
+        },
+        {
+          "id": 715,
+          "name": "TEXTURES - DESIGN",
+          "slug": "textures-design",
+          "total_posts": 54,
+          "scraped": 0,
+          "remaining": 54
+        },
+        {
+          "id": 508,
+          "name": "DECOR HELPER - CLASSIC - KITCHEN",
+          "slug": "decor-helper-classic-kitchen",
+          "total_posts": 43,
+          "scraped": 1,
+          "remaining": 42
+        },
+        {
+          "id": 524,
+          "name": "DECOR HELPER - DECOR",
+          "slug": "decor-helper-decor",
+          "total_posts": 545,
+          "scraped": 506,
+          "remaining": 39
+        },
+        {
+          "id": 560,
+          "name": "DECOR HELPER - EXTERIOR",
+          "slug": "decor-helper-exterior",
+          "total_posts": 188,
+          "scraped": 149,
+          "remaining": 39
+        },
+        {
+          "id": 606,
+          "name": "DECOR HELPER - KITCHEN - SINK",
+          "slug": "decor-helper-kitchen-sink",
+          "total_posts": 47,
+          "scraped": 8,
+          "remaining": 39
+        },
+        {
+          "id": 627,
+          "name": "DECOR HELPER - LIVINGROOM - DRAWER",
+          "slug": "decor-helper-livingroom-drawer",
+          "total_posts": 151,
+          "scraped": 112,
+          "remaining": 39
+        },
+        {
+          "id": 661,
+          "name": "DECOR HELPER - PLANT - WALL",
+          "slug": "decor-helper-plant-wall",
+          "total_posts": 75,
+          "scraped": 36,
+          "remaining": 39
+        },
+        {
+          "id": 678,
+          "name": "DECOR HELPER - SWITCH 3DSKY MODELS",
+          "slug": "decor-helper-switch-3dsky-models",
+          "total_posts": 37,
+          "scraped": 1,
+          "remaining": 36
+        },
+        {
+          "id": 27018,
+          "name": "VR Panorama",
+          "slug": "vr-panorama",
+          "total_posts": 35,
+          "scraped": 0,
+          "remaining": 35
+        },
+        {
+          "id": 533,
+          "name": "DECOR HELPER - DECOR - INSTRUMENT",
+          "slug": "decor-helper-decor-instrument",
+          "total_posts": 27,
+          "scraped": 1,
+          "remaining": 26
+        },
+        {
+          "id": 660,
+          "name": "DECOR HELPER - PLANT - TABLE",
+          "slug": "decor-helper-plant-table",
+          "total_posts": 26,
+          "scraped": 1,
+          "remaining": 25
+        },
+        {
+          "id": 499,
+          "name": "DECOR HELPER - CARPET - FUR",
+          "slug": "decor-helper-carpet-fur",
+          "total_posts": 217,
+          "scraped": 197,
+          "remaining": 20
+        },
+        {
+          "id": 522,
+          "name": "DECOR HELPER - CURTAIN - ROMAN",
+          "slug": "decor-helper-curtain-roman",
+          "total_posts": 102,
+          "scraped": 82,
+          "remaining": 20
+        },
+        {
+          "id": 650,
+          "name": "DECOR HELPER - MATERIAL - FLOOR",
+          "slug": "decor-helper-material-floor",
+          "total_posts": 83,
+          "scraped": 63,
+          "remaining": 20
+        },
+        {
+          "id": 1216,
+          "name": "CORONA SCENES - HOTEL",
+          "slug": "corona-scenes-hotel",
+          "total_posts": 214,
+          "scraped": 194,
+          "remaining": 20
+        },
+        {
+          "id": 517,
+          "name": "DECOR HELPER - CLASSIC - LIVINGROOM - SOFA",
+          "slug": "decor-helper-classic-livingroom-sofa",
+          "total_posts": 13,
+          "scraped": 0,
+          "remaining": 13
+        },
+        {
+          "id": 645,
+          "name": "DECOR HELPER - LIVINGROOM - TABLE - WOOD SLABS",
+          "slug": "decor-helper-livingroom-table-wood-slabs",
+          "total_posts": 13,
+          "scraped": 1,
+          "remaining": 12
+        },
+        {
+          "id": 644,
+          "name": "DECOR HELPER - LIVINGROOM - SOFA -CHESTERFIELD",
+          "slug": "decor-helper-livingroom-sofa-chesterfield",
+          "total_posts": 9,
+          "scraped": 1,
+          "remaining": 8
+        },
+        {
+          "id": 1194,
+          "name": "Plastic",
+          "slug": "plastic",
+          "total_posts": 8,
+          "scraped": 0,
+          "remaining": 8
+        },
+        {
+          "id": 584,
+          "name": "DECOR HELPER - INTERIOR - PUBLIC WC",
+          "slug": "decor-helper-interior-public-wc",
+          "total_posts": 3,
+          "scraped": 1,
+          "remaining": 2
+        },
+        {
+          "id": 944,
+          "name": "DOOR HANDLE",
+          "slug": "door-handle",
+          "total_posts": 384,
+          "scraped": 382,
+          "remaining": 2
+        }
+      ]
+    },
+    {
+      "slice_id": 8,
+      "target_posts": 104129,
+      "categories": [
+        {
+          "id": 16,
+          "name": "BATHROOM SETS",
+          "slug": "bathroom",
+          "total_posts": 19770,
+          "scraped": 0,
+          "remaining": 19770
+        },
+        {
+          "id": 27001,
+          "name": "Lighting 3dsky",
+          "slug": "lighting-3dsky",
+          "total_posts": 17138,
+          "scraped": 0,
+          "remaining": 17138
+        },
+        {
+          "id": 1097,
+          "name": "Decorative set",
+          "slug": "decorative-set",
+          "total_posts": 9858,
+          "scraped": 0,
+          "remaining": 9858
+        },
+        {
+          "id": 1036,
+          "name": "Sideboard & Chest of drawer",
+          "slug": "sideboard-chest-of-drawer",
+          "total_posts": 8749,
+          "scraped": 0,
+          "remaining": 8749
+        },
+        {
+          "id": 23,
+          "name": "FURNITURE 3D",
+          "slug": "furniture-3d",
+          "total_posts": 6626,
+          "scraped": 0,
+          "remaining": 6626
+        },
+        {
+          "id": 1072,
+          "name": "Office furniture",
+          "slug": "office-furniture",
+          "total_posts": 4827,
+          "scraped": 0,
+          "remaining": 4827
+        },
+        {
+          "id": 313,
+          "name": "FURNITURE - SOFA",
+          "slug": "furniture-sofa",
+          "total_posts": 4573,
+          "scraped": 0,
+          "remaining": 4573
+        },
+        {
+          "id": 27036,
+          "name": "Plant 3D",
+          "slug": "plant-3d",
+          "total_posts": 3262,
+          "scraped": 0,
+          "remaining": 3262
+        },
+        {
+          "id": 27016,
+          "name": "Kitchen And Bathroom Supplies",
+          "slug": "kitchen-and-bathroom-supplies",
+          "total_posts": 2897,
+          "scraped": 0,
+          "remaining": 2897
+        },
+        {
+          "id": 429,
+          "name": "FURNITURE - TABLE AND CHAIR SETS",
+          "slug": "furniture-table-and-chair-sets",
+          "total_posts": 2371,
+          "scraped": 0,
+          "remaining": 2371
+        },
+        {
+          "id": 17,
+          "name": "DINING ROOM SETS",
+          "slug": "dining-room-sets",
+          "total_posts": 2297,
+          "scraped": 0,
+          "remaining": 2297
+        },
+        {
+          "id": 27030,
+          "name": "Wayfinding signage",
+          "slug": "wayfinding-signage",
+          "total_posts": 1805,
+          "scraped": 0,
+          "remaining": 1805
+        },
+        {
+          "id": 1089,
+          "name": "Fireplace",
+          "slug": "fireplace",
+          "total_posts": 1741,
+          "scraped": 1,
+          "remaining": 1740
+        },
+        {
+          "id": 332,
+          "name": "DECORATION - LIGHTING",
+          "slug": "decoration-lighting",
+          "total_posts": 1477,
+          "scraped": 0,
+          "remaining": 1477
+        },
+        {
+          "id": 1115,
+          "name": "Other kitchen accessories",
+          "slug": "other-kitchen-accessories",
+          "total_posts": 1411,
+          "scraped": 0,
+          "remaining": 1411
+        },
+        {
+          "id": 319,
+          "name": "DECORATION - CURTAIN",
+          "slug": "decoration-curtain",
+          "total_posts": 1338,
+          "scraped": 0,
+          "remaining": 1338
+        },
+        {
+          "id": 1177,
+          "name": "Wood",
+          "slug": "wood",
+          "total_posts": 1445,
+          "scraped": 314,
+          "remaining": 1131
+        },
+        {
+          "id": 1147,
+          "name": "Restaurant",
+          "slug": "restaurant",
+          "total_posts": 1069,
+          "scraped": 33,
+          "remaining": 1036
+        },
+        {
+          "id": 315,
+          "name": "TEXTURES - WOOD",
+          "slug": "textures-wood",
+          "total_posts": 988,
+          "scraped": 0,
+          "remaining": 988
+        },
+        {
+          "id": 457,
+          "name": "FURNITURE - SIDEBOARD - CHEST OF DRAWER",
+          "slug": "furniture-sideboard-chest-of-drawer",
+          "total_posts": 945,
+          "scraped": 0,
+          "remaining": 945
+        },
+        {
+          "id": 823,
+          "name": "PLANTS - INDOOR",
+          "slug": "plants-indoor",
+          "total_posts": 893,
+          "scraped": 0,
+          "remaining": 893
+        },
+        {
+          "id": 470,
+          "name": "FURNITURE - OFFICE",
+          "slug": "furniture-office",
+          "total_posts": 807,
+          "scraped": 0,
+          "remaining": 807
+        },
+        {
+          "id": 1785,
+          "name": "GARDEN DECOR",
+          "slug": "garden-decor",
+          "total_posts": 692,
+          "scraped": 1,
+          "remaining": 691
+        },
+        {
+          "id": 803,
+          "name": "OTHER MODELS - BAR",
+          "slug": "other-models-bar",
+          "total_posts": 655,
+          "scraped": 0,
+          "remaining": 655
+        },
+        {
+          "id": 786,
+          "name": "FURNITURE - DRESSING TABLE",
+          "slug": "furniture-dressing-table",
+          "total_posts": 583,
+          "scraped": 0,
+          "remaining": 583
+        },
+        {
+          "id": 795,
+          "name": "FURNITURE - WAREDROBE & DISPLAY",
+          "slug": "furniture-waredrobe-display",
+          "total_posts": 539,
+          "scraped": 0,
+          "remaining": 539
+        },
+        {
+          "id": 27013,
+          "name": "Hotel Club",
+          "slug": "hotel-club",
+          "total_posts": 495,
+          "scraped": 0,
+          "remaining": 495
+        },
+        {
+          "id": 794,
+          "name": "FURNITURE - TV WALL",
+          "slug": "furniture-tv-wall",
+          "total_posts": 472,
+          "scraped": 0,
+          "remaining": 472
+        },
+        {
+          "id": 27012,
+          "name": "Public Space",
+          "slug": "public-space",
+          "total_posts": 420,
+          "scraped": 0,
+          "remaining": 420
+        },
+        {
+          "id": 459,
+          "name": "DECORATION - CLOTHES AND SHOES",
+          "slug": "decoration-clothes-and-shoes",
+          "total_posts": 408,
+          "scraped": 0,
+          "remaining": 408
+        },
+        {
+          "id": 27014,
+          "name": "Entertainment Space",
+          "slug": "entertainment-space",
+          "total_posts": 363,
+          "scraped": 0,
+          "remaining": 363
+        },
+        {
+          "id": 312,
+          "name": "TEXTURES - STONES",
+          "slug": "textures-stones",
+          "total_posts": 346,
+          "scraped": 0,
+          "remaining": 346
+        },
+        {
+          "id": 961,
+          "name": "MATERIAL - DECORATION TILES",
+          "slug": "material-decoration-tiles",
+          "total_posts": 300,
+          "scraped": 0,
+          "remaining": 300
+        },
+        {
+          "id": 938,
+          "name": "HAIR SALON",
+          "slug": "hair-salon",
+          "total_posts": 267,
+          "scraped": 0,
+          "remaining": 267
+        },
+        {
+          "id": 466,
+          "name": "DECORATION - FRAME 3D MODELS",
+          "slug": "decoration-frame-3d-models",
+          "total_posts": 226,
+          "scraped": 0,
+          "remaining": 226
+        },
+        {
+          "id": 671,
+          "name": "DECOR HELPER - HUMAN",
+          "slug": "decor-helper-human",
+          "total_posts": 219,
+          "scraped": 0,
+          "remaining": 219
+        },
+        {
+          "id": 866,
+          "name": "TEXTURES - FLOORING",
+          "slug": "textures-flooring",
+          "total_posts": 200,
+          "scraped": 0,
+          "remaining": 200
+        },
+        {
+          "id": 827,
+          "name": "TECHNOLOGY - HOUSEHOLD APPLIANCE",
+          "slug": "technology-household-appliance",
+          "total_posts": 185,
+          "scraped": 0,
+          "remaining": 185
+        },
+        {
+          "id": 705,
+          "name": "TEXTURES - SURFACE IMPERFECTIONS",
+          "slug": "textures-surface-imperfections",
+          "total_posts": 147,
+          "scraped": 0,
+          "remaining": 147
+        },
+        {
+          "id": 949,
+          "name": "KITCHEN SUPPLIES",
+          "slug": "kitchen-supplies",
+          "total_posts": 145,
+          "scraped": 1,
+          "remaining": 144
+        },
+        {
+          "id": 120,
+          "name": "GARDEN BALCONY",
+          "slug": "garden-balcony-other-home-space",
+          "total_posts": 120,
+          "scraped": 0,
+          "remaining": 120
+        },
+        {
+          "id": 709,
+          "name": "TEXTURES - STREET",
+          "slug": "textures-street",
+          "total_posts": 106,
+          "scraped": 0,
+          "remaining": 106
+        },
+        {
+          "id": 860,
+          "name": "TEXTURES - WALLS",
+          "slug": "textures-walls",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 870,
+          "name": "TEXTURES - PLASTIC",
+          "slug": "textures-plastic",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 26996,
+          "name": "street-light",
+          "slug": "street-light",
+          "total_posts": 96,
+          "scraped": 0,
+          "remaining": 96
+        },
+        {
+          "id": 806,
+          "name": "OTHER MODELS - CREATURE",
+          "slug": "other-models-creature",
+          "total_posts": 64,
+          "scraped": 0,
+          "remaining": 64
+        },
+        {
+          "id": 490,
+          "name": "DECOR HELPER - BEDROOM",
+          "slug": "decor-helper-bedroom",
+          "total_posts": 558,
+          "scraped": 499,
+          "remaining": 59
+        },
+        {
+          "id": 538,
+          "name": "DECOR HELPER - DECOR - SHELVES",
+          "slug": "decor-helper-decor-shelves",
+          "total_posts": 141,
+          "scraped": 82,
+          "remaining": 59
+        },
+        {
+          "id": 578,
+          "name": "DECOR HELPER - INTERIOR - HOTEL",
+          "slug": "decor-helper-interior-hotel",
+          "total_posts": 373,
+          "scraped": 314,
+          "remaining": 59
+        },
+        {
+          "id": 613,
+          "name": "DECOR HELPER - LIGHT - COFFEE",
+          "slug": "decor-helper-light-coffee",
+          "total_posts": 312,
+          "scraped": 253,
+          "remaining": 59
+        },
+        {
+          "id": 648,
+          "name": "DECOR HELPER - MATERIAL",
+          "slug": "decor-helper-material",
+          "total_posts": 306,
+          "scraped": 247,
+          "remaining": 59
+        },
+        {
+          "id": 919,
+          "name": "3D SCENES - WABI SABI STYLE",
+          "slug": "3d-scenes-wabi-sabi-style",
+          "total_posts": 442,
+          "scraped": 383,
+          "remaining": 59
+        },
+        {
+          "id": 1198,
+          "name": "Rug",
+          "slug": "rug",
+          "total_posts": 57,
+          "scraped": 0,
+          "remaining": 57
+        },
+        {
+          "id": 1009,
+          "name": "FURNITURE - WABI SABI - SOFA",
+          "slug": "furniture-wabi-sabi-sofa",
+          "total_posts": 50,
+          "scraped": 1,
+          "remaining": 49
+        },
+        {
+          "id": 698,
+          "name": "CEILING FAN 3DSKYMODEL",
+          "slug": "ceiling-fan-3dskymodel",
+          "total_posts": 43,
+          "scraped": 0,
+          "remaining": 43
+        },
+        {
+          "id": 534,
+          "name": "DECOR HELPER - DECOR - MIRROR",
+          "slug": "decor-helper-decor-mirror",
+          "total_posts": 284,
+          "scraped": 245,
+          "remaining": 39
+        },
+        {
+          "id": 557,
+          "name": "DECOR HELPER - DOOR - GATE",
+          "slug": "decor-helper-door-gate",
+          "total_posts": 203,
+          "scraped": 164,
+          "remaining": 39
+        },
+        {
+          "id": 607,
+          "name": "DECOR HELPER - KITCHEN - TABLE SET",
+          "slug": "decor-helper-kitchen-table-set",
+          "total_posts": 1758,
+          "scraped": 1719,
+          "remaining": 39
+        },
+        {
+          "id": 626,
+          "name": "DECOR HELPER - LIVINGROOM - CONSOLE TABLE - TAOBAO",
+          "slug": "decor-helper-livingroom-console-table-taobao",
+          "total_posts": 100,
+          "scraped": 61,
+          "remaining": 39
+        },
+        {
+          "id": 704,
+          "name": "TEXTURES - MANMADE",
+          "slug": "textures-manmade",
+          "total_posts": 39,
+          "scraped": 0,
+          "remaining": 39
+        },
+        {
+          "id": 555,
+          "name": "DECOR HELPER - DEVICE - WASHING MACHINE",
+          "slug": "decor-helper-device-washing-machine",
+          "total_posts": 37,
+          "scraped": 1,
+          "remaining": 36
+        },
+        {
+          "id": 638,
+          "name": "DECOR HELPER - LIVINGROOM - SOFA - CIRCLE",
+          "slug": "decor-helper-livingroom-sofa-circle",
+          "total_posts": 35,
+          "scraped": 1,
+          "remaining": 34
+        },
+        {
+          "id": 712,
+          "name": "TEXTURES - GROUND",
+          "slug": "textures-ground",
+          "total_posts": 28,
+          "scraped": 0,
+          "remaining": 28
+        },
+        {
+          "id": 639,
+          "name": "DECOR HELPER - LIVINGROOM - SOFA - EXTERIOR",
+          "slug": "decor-helper-livingroom-sofa-exterior",
+          "total_posts": 23,
+          "scraped": 1,
+          "remaining": 22
+        },
+        {
+          "id": 493,
+          "name": "DECOR HELPER - BEDROOM - OUTFIT",
+          "slug": "decor-helper-bedroom-outfit",
+          "total_posts": 83,
+          "scraped": 63,
+          "remaining": 20
+        },
+        {
+          "id": 514,
+          "name": "DECOR HELPER - CLASSIC - LIVINGROOM - CHAIR",
+          "slug": "decor-helper-classic-livingroom-chair",
+          "total_posts": 42,
+          "scraped": 22,
+          "remaining": 20
+        },
+        {
+          "id": 611,
+          "name": "DECOR HELPER - LIGHT - CEILING",
+          "slug": "decor-helper-light-ceiling",
+          "total_posts": 910,
+          "scraped": 890,
+          "remaining": 20
+        },
+        {
+          "id": 908,
+          "name": "CORONA SCENES - OTHER",
+          "slug": "corona-scenes-other",
+          "total_posts": 335,
+          "scraped": 315,
+          "remaining": 20
+        },
+        {
+          "id": 708,
+          "name": "TEXTURES - CITY",
+          "slug": "textures-city",
+          "total_posts": 15,
+          "scraped": 0,
+          "remaining": 15
+        },
+        {
+          "id": 525,
+          "name": "DECOR HELPER - DECOR - AQUARIUM",
+          "slug": "decor-helper-decor-aquarium",
+          "total_posts": 12,
+          "scraped": 1,
+          "remaining": 11
+        },
+        {
+          "id": 596,
+          "name": "DECOR HELPER - KITCHEN - BBQ",
+          "slug": "decor-helper-kitchen-bbq",
+          "total_posts": 10,
+          "scraped": 0,
+          "remaining": 10
+        },
+        {
+          "id": 1176,
+          "name": "TV",
+          "slug": "tv",
+          "total_posts": 361,
+          "scraped": 355,
+          "remaining": 6
+        },
+        {
+          "id": 573,
+          "name": "DECOR HELPER - INTERIOR - GARRAGE",
+          "slug": "decor-helper-interior-garrage",
+          "total_posts": 4,
+          "scraped": 0,
+          "remaining": 4
+        }
+      ]
+    },
+    {
+      "slice_id": 9,
+      "target_posts": 104129,
+      "categories": [
+        {
+          "id": 1078,
+          "name": "Plants",
+          "slug": "plants",
+          "total_posts": 17564,
+          "scraped": 0,
+          "remaining": 17564
+        },
+        {
+          "id": 1039,
+          "name": "Chair",
+          "slug": "chair",
+          "total_posts": 17162,
+          "scraped": 0,
+          "remaining": 17162
+        },
+        {
+          "id": 22,
+          "name": "TEXTURES",
+          "slug": "textures",
+          "total_posts": 11499,
+          "scraped": 0,
+          "remaining": 11499
+        },
+        {
+          "id": 1060,
+          "name": "Other decorative objects",
+          "slug": "other-decorative-objects",
+          "total_posts": 8835,
+          "scraped": 0,
+          "remaining": 8835
+        },
+        {
+          "id": 27003,
+          "name": "Childrens Furniture",
+          "slug": "childrens-furniture",
+          "total_posts": 6970,
+          "scraped": 0,
+          "remaining": 6970
+        },
+        {
+          "id": 1050,
+          "name": "Carpets",
+          "slug": "carpets",
+          "total_posts": 5490,
+          "scraped": 0,
+          "remaining": 5490
+        },
+        {
+          "id": 27024,
+          "name": "Automotive Transportation",
+          "slug": "automotive-transportation",
+          "total_posts": 3824,
+          "scraped": 0,
+          "remaining": 3824
+        },
+        {
+          "id": 1156,
+          "name": "Bathroom furniture",
+          "slug": "bathroom-furniture",
+          "total_posts": 3578,
+          "scraped": 0,
+          "remaining": 3578
+        },
+        {
+          "id": 18,
+          "name": "KITCHEN SETS",
+          "slug": "kitchen-sets",
+          "total_posts": 2743,
+          "scraped": 0,
+          "remaining": 2743
+        },
+        {
+          "id": 1170,
+          "name": "Outdoor",
+          "slug": "outdoor",
+          "total_posts": 2606,
+          "scraped": 0,
+          "remaining": 2606
+        },
+        {
+          "id": 783,
+          "name": "FURNITURE - CHAIR",
+          "slug": "furniture-chair",
+          "total_posts": 2111,
+          "scraped": 0,
+          "remaining": 2111
+        },
+        {
+          "id": 1154,
+          "name": "Food and drinks",
+          "slug": "food-and-drinks",
+          "total_posts": 1755,
+          "scraped": 0,
+          "remaining": 1755
+        },
+        {
+          "id": 135,
+          "name": "PRO MODELS",
+          "slug": "pro-models",
+          "total_posts": 1751,
+          "scraped": 0,
+          "remaining": 1751
+        },
+        {
+          "id": 732,
+          "name": "OFFICE HOME",
+          "slug": "office-home",
+          "total_posts": 1551,
+          "scraped": 0,
+          "remaining": 1551
+        },
+        {
+          "id": 1173,
+          "name": "Pillows",
+          "slug": "pillows",
+          "total_posts": 1389,
+          "scraped": 0,
+          "remaining": 1389
+        },
+        {
+          "id": 359,
+          "name": "KITCHEN 3D MODELS",
+          "slug": "kitchen-3d-models",
+          "total_posts": 1236,
+          "scraped": 0,
+          "remaining": 1236
+        },
+        {
+          "id": 15,
+          "name": "BEDROOM SETS",
+          "slug": "bed-room-sets",
+          "total_posts": 1165,
+          "scraped": 0,
+          "remaining": 1165
+        },
+        {
+          "id": 1810,
+          "name": "Kitchen Cabinets",
+          "slug": "kitchen-cabinets",
+          "total_posts": 1083,
+          "scraped": 0,
+          "remaining": 1083
+        },
+        {
+          "id": 530,
+          "name": "DECOR HELPER - DECOR - FRAME",
+          "slug": "decor-helper-decor-frame",
+          "total_posts": 973,
+          "scraped": 0,
+          "remaining": 973
+        },
+        {
+          "id": 737,
+          "name": "LOBBY",
+          "slug": "lobby",
+          "total_posts": 959,
+          "scraped": 0,
+          "remaining": 959
+        },
+        {
+          "id": 855,
+          "name": "COLLECTIONS 3D",
+          "slug": "collections-3d",
+          "total_posts": 874,
+          "scraped": 0,
+          "remaining": 874
+        },
+        {
+          "id": 1807,
+          "name": "Other Childroom",
+          "slug": "other-childroom",
+          "total_posts": 854,
+          "scraped": 0,
+          "remaining": 854
+        },
+        {
+          "id": 1165,
+          "name": "Watches & Clocks",
+          "slug": "watches-clocks",
+          "total_posts": 672,
+          "scraped": 0,
+          "remaining": 672
+        },
+        {
+          "id": 132,
+          "name": "PRO SCENES",
+          "slug": "pro-scenes",
+          "total_posts": 654,
+          "scraped": 0,
+          "remaining": 654
+        },
+        {
+          "id": 765,
+          "name": "BATHROOM - BATHROOM FURNITURE",
+          "slug": "bathroom-bathroom-furniture",
+          "total_posts": 572,
+          "scraped": 0,
+          "remaining": 572
+        },
+        {
+          "id": 1121,
+          "name": "Fence",
+          "slug": "fence",
+          "total_posts": 536,
+          "scraped": 0,
+          "remaining": 536
+        },
+        {
+          "id": 1109,
+          "name": "Street lighting",
+          "slug": "street-lighting",
+          "total_posts": 508,
+          "scraped": 0,
+          "remaining": 508
+        },
+        {
+          "id": 784,
+          "name": "FURNITURE - CONSOLE",
+          "slug": "furniture-console",
+          "total_posts": 456,
+          "scraped": 0,
+          "remaining": 456
+        },
+        {
+          "id": 85,
+          "name": "EXTERIORS & ARCHITECTURE",
+          "slug": "exteriors-architecture",
+          "total_posts": 423,
+          "scraped": 0,
+          "remaining": 423
+        },
+        {
+          "id": 1135,
+          "name": "Playground",
+          "slug": "playground",
+          "total_posts": 413,
+          "scraped": 0,
+          "remaining": 413
+        },
+        {
+          "id": 849,
+          "name": "SHELFS - OTHER",
+          "slug": "shelfs-other",
+          "total_posts": 360,
+          "scraped": 0,
+          "remaining": 360
+        },
+        {
+          "id": 464,
+          "name": "DECORATION - MIRROR 3D MODELS",
+          "slug": "decoration-mirror-3d-models",
+          "total_posts": 340,
+          "scraped": 0,
+          "remaining": 340
+        },
+        {
+          "id": 336,
+          "name": "TEXTURES - PAVEMENTS",
+          "slug": "textures-pavements",
+          "total_posts": 300,
+          "scraped": 0,
+          "remaining": 300
+        },
+        {
+          "id": 283,
+          "name": "FURNITURE - RATTAN",
+          "slug": "furniture-rattan",
+          "total_posts": 285,
+          "scraped": 0,
+          "remaining": 285
+        },
+        {
+          "id": 118,
+          "name": "EVERMOTION - ARCHMODELS",
+          "slug": "evermotion-archmodels",
+          "total_posts": 224,
+          "scraped": 0,
+          "remaining": 224
+        },
+        {
+          "id": 277,
+          "name": "DECORATION - ENTRANCE",
+          "slug": "decoration-entrance",
+          "total_posts": 212,
+          "scraped": 0,
+          "remaining": 212
+        },
+        {
+          "id": 54,
+          "name": "CLOSET ROOM",
+          "slug": "closet-room",
+          "total_posts": 192,
+          "scraped": 0,
+          "remaining": 192
+        },
+        {
+          "id": 274,
+          "name": "FURNITURE - BENCH",
+          "slug": "furniture-bench",
+          "total_posts": 186,
+          "scraped": 0,
+          "remaining": 186
+        },
+        {
+          "id": 472,
+          "name": "DECORATION - WEDDING",
+          "slug": "decoration-wedding",
+          "total_posts": 158,
+          "scraped": 0,
+          "remaining": 158
+        },
+        {
+          "id": 1208,
+          "name": "Natural materials",
+          "slug": "natural-materials",
+          "total_posts": 136,
+          "scraped": 0,
+          "remaining": 136
+        },
+        {
+          "id": 768,
+          "name": "BATHROOM - SHOWER",
+          "slug": "bathroom-shower",
+          "total_posts": 122,
+          "scraped": 0,
+          "remaining": 122
+        },
+        {
+          "id": 880,
+          "name": "CAMPING DECOR",
+          "slug": "camping-decor",
+          "total_posts": 105,
+          "scraped": 0,
+          "remaining": 105
+        },
+        {
+          "id": 865,
+          "name": "TEXTURES - SCI-FI",
+          "slug": "textures-sci-fi",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 894,
+          "name": "TEXTURES - DESTRUCTION",
+          "slug": "textures-destruction",
+          "total_posts": 100,
+          "scraped": 0,
+          "remaining": 100
+        },
+        {
+          "id": 770,
+          "name": "BATHROOM - TOWEL RAIL",
+          "slug": "bathroom-towel-rail",
+          "total_posts": 84,
+          "scraped": 0,
+          "remaining": 84
+        },
+        {
+          "id": 276,
+          "name": "INTERIOR",
+          "slug": "interior",
+          "total_posts": 70,
+          "scraped": 0,
+          "remaining": 70
+        },
+        {
+          "id": 482,
+          "name": "DECOR HELPER - BATHROOM - DECOR",
+          "slug": "decor-helper-bathroom-decor",
+          "total_posts": 292,
+          "scraped": 233,
+          "remaining": 59
+        },
+        {
+          "id": 526,
+          "name": "DECOR HELPER - DECOR - BOOK",
+          "slug": "decor-helper-decor-book",
+          "total_posts": 153,
+          "scraped": 94,
+          "remaining": 59
+        },
+        {
+          "id": 565,
+          "name": "DECOR HELPER - EXTERIOR - STREET",
+          "slug": "decor-helper-exterior-street",
+          "total_posts": 70,
+          "scraped": 11,
+          "remaining": 59
+        },
+        {
+          "id": 591,
+          "name": "DECOR HELPER - KID - BED",
+          "slug": "decor-helper-kid-bed",
+          "total_posts": 857,
+          "scraped": 798,
+          "remaining": 59
+        },
+        {
+          "id": 630,
+          "name": "DECOR HELPER - LIVINGROOM - OTHER SOFT SEATING",
+          "slug": "decor-helper-livingroom-other-soft-seating",
+          "total_posts": 136,
+          "scraped": 77,
+          "remaining": 59
+        },
+        {
+          "id": 847,
+          "name": "3DSKY FREE",
+          "slug": "3dsky-free",
+          "total_posts": 13119,
+          "scraped": 13060,
+          "remaining": 59
+        },
+        {
+          "id": 1168,
+          "name": "Billiards",
+          "slug": "billiards",
+          "total_posts": 175,
+          "scraped": 116,
+          "remaining": 59
+        },
+        {
+          "id": 922,
+          "name": "CHILDREN STORE",
+          "slug": "children-store",
+          "total_posts": 55,
+          "scraped": 1,
+          "remaining": 54
+        },
+        {
+          "id": 632,
+          "name": "DECOR HELPER - LIVINGROOM - POUF",
+          "slug": "decor-helper-livingroom-pouf",
+          "total_posts": 43,
+          "scraped": 1,
+          "remaining": 42
+        },
+        {
+          "id": 544,
+          "name": "DECOR HELPER - DETAIL",
+          "slug": "decor-helper-detail",
+          "total_posts": 143,
+          "scraped": 104,
+          "remaining": 39
+        },
+        {
+          "id": 581,
+          "name": "DECOR HELPER - INTERIOR - MARKET",
+          "slug": "decor-helper-interior-market",
+          "total_posts": 40,
+          "scraped": 1,
+          "remaining": 39
+        },
+        {
+          "id": 612,
+          "name": "DECOR HELPER - LIGHT - CEILING - DUPLEX",
+          "slug": "decor-helper-light-ceiling-duplex",
+          "total_posts": 883,
+          "scraped": 844,
+          "remaining": 39
+        },
+        {
+          "id": 640,
+          "name": "DECOR HELPER - LIVINGROOM - SOFA - LONG",
+          "slug": "decor-helper-livingroom-sofa-long",
+          "total_posts": 857,
+          "scraped": 818,
+          "remaining": 39
+        },
+        {
+          "id": 906,
+          "name": "CORONA SCENES - CHILDREN ROOM",
+          "slug": "corona-scenes-children-room",
+          "total_posts": 60,
+          "scraped": 21,
+          "remaining": 39
+        },
+        {
+          "id": 1210,
+          "name": "Glass",
+          "slug": "glass",
+          "total_posts": 37,
+          "scraped": 1,
+          "remaining": 36
+        },
+        {
+          "id": 489,
+          "name": "DECOR HELPER - BED - NATURAL WOOD",
+          "slug": "decor-helper-bed-natural-wood",
+          "total_posts": 33,
+          "scraped": 1,
+          "remaining": 32
+        },
+        {
+          "id": 946,
+          "name": "DECORATION - TROPHY",
+          "slug": "decoration-trophy",
+          "total_posts": 30,
+          "scraped": 1,
+          "remaining": 29
+        },
+        {
+          "id": 576,
+          "name": "DECOR HELPER - INTERIOR - HAIR CUT",
+          "slug": "decor-helper-interior-hair-cut",
+          "total_posts": 22,
+          "scraped": 1,
+          "remaining": 21
+        },
+        {
+          "id": 488,
+          "name": "DECOR HELPER - BED - INDOCHINE",
+          "slug": "decor-helper-bed-indochine",
+          "total_posts": 38,
+          "scraped": 18,
+          "remaining": 20
+        },
+        {
+          "id": 505,
+          "name": "DECOR HELPER - CLASSIC - DECOR - MIRROR",
+          "slug": "decor-helper-classic-decor-mirror",
+          "total_posts": 24,
+          "scraped": 4,
+          "remaining": 20
+        },
+        {
+          "id": 586,
+          "name": "DECOR HELPER - INTERIOR - RESTAURANT",
+          "slug": "decor-helper-interior-restaurant",
+          "total_posts": 273,
+          "scraped": 253,
+          "remaining": 20
+        },
+        {
+          "id": 743,
+          "name": "DECOR HELPER \u2013 TABLE - LAMP",
+          "slug": "decor-helper-table-lamp",
+          "total_posts": 384,
+          "scraped": 364,
+          "remaining": 20
+        },
+        {
+          "id": 597,
+          "name": "DECOR HELPER - KITCHEN - COOKER",
+          "slug": "decor-helper-kitchen-cooker",
+          "total_posts": 15,
+          "scraped": 0,
+          "remaining": 15
+        },
+        {
+          "id": 473,
+          "name": "TEXTURES - SOLAR PANELS",
+          "slug": "textures-solar-panels",
+          "total_posts": 12,
+          "scraped": 0,
+          "remaining": 12
+        },
+        {
+          "id": 822,
+          "name": "PLANTS - GRASS",
+          "slug": "plants-grass",
+          "total_posts": 9,
+          "scraped": 0,
+          "remaining": 9
+        },
+        {
+          "id": 571,
+          "name": "DECOR HELPER - INTERIOR - DRINK STORE",
+          "slug": "decor-helper-interior-drink-store",
+          "total_posts": 7,
+          "scraped": 0,
+          "remaining": 7
+        },
+        {
+          "id": 547,
+          "name": "DECOR HELPER - DETAIL - LOGO",
+          "slug": "decor-helper-detail-logo",
+          "total_posts": 3,
+          "scraped": 0,
+          "remaining": 3
+        },
+        {
+          "id": 579,
+          "name": "DECOR HELPER - INTERIOR - JAPANESE",
+          "slug": "decor-helper-interior-japanese",
+          "total_posts": 1,
+          "scraped": 0,
+          "remaining": 1
+        }
+      ]
+    }
+  ]
+}

@@ -162,7 +162,7 @@ function clearAllFilters() {
     if (dom.allAssetsLink) dom.allAssetsLink.classList.add("bg-frost-hover", "text-white");
     if (dom.favoritesLink) dom.favoritesLink.classList.remove("bg-frost-hover", "text-white");
     Object.keys(state.advancedFilters).forEach(k => state.advancedFilters[k] = "");
-    ["filter-gdrive", "filter-image", "filter-tier", "filter-size"].forEach(id => {
+    ["filter-gdrive", "filter-image", "filter-tier", "filter-size", "filter-render", "filter-max-version"].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = "";
     });
@@ -307,12 +307,12 @@ function setupEventListeners() {
     document.getElementById("filters-toggle")?.addEventListener("click", () => {
         document.getElementById("filters-panel")?.classList.toggle("hidden");
     });
-    ["filter-gdrive", "filter-image", "filter-tier", "filter-size"].forEach(id => {
+    ["filter-gdrive", "filter-image", "filter-tier", "filter-size", "filter-render", "filter-max-version"].forEach(id => {
         document.getElementById(id)?.addEventListener("change", () => applyFilters(fetchItems));
     });
     document.getElementById("filters-clear")?.addEventListener("click", () => {
         Object.keys(state.advancedFilters).forEach(k => state.advancedFilters[k] = "");
-        ["filter-gdrive", "filter-image", "filter-tier", "filter-size"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+        ["filter-gdrive", "filter-image", "filter-tier", "filter-size", "filter-render", "filter-max-version"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
         const badge = document.getElementById("active-filters-badge");
         if (badge) badge.classList.add("hidden");
         document.getElementById("filters-clear")?.classList.add("hidden");

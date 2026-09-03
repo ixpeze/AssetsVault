@@ -1,0 +1,96 @@
+name: Distributed 3DSkyFree Scraper
+
+on:
+  workflow_dispatch:
+    inputs:
+      slice_id:
+        description: 'Slice ID to run (0-9, or "all")'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - 'all'
+          - '0'
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+          - '5'
+          - '6'
+          - '7'
+          - '8'
+          - '9'
+      limit_per_category:
+        description: 'Limit items per category (0 = all)'
+        required: false
+        default: '0'
+      skip_images:
+        description: 'Skip downloading preview images (metadata only)'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  scrape-matrix:
+    name: Scrape Slice ${{ matrix.slice_id }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        slice_id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+    steps:
+      - name: Check if this slice should run
+        id: check_slice
+        run: |
+          TARGET="${{ github.event.inputs.slice_id }}"
+          CURRENT="${{ matrix.slice_id }}"
+          if [ "$TARGET" != "all" ] && [ "$TARGET" != "$CURRENT" ]; then
+            echo "Skipping slice $CURRENT (target is $TARGET)"
+            echo "run=false" >> $GITHUB_OUTPUT
+          else
+            echo "run=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check out repository
+        if: steps.check_slice.outputs.run == 'true'
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: steps.check_slice.outputs.run == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        if: steps.check_slice.outputs.run == 'true'
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 pillow
+
+      - name: Install and configure rclone
+        if: steps.check_slice.outputs.run == 'true'
+        run: |
+          sudo apt-get update && sudo apt-get install -y rclone
+          mkdir -p ~/.config/rclone
+          echo "${{ secrets.RCLONE_CONFIG_GDRIVE }}" > ~/.config/rclone/rclone.conf
+          chmod 600 ~/.config/rclone/rclone.conf
+          rclone lsd gdrive:
+
+      - name: Run Batch Scraper
+        if: steps.check_slice.outputs.run == 'true'
+        run: |
+          EXTRA_FLAGS=""
+          if [ "${{ github.event.inputs.skip_images }}" = "true" ]; then
+            EXTRA_FLAGS="$EXTRA_FLAGS --skip-images"
+          fi
+          if [ "${{ github.event.inputs.limit_per_category }}" != "0" ] && [ -n "${{ github.event.inputs.limit_per_category }}" ]; then
+            EXTRA_FLAGS="$EXTRA_FLAGS --limit-per-category ${{ github.event.inputs.limit_per_category }}"
+          fi
+
+          python scripts/pipeline/scrape_batch.py \
+            --slice-id ${{ matrix.slice_id }} \
+            --rclone-upload \
+            $EXTRA_FLAGS

@@ -116,6 +116,26 @@ def _build_where(
                 """)
                 params.extend(tag_list)
 
+    if query.render_engine:
+        clauses.append("items.render_engine LIKE ?")
+        params.append(f"%{query.render_engine}%")
+
+    if query.max_version:
+        clauses.append("items.max_version LIKE ?")
+        params.append(f"%{query.max_version}%")
+
+    if query.min_size is not None:
+        clauses.append("items.file_size_mb >= ?")
+        params.append(query.min_size)
+
+    if query.max_size is not None:
+        clauses.append("items.file_size_mb <= ?")
+        params.append(query.max_size)
+
+    if query.lighting is not None:
+        clauses.append("items.has_lighting = ?")
+        params.append(1 if query.lighting else 0)
+
     if query.has_gdrive:
         clauses.append("items.gdrive_link IS NOT NULL AND items.gdrive_link != ''")
 
@@ -208,7 +228,9 @@ def find_page(
                    items.gdrive_link AS gdrive_link, items.mirror_link AS mirror_link,
                    items.image_url AS image_url, items.local_image_path AS local_image_path,
                    items.post_url AS post_url, items.collected_at AS collected_at,
-                   items.is_paid AS is_paid, items.status AS status, item_metadata.file_size AS file_size
+                   items.is_paid AS is_paid, items.status AS status, item_metadata.file_size AS file_size,
+                   items.render_engine AS render_engine, items.max_version AS max_version,
+                   items.file_size_mb AS file_size_mb, items.has_lighting AS has_lighting
             FROM items_fts
             JOIN items ON items.id = items_fts.rowid
             LEFT JOIN item_metadata ON items.id = item_metadata.item_id
@@ -222,7 +244,9 @@ def find_page(
                    items.gdrive_link AS gdrive_link, items.mirror_link AS mirror_link,
                    items.image_url AS image_url, items.local_image_path AS local_image_path,
                    items.post_url AS post_url, items.collected_at AS collected_at,
-                   items.is_paid AS is_paid, items.status AS status, item_metadata.file_size AS file_size
+                   items.is_paid AS is_paid, items.status AS status, item_metadata.file_size AS file_size,
+                   items.render_engine AS render_engine, items.max_version AS max_version,
+                   items.file_size_mb AS file_size_mb, items.has_lighting AS has_lighting
             FROM items
             LEFT JOIN item_metadata ON items.id = item_metadata.item_id
             {where}

@@ -38,12 +38,39 @@ export function openLightbox(index, deps) {
     if (idValEl) idValEl.textContent = item.id || '—';
     else if (dom.lbId) dom.lbId.textContent = item.id || '—';
 
-    if (dom.lbSize && dom.lbSizeContainer) {
-        if (item.file_size) {
-            dom.lbSize.textContent = formatBytes(item.file_size);
-            dom.lbSizeContainer.classList.remove('hidden');
+    const lbSizeEl = document.getElementById('lb-size');
+    const lbSizeContainer = document.getElementById('lb-size-container');
+    if (lbSizeEl && lbSizeContainer) {
+        if (item.file_size_mb) {
+            lbSizeEl.textContent = `${item.file_size_mb} MB`;
+            lbSizeContainer.classList.remove('hidden');
+        } else if (item.file_size) {
+            lbSizeEl.textContent = formatBytes(item.file_size);
+            lbSizeContainer.classList.remove('hidden');
         } else {
-            dom.lbSizeContainer.classList.add('hidden');
+            lbSizeContainer.classList.add('hidden');
+        }
+    }
+
+    const lbRenderEl = document.getElementById('lb-render');
+    const lbRenderContainer = document.getElementById('lb-render-container');
+    if (lbRenderEl && lbRenderContainer) {
+        if (item.render_engine) {
+            lbRenderEl.textContent = item.render_engine;
+            lbRenderContainer.classList.remove('hidden');
+        } else {
+            lbRenderContainer.classList.add('hidden');
+        }
+    }
+
+    const lbMaxEl = document.getElementById('lb-max');
+    const lbMaxContainer = document.getElementById('lb-max-container');
+    if (lbMaxEl && lbMaxContainer) {
+        if (item.max_version) {
+            lbMaxEl.textContent = item.max_version;
+            lbMaxContainer.classList.remove('hidden');
+        } else {
+            lbMaxContainer.classList.add('hidden');
         }
     }
 
