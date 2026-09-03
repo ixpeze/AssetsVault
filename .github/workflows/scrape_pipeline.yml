@@ -72,10 +72,12 @@ jobs:
 
       - name: Install and configure rclone
         if: steps.check_slice.outputs.run == 'true'
+        env:
+          RCLONE_RAW: ${{ secrets.RCLONE_CONFIG_GDRIVE }}
         run: |
           sudo apt-get update && sudo apt-get install -y rclone
           mkdir -p ~/.config/rclone
-          echo "${{ secrets.RCLONE_CONFIG_GDRIVE }}" > ~/.config/rclone/rclone.conf
+          python -c "import os; from pathlib import Path; p = Path.home() / '.config' / 'rclone' / 'rclone.conf'; p.write_text(os.environ['RCLONE_RAW'], encoding='utf-8')"
           chmod 600 ~/.config/rclone/rclone.conf
           rclone lsd gdrive:
 
