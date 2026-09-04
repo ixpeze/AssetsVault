@@ -37,6 +37,7 @@ jobs:
   scrape-matrix:
     name: Scrape Slice ${{ matrix.slice_id }}
     runs-on: ubuntu-latest
+    timeout-minutes: 360
     strategy:
       fail-fast: false
       max-parallel: 10
@@ -90,11 +91,13 @@ jobs:
           WP_COOKIE: ${{ secrets.WP_COOKIE }}
         run: |
           EXTRA_FLAGS=""
-          if [ "${{ github.event.inputs.skip_images }}" = "true" ]; then
-            EXTRA_FLAGS="$EXTRA_FLAGS --skip-images"
-          fi
-          if [ "${{ github.event.inputs.limit_per_category }}" != "0" ] && [ -n "${{ github.event.inputs.limit_per_category }}" ]; then
-            EXTRA_FLAGS="$EXTRA_FLAGS --limit-per-category ${{ github.event.inputs.limit_per_category }}"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ "${{ github.event.inputs.skip_images }}" = "true" ]; then
+              EXTRA_FLAGS="$EXTRA_FLAGS --skip-images"
+            fi
+            if [ "${{ github.event.inputs.limit_per_category }}" != "0" ] && [ -n "${{ github.event.inputs.limit_per_category }}" ]; then
+              EXTRA_FLAGS="$EXTRA_FLAGS --limit-per-category ${{ github.event.inputs.limit_per_category }}"
+            fi
           fi
 
           python scripts/pipeline/scrape_batch.py \

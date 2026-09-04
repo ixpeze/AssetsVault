@@ -19,9 +19,14 @@ from urllib.parse import unquote
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8')
 
 import requests
-from PIL import Image
+try:
+    from PIL import Image
+except ImportError:
+    Image = None
 
 BASE_URL = "https://3dskyfree.com/wp-json/wp/v2"
 DEFAULT_DELAY = 0.25
