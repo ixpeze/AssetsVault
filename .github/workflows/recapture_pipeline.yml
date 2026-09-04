@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       slice_id:
-        description: 'Slice ID to run (0-9, or "all")'
+        description: 'Slice ID to run (0-19, or "all")'
         required: true
         default: 'all'
         type: choice
@@ -20,17 +20,27 @@ on:
           - '7'
           - '8'
           - '9'
+          - '10'
+          - '11'
+          - '12'
+          - '13'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '19'
       limit_per_slice:
-        description: 'Limit items per slice (0 = all, default: 1000)'
+        description: 'Limit items per slice (0 = all, default: 2000)'
         required: false
-        default: '1000'
+        default: '2000'
       delay:
         description: 'Request delay in seconds (default: 0.5)'
         required: false
         default: '0.5'
   schedule:
-    # Runs every 6 hours (03:00, 09:00, 15:00, 21:00 UTC) offset from scraper
-    - cron: '0 3,9,15,21 * * *'
+    # High-throughput automated cycle: runs every 2 hours across 20 runners (40k items/run)
+    - cron: '0 */2 * * *'
 
 jobs:
   recapture-matrix:
@@ -39,9 +49,9 @@ jobs:
     timeout-minutes: 180
     strategy:
       fail-fast: false
-      max-parallel: 10
+      max-parallel: 20
       matrix:
-        slice_id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        slice_id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
 
     steps:
       - name: Check if this slice should run
@@ -89,7 +99,7 @@ jobs:
         env:
           WP_COOKIE: ${{ secrets.WP_COOKIE }}
         run: |
-          LIMIT_VAL="1000"
+          LIMIT_VAL="2000"
           if [ -n "${{ github.event.inputs.limit_per_slice }}" ]; then
             LIMIT_VAL="${{ github.event.inputs.limit_per_slice }}"
           fi
@@ -101,7 +111,7 @@ jobs:
 
           python scripts/pipeline/recapture_batch.py \
             --slice-id ${{ matrix.slice_id }} \
-            --num-slices 10 \
+            --num-slices 20 \
             --limit $LIMIT_VAL \
             --delay $DELAY_VAL \
             --rclone-upload
