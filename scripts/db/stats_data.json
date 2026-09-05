@@ -16,10 +16,10 @@
     "is_paid = 1": {
         "available": 10155,
         "scraped": 512223,
-        "gdrive": 20818,
-        "mirror": 9623,
+        "gdrive": 99648,
+        "mirror": 87231,
         "image": 509739,
-        "local_image": 26354,
+        "local_image": 56842,
         "color": 0,
         "embed": 0,
         "tags": 10459,

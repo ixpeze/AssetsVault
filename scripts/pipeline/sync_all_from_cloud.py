@@ -177,6 +177,52 @@ def download_remote_file(remote_path: str, filename: str, target_dir: Path) -> P
     return None
 
 
+def bulk_download_archives(remote_path: str, filenames: list[str], target_dir: Path) -> dict[str, Path]:
+    """Download multiple archives in parallel using a single rclone session."""
+    target_dir.mkdir(parents=True, exist_ok=True)
+    if not filenames:
+        return {}
+
+    log(f"   ⚡ Bulk downloading {len(filenames)} archive(s) with 8 parallel streams...")
+    list_file = target_dir / f"sync_filter_{int(time.time())}.txt"
+    try:
+        with open(list_file, "w", encoding="utf-8") as f:
+            for fname in filenames:
+                f.write(f"{fname}\n")
+
+        cmd = [
+            "rclone", "copy", remote_path, str(target_dir),
+            "--files-from", str(list_file),
+            "--transfers", "8",
+            "--fast-list",
+            "-P"
+        ]
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
+        if res.returncode != 0:
+            log(f"   ⚠️ Bulk download note: {res.stderr.strip()[:200]}")
+    except Exception as e:
+        log(f"   ⚠️ Bulk download note: {e}")
+    finally:
+        try:
+            if list_file.exists():
+                list_file.unlink()
+        except Exception:
+            pass
+
+    # Verify and map existing files
+    results = {}
+    for fname in filenames:
+        p = target_dir / fname
+        if p.exists() and p.stat().st_size > 0:
+            results[fname] = p
+        else:
+            # Fallback to single-file copy if missing
+            single_p = download_remote_file(remote_path, fname, target_dir)
+            if single_p:
+                results[fname] = single_p
+    return results
+
+
 def merge_recapture_archive(conn: sqlite3.Connection, archive_path: Path) -> tuple[int, int]:
     """Extract and merge recaptured download links into the database."""
     extract_dir = SYNC_TEMP / f"extract_{archive_path.stem.replace('.tar', '')}_{int(time.time())}"
@@ -461,10 +507,14 @@ def main():
 
                 log(f"   Found {len(recapture_archives)} total cloud archives ({len(pending_recapture)} new/updated to sync).")
 
+                # Pre-download all pending archives in parallel
+                pending_recapture_files = [b["filename"] for b in pending_recapture]
+                recapture_file_map = bulk_download_archives(GDRIVE_RECAPTURE_REMOTE, pending_recapture_files, SYNC_TEMP)
+
                 for idx, b in enumerate(pending_recapture, start=1):
                     fname = b["filename"]
-                    log(f"\n   [{idx}/{len(pending_recapture)}] Downloading & Processing {fname} ({b['size']:,} bytes)...")
-                    tar_path = download_remote_file(GDRIVE_RECAPTURE_REMOTE, fname, SYNC_TEMP)
+                    log(f"\n   [{idx}/{len(pending_recapture)}] Processing {fname} ({b['size']:,} bytes)...")
+                    tar_path = recapture_file_map.get(fname) or download_remote_file(GDRIVE_RECAPTURE_REMOTE, fname, SYNC_TEMP)
                     if tar_path:
                         checked, updated = merge_recapture_archive(conn, tar_path)
                         conn.execute("""
@@ -504,10 +554,14 @@ def main():
 
                 log(f"   Found {len(catalog_archives)} total catalog archives ({len(pending_catalog)} new/updated to sync).")
 
+                # Pre-download all pending catalog archives in parallel
+                pending_catalog_files = [b["filename"] for b in pending_catalog]
+                catalog_file_map = bulk_download_archives(GDRIVE_BATCHES_REMOTE, pending_catalog_files, SYNC_TEMP)
+
                 for idx, b in enumerate(pending_catalog, start=1):
                     fname = b["filename"]
-                    log(f"\n   [{idx}/{len(pending_catalog)}] Downloading & Merging {fname} ({b['size']:,} bytes)...")
-                    tar_path = download_remote_file(GDRIVE_BATCHES_REMOTE, fname, SYNC_TEMP)
+                    log(f"\n   [{idx}/{len(pending_catalog)}] Merging {fname} ({b['size']:,} bytes)...")
+                    tar_path = catalog_file_map.get(fname) or download_remote_file(GDRIVE_BATCHES_REMOTE, fname, SYNC_TEMP)
                     if tar_path:
                         added, imgs = merge_catalog_batch(conn, tar_path, skip_images=args.skip_images)
                         conn.execute("""
