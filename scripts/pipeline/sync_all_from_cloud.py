@@ -127,9 +127,9 @@ def ensure_tracking_tables(conn: sqlite3.Connection):
 
 def list_remote_archives(remote_path: str) -> list[dict]:
     """List .tar.gz archives from a Google Drive remote path with size and mtime."""
-    cmd = ["rclone", "lsl", remote_path]
+    cmd = ["rclone", "lsl", "--max-depth", "1", remote_path]
     try:
-        res = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
         if res.returncode != 0:
             log(f"⚠️ Could not list {remote_path}: {res.stderr.strip()}")
             return []
