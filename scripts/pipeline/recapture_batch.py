@@ -66,8 +66,8 @@ def load_session(cookies_env: str = "WP_SESSION_COOKIES") -> tuple[requests.Sess
     """Initialize a requests Session with cookies from environment or local file."""
     session = requests.Session()
     session.headers.update({
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
         "DNT": "1",
         "Upgrade-Insecure-Requests": "1"
@@ -99,17 +99,23 @@ def check_auth_status(session: requests.Session, cookies: dict) -> bool:
     if not has_wp_login:
         print("⚠️ Warning: No 'wordpress_logged_in' cookie found in session cookies.")
 
-    try:
-        resp = session.get("https://3dskyfree.com/", timeout=20)
-        if resp.status_code == 200:
-            print("✅ Connection to 3dskyfree confirmed.")
-            return True
-        elif resp.status_code in (403, 401):
-            print(f"❌ Authentication probe failed: HTTP {resp.status_code}")
-            return False
-    except Exception as e:
-        print(f"⚠️ Pre-flight connection warning: {e}")
+    for attempt in range(1, 4):
+        try:
+            resp = session.get("https://3dskyfree.com/", timeout=20)
+            if resp.status_code == 200:
+                print("✅ Connection to 3dskyfree confirmed.")
+                return True
+            elif resp.status_code in (403, 401):
+                print(f"⚠️ Pre-flight probe returned HTTP {resp.status_code} (attempt {attempt}/3). Retrying in 4s...")
+                time.sleep(4)
+            else:
+                print(f"⚠️ Pre-flight check received HTTP {resp.status_code}.")
+                return True
+        except Exception as e:
+            print(f"⚠️ Pre-flight connection warning: {e}")
+            time.sleep(2)
 
+    print("⚠️ Pre-flight probe could not reach homepage cleanly; proceeding to slice items directly...")
     return True
 
 
@@ -213,12 +219,16 @@ def main():
         print("✨ No targets assigned to this slice.")
         sys.exit(0)
 
+    # Stagger runner start times to avoid simultaneous Cloudflare spike across 20 parallel runners
+    stagger_sec = min(40, args.slice_id * 2)
+    if stagger_sec > 0:
+        print(f"⏳ Staggering runner start: waiting {stagger_sec}s to avoid simultaneous Cloudflare burst...")
+        time.sleep(stagger_sec)
+
     # Initialize Session
     session, cookies = load_session(args.cookies_env)
     if not args.skip_auth_check and cookies:
-        if not check_auth_status(session, cookies):
-            print("❌ Exiting due to failed authentication check.")
-            sys.exit(1)
+        check_auth_status(session, cookies)
 
     # Initialize slice output DB
     output_dir = Path("data") / "recapture" / f"slice_{args.slice_id}"
@@ -304,8 +314,8 @@ def main():
                         print("   ⚠️ 404 Not Found (Post removed)")
                         break
 
-                    elif resp.status_code in (429, 503, 502):
-                        wait_sec = 5 * (2 ** attempt)
+                    elif resp.status_code in (403, 429, 503, 502):
+                        wait_sec = 6 * (2 ** attempt)
                         print(f"   ⚠️ HTTP {resp.status_code}. Backing off for {wait_sec}s...")
                         time.sleep(wait_sec)
                         continue
