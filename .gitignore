@@ -62,3 +62,10 @@ build/
 # ── Node (if ever added) ──────────────────────────────────
 node_modules/
 .npm/
+package.json
+package-lock.json
+
+# ── Scratch & Test Artifacts ──────────────────────────────
+scratch_*
+scratch/
+cloud_migration_findings.md
