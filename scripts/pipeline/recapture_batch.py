@@ -22,7 +22,12 @@ import time
 from pathlib import Path
 from urllib.parse import unquote
 
-import requests
+try:
+    from curl_cffi import requests
+    USE_CURL_CFFI = True
+except ImportError:
+    import requests
+    USE_CURL_CFFI = False
 
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
@@ -62,16 +67,20 @@ def parse_cookie_payload(payload: str) -> dict:
     return cookies
 
 
-def load_session(cookies_env: str = "WP_SESSION_COOKIES") -> tuple[requests.Session, dict]:
+def load_session(cookies_env: str = "WP_SESSION_COOKIES"):
     """Initialize a requests Session with cookies from environment or local file."""
-    session = requests.Session()
-    session.headers.update({
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "en-US,en;q=0.9",
-        "DNT": "1",
-        "Upgrade-Insecure-Requests": "1"
-    })
+    if USE_CURL_CFFI:
+        print("⚡ Using curl_cffi with Chrome 124 TLS impersonation (bypasses Cloudflare 403).")
+        session = requests.Session(impersonate="chrome124")
+    else:
+        session = requests.Session()
+        session.headers.update({
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            "DNT": "1",
+            "Upgrade-Insecure-Requests": "1"
+        })
 
     cookies = {}
     raw_env = os.environ.get(cookies_env, "") or os.environ.get("WP_COOKIE", "")

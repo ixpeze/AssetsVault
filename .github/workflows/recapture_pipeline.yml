@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       slice_id:
-        description: 'Slice ID to run (0-19, or "all")'
+        description: 'Slice ID to run (0-9, or "all")'
         required: true
         default: 'all'
         type: choice
@@ -20,38 +20,32 @@ on:
           - '7'
           - '8'
           - '9'
-          - '10'
-          - '11'
-          - '12'
-          - '13'
-          - '14'
-          - '15'
-          - '16'
-          - '17'
-          - '18'
-          - '19'
       limit_per_slice:
-        description: 'Limit items per slice (0 = all, default: 2000)'
+        description: 'Limit items per slice (0 = all, default: 1000)'
         required: false
-        default: '2000'
+        default: '1000'
       delay:
         description: 'Request delay in seconds (default: 0.5)'
         required: false
         default: '0.5'
   schedule:
-    # High-throughput automated cycle: runs every 2 hours across 20 runners (40k items/run)
-    - cron: '0 */2 * * *'
+    # Automated cycle: runs every 3 hours across 10 runners (10k items/run, 80k items/day)
+    - cron: '0 */3 * * *'
+
+concurrency:
+  group: recapture-pipeline
+  cancel-in-progress: false
 
 jobs:
   recapture-matrix:
     name: Recapture Slice ${{ matrix.slice_id }}
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 60
     strategy:
       fail-fast: false
-      max-parallel: 20
+      max-parallel: 10
       matrix:
-        slice_id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+        slice_id: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     steps:
       - name: Check if this slice should run
@@ -81,7 +75,7 @@ jobs:
         if: steps.check_slice.outputs.run == 'true'
         run: |
           python -m pip install --upgrade pip
-          pip install requests beautifulsoup4
+          pip install requests beautifulsoup4 curl_cffi
 
       - name: Install and configure rclone
         if: steps.check_slice.outputs.run == 'true'
@@ -99,7 +93,7 @@ jobs:
         env:
           WP_COOKIE: ${{ secrets.WP_COOKIE }}
         run: |
-          LIMIT_VAL="2000"
+          LIMIT_VAL="1000"
           if [ -n "${{ github.event.inputs.limit_per_slice }}" ]; then
             LIMIT_VAL="${{ github.event.inputs.limit_per_slice }}"
           fi
@@ -111,7 +105,7 @@ jobs:
 
           python scripts/pipeline/recapture_batch.py \
             --slice-id ${{ matrix.slice_id }} \
-            --num-slices 20 \
+            --num-slices 10 \
             --limit $LIMIT_VAL \
             --delay $DELAY_VAL \
             --rclone-upload
